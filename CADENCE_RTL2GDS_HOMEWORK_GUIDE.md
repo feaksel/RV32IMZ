@@ -1,4 +1,5 @@
 # RTL-to-GDS2 Flow with Cadence Tools
+
 # Complete Academic/Homework Guide for RV32IM Core
 
 ## Overview of Cadence ASIC Design Flow
@@ -22,6 +23,7 @@ RTL Source Code (Verilog)
 ## Prerequisites for Academic Environment
 
 ### Required Cadence Tools
+
 - **Genus** (Logic Synthesis)
 - **Innovus** (Place & Route)
 - **Voltus** (Power Analysis)
@@ -29,11 +31,12 @@ RTL Source Code (Verilog)
 - **PVS/Calibre** (Physical Verification)
 
 ### Required Design Kit Files
+
 ```bash
 # Typical academic PDK structure (example: FreePDK45)
 $PDK_HOME/
 ├── lib/               ← Timing libraries (.lib files)
-├── lef/               ← Physical libraries (.lef files)  
+├── lef/               ← Physical libraries (.lef files)
 ├── gds/               ← Standard cell layouts
 ├── tech/              ← Technology files
 ├── drc/               ← Design rule files
@@ -41,6 +44,7 @@ $PDK_HOME/
 ```
 
 ### Environment Setup
+
 ```bash
 # Add to your .bashrc or .cshrc
 export PDK_HOME=/path/to/your/pdk
@@ -55,6 +59,7 @@ export LEF_PATH=$PDK_HOME/lef
 ## Step 1: Logic Synthesis with Genus
 
 ### Create Synthesis Script (genus_syn.tcl)
+
 ```tcl
 #!/usr/bin/env genus
 
@@ -111,7 +116,7 @@ syn_opt
 
 # Generate reports
 report_timing > reports/timing_syn.rpt
-report_power > reports/power_syn.rpt  
+report_power > reports/power_syn.rpt
 report_area > reports/area_syn.rpt
 report_qor > reports/qor_syn.rpt
 
@@ -128,6 +133,7 @@ quit
 ```
 
 ### Create Timing Constraints (constraints/timing.sdc)
+
 ```tcl
 #==============================================================================
 # Timing Constraints for RV32IM Core
@@ -142,7 +148,7 @@ set_clock_transition 0.1 [get_clocks clk]
 set_input_delay -clock clk -max 2.0 [remove_from_collection [all_inputs] [get_ports clk]]
 set_input_delay -clock clk -min 1.0 [remove_from_collection [all_inputs] [get_ports clk]]
 
-# Output delays (assume 2ns setup to external logic)  
+# Output delays (assume 2ns setup to external logic)
 set_output_delay -clock clk -max 2.0 [all_outputs]
 set_output_delay -clock clk -min 1.0 [all_outputs]
 
@@ -159,6 +165,7 @@ set_load 0.1 [all_outputs]
 ```
 
 ### Run Synthesis
+
 ```bash
 # Create directory structure
 mkdir -p outputs reports
@@ -170,6 +177,7 @@ genus -f genus_syn.tcl -log reports/genus.log
 ## Step 2: Floorplanning and Place & Route with Innovus
 
 ### Create Innovus Script (innovus_pnr.tcl)
+
 ```tcl
 #!/usr/bin/env innovus
 
@@ -297,6 +305,7 @@ exit
 ```
 
 ### Run Place & Route
+
 ```bash
 # Run Innovus
 innovus -init innovus_pnr.tcl -log reports/innovus.log
@@ -305,6 +314,7 @@ innovus -init innovus_pnr.tcl -log reports/innovus.log
 ## Step 3: Physical Verification
 
 ### DRC (Design Rule Check) Script
+
 ```bash
 #!/bin/bash
 # run_drc.sh
@@ -329,7 +339,8 @@ via1_enc_m1 { @ via1 not inside metal1 by >= 0.005 }
 EOF
 ```
 
-### LVS (Layout vs Schematic) Script  
+### LVS (Layout vs Schematic) Script
+
 ```bash
 #!/bin/bash
 # run_lvs.sh
@@ -341,7 +352,7 @@ cat > lvs_rules.svrf << 'EOF'
 LAYOUT PATH "final_design.gds"
 LAYOUT PRIMARY "custom_riscv_core"
 
-SOURCE PATH "outputs/netlist.v"  
+SOURCE PATH "outputs/netlist.v"
 SOURCE PRIMARY "custom_riscv_core"
 
 LVS RESULTS DATABASE "lvs_results.db"
@@ -355,6 +366,7 @@ EOF
 ## Step 4: Complete Homework Workflow
 
 ### Master Script for Academic Use (run_rtl2gds.sh)
+
 ```bash
 #!/bin/bash
 
@@ -389,7 +401,7 @@ innovus -init scripts/innovus_pnr.tcl -log logs/pnr.log
 if [ $? -eq 0 ]; then
     echo "✓ Place & Route completed"
 else
-    echo "✗ Place & Route failed"  
+    echo "✗ Place & Route failed"
     exit 1
 fi
 
@@ -438,14 +450,16 @@ echo "Your RV32IM core is ready for tapeout!"
 ### Typical Homework Requirements & Outputs
 
 1. **Synthesis Reports**
+
    ```bash
    reports/timing_syn.rpt    ← Timing analysis
-   reports/area_syn.rpt      ← Cell area breakdown  
+   reports/area_syn.rpt      ← Cell area breakdown
    reports/power_syn.rpt     ← Power consumption
    reports/qor_syn.rpt       ← Quality of results
    ```
 
 2. **Place & Route Results**
+
    ```bash
    final_design.gds          ← Layout file (main deliverable)
    reports/timing_final.rpt  ← Post-route timing
@@ -485,6 +499,7 @@ ls -la reports/             # Analysis reports for writeup
 ## Troubleshooting Common Academic Issues
 
 ### Issue 1: Library Path Problems
+
 ```bash
 # Check if libraries exist
 ls $PDK_HOME/lib/*.lib
@@ -495,6 +510,7 @@ export LIB_PATH=/correct/path/to/libs
 ```
 
 ### Issue 2: Licensing Problems
+
 ```bash
 # Check tool licenses
 license_check genus innovus
@@ -504,6 +520,7 @@ qsub -q eda.q run_rtl2gds.sh
 ```
 
 ### Issue 3: Memory/Runtime Issues
+
 ```bash
 # Reduce complexity for homework
 # In genus_syn.tcl, add:

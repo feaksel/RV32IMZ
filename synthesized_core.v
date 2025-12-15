@@ -305,7 +305,7 @@ module csr_unit(clk, rst_n, csr_addr, csr_wdata, csr_op, csr_rdata, csr_valid, t
   assign _047_ = { _095_, _063_, trap_return, trap_entry } != 4'h4;
   assign _060_ = ~ trap_return;
   assign _061_ = ~ trap_entry;
-  assign _048_ = & { _042_, _043_ };
+  assign _048_ = & { _043_, _042_ };
   assign _049_ = & { _061_, _060_, _108_, _063_ };
   assign _050_ = & { _061_, _060_, _107_, _063_ };
   assign _051_ = & { _061_, _060_, _106_, _063_ };
@@ -501,20 +501,20 @@ endmodule
 
 module custom_riscv_core(clk, rst_n, iwb_adr_o, iwb_dat_i, iwb_cyc_o, iwb_stb_o, iwb_ack_i, dwb_adr_o, dwb_dat_o, dwb_dat_i, dwb_we_o, dwb_sel_o, dwb_cyc_o, dwb_stb_o, dwb_ack_i, dwb_err_i, interrupts);
   wire [31:0] _000_;
-  wire [1:0] _001_;
-  wire _002_;
-  wire [31:0] _003_;
-  wire [2:0] _004_;
-  wire [31:0] _005_;
-  wire _006_;
-  wire [31:0] _007_;
-  wire _008_;
-  wire [31:0] _009_;
+  wire _001_;
+  wire [1:0] _002_;
+  wire _003_;
+  wire [31:0] _004_;
+  wire [2:0] _005_;
+  wire [31:0] _006_;
+  wire _007_;
+  wire [31:0] _008_;
+  wire _009_;
   wire [31:0] _010_;
   wire [31:0] _011_;
   wire [31:0] _012_;
   wire [31:0] _013_;
-  wire _014_;
+  wire [31:0] _014_;
   wire _015_;
   wire _016_;
   wire _017_;
@@ -588,39 +588,39 @@ module custom_riscv_core(clk, rst_n, iwb_adr_o, iwb_dat_i, iwb_cyc_o, iwb_stb_o,
   wire _085_;
   wire _086_;
   wire _087_;
-  wire [3:0] _088_;
+  wire _088_;
   wire _089_;
-  wire [31:0] _090_;
+  wire _090_;
   wire _091_;
   wire _092_;
-  wire _093_;
+  wire [3:0] _093_;
   wire _094_;
-  wire [1:0] _095_;
-  wire [1:0] _096_;
-  wire [1:0] _097_;
-  wire [1:0] _098_;
-  wire [1:0] _099_;
+  wire [31:0] _095_;
+  wire _096_;
+  wire _097_;
+  wire _098_;
+  wire _099_;
   wire [1:0] _100_;
-  wire _101_;
-  wire _102_;
-  wire _103_;
-  wire [31:0] _104_;
-  wire [31:0] _105_;
-  wire [31:0] _106_;
-  wire [31:0] _107_;
-  wire [31:0] _108_;
-  wire [31:0] _109_;
-  wire [31:0] _110_;
-  wire [31:0] _111_;
-  wire _112_;
+  wire [1:0] _101_;
+  wire [1:0] _102_;
+  wire [1:0] _103_;
+  wire [1:0] _104_;
+  wire [1:0] _105_;
+  wire _106_;
+  wire _107_;
+  wire _108_;
+  wire _109_;
+  wire _110_;
+  wire _111_;
+  wire [31:0] _112_;
   wire [31:0] _113_;
-  wire _114_;
+  wire [31:0] _114_;
   wire [31:0] _115_;
   wire [31:0] _116_;
   wire [31:0] _117_;
   wire [31:0] _118_;
   wire [31:0] _119_;
-  wire [31:0] _120_;
+  wire _120_;
   wire [31:0] _121_;
   wire _122_;
   wire [31:0] _123_;
@@ -630,36 +630,44 @@ module custom_riscv_core(clk, rst_n, iwb_adr_o, iwb_dat_i, iwb_cyc_o, iwb_stb_o,
   wire [31:0] _127_;
   wire [31:0] _128_;
   wire [31:0] _129_;
-  wire [31:0] _130_;
-  wire _131_;
-  wire _132_;
-  wire _133_;
-  wire _134_;
-  wire [2:0] _135_;
-  wire [2:0] _136_;
-  wire [2:0] _137_;
-  wire [2:0] _138_;
-  wire [2:0] _139_;
-  wire [2:0] _140_;
-  wire [2:0] _141_;
-  wire [2:0] _142_;
+  wire _130_;
+  wire [31:0] _131_;
+  wire [31:0] _132_;
+  wire [31:0] _133_;
+  wire [31:0] _134_;
+  wire [31:0] _135_;
+  wire [31:0] _136_;
+  wire [31:0] _137_;
+  wire [31:0] _138_;
+  wire _139_;
+  wire _140_;
+  wire _141_;
+  wire _142_;
   wire [2:0] _143_;
   wire [2:0] _144_;
   wire [2:0] _145_;
-  wire _146_;
+  wire [2:0] _146_;
   wire [2:0] _147_;
   wire [2:0] _148_;
-  wire [3:0] _149_;
-  wire [3:0] _150_;
-  wire [31:0] _151_;
-  wire [7:0] _152_;
-  wire [7:0] _153_;
-  wire [15:0] _154_;
-  wire [31:0] _155_;
-  wire [31:0] _156_;
-  wire [31:0] _157_;
-  wire [31:0] _158_;
+  wire [2:0] _149_;
+  wire [2:0] _150_;
+  wire [2:0] _151_;
+  wire [2:0] _152_;
+  wire [2:0] _153_;
+  wire _154_;
+  wire [2:0] _155_;
+  wire [2:0] _156_;
+  wire [3:0] _157_;
+  wire [3:0] _158_;
   wire [31:0] _159_;
+  wire [7:0] _160_;
+  wire [7:0] _161_;
+  wire [15:0] _162_;
+  wire [31:0] _163_;
+  wire [31:0] _164_;
+  wire [31:0] _165_;
+  wire [31:0] _166_;
+  wire [31:0] _167_;
   wire [3:0] alu_op;
   wire [31:0] alu_operand_a;
   wire [31:0] alu_operand_b;
@@ -739,6 +747,7 @@ module custom_riscv_core(clk, rst_n, iwb_adr_o, iwb_dat_i, iwb_cyc_o, iwb_stb_o,
   wire [31:0] load_data_processed;
   wire [15:0] load_halfword;
   wire load_sign_bit;
+  reg mdu_ack;
   wire mdu_busy;
   wire mdu_done;
   reg [2:0] mdu_funct3;
@@ -771,438 +780,462 @@ module custom_riscv_core(clk, rst_n, iwb_adr_o, iwb_dat_i, iwb_cyc_o, iwb_stb_o,
   reg trap_return;
   reg [31:0] trap_val;
   wire [31:0] trap_vector;
-  assign _013_ = rs1_data + immediate;
-  assign _012_ = pc + immediate;
-  assign _011_ = pc + 32'd4;
+  assign _014_ = rs1_data + immediate;
+  assign _013_ = pc + immediate;
+  assign _012_ = pc + 32'd4;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) dwb_cyc_reg <= 1'h0;
-    else if (_031_) dwb_cyc_reg <= _091_;
+    else if (_033_) dwb_cyc_reg <= _096_;
   always @(posedge clk)
-    if (_032_) dwb_adr_reg <= alu_result_reg;
+    if (_034_) dwb_adr_reg <= alu_result_reg;
   always @(posedge clk)
-    if (_032_)
+    if (_034_)
       if (!mem_write) dwb_sel_reg <= 4'hf;
-      else dwb_sel_reg <= _088_;
+      else dwb_sel_reg <= _093_;
   always @(posedge clk)
-    if (_033_) dwb_dat_reg <= _090_;
+    if (_035_) dwb_dat_reg <= _095_;
   always @(posedge clk)
-    if (_032_) dwb_we_reg <= mem_write;
+    if (_034_) dwb_we_reg <= mem_write;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) iwb_cyc_reg <= 1'h0;
-    else if (_034_) iwb_cyc_reg <= _092_;
+    else if (_036_) iwb_cyc_reg <= _097_;
   always @(posedge clk)
-    if (_035_) instruction <= iwb_dat_i;
+    if (_037_) instruction <= iwb_dat_i;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) state <= 3'h0;
-    else if (_036_) state <= _004_;
+    else if (_038_) state <= _005_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) trap_entry <= 1'h0;
-    else if (_037_) trap_entry <= _006_;
+    else if (_039_) trap_entry <= _007_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) trap_return <= 1'h0;
-    else if (_038_) trap_return <= _008_;
+    else if (_040_) trap_return <= _009_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) trap_pc <= 32'd0;
-    else if (_039_) trap_pc <= _007_;
+    else if (_041_) trap_pc <= _008_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) trap_cause <= 32'd0;
-    else if (_039_) trap_cause <= _005_;
+    else if (_041_) trap_cause <= _006_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) trap_val <= 32'd0;
-    else if (_039_) trap_val <= _009_;
+    else if (_041_) trap_val <= _010_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) pc <= 32'd0;
-    else if (_040_) pc <= _003_;
+    else if (_042_) pc <= _004_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) mem_data_reg <= 32'd0;
-    else if (_041_) mem_data_reg <= dwb_dat_i;
+    else if (_043_) mem_data_reg <= dwb_dat_i;
   always @(posedge clk)
-    if (_042_) alu_result_reg <= _000_;
+    if (_044_) alu_result_reg <= _000_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) mdu_start <= 1'h0;
-    else if (_043_) mdu_start <= _002_;
+    else if (_045_) mdu_start <= _003_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) mdu_ack <= 1'h0;
+    else if (_046_) mdu_ack <= _001_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) mdu_result_reg <= 32'd0;
-    else if (_044_) mdu_result_reg <= _010_;
+    else if (_047_) mdu_result_reg <= _011_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) mdu_pending <= 2'h0;
-    else if (_045_) mdu_pending <= _001_;
+    else if (_048_) mdu_pending <= _002_;
   always @(posedge clk)
-    if (_046_) mdu_funct3 <= funct3;
-  assign _014_ = { _093_, iwb_ack_i, interrupt_pending } != 3'h4;
-  assign _015_ = { _089_, _077_, dwb_ack_i } != 3'h6;
-  assign _016_ = | { _050_, _093_, _146_, _094_, _087_, _089_ };
-  assign _017_ = { _093_, interrupt_pending } != 2'h2;
-  assign _018_ = { _094_, exception_taken } != 2'h2;
-  assign _019_ = | { _093_, _094_, _122_ };
-  assign _020_ = { _094_, exception_taken, is_mret } != 3'h4;
-  assign _021_ = { _094_, exception_taken } != 2'h3;
-  assign _022_ = | { _093_, _094_ };
-  assign _023_ = | { _094_, _122_, instr_retired };
-  assign _024_ = { _094_, exception_taken, is_mret, is_m } != 4'h9;
-  assign _025_ = { _094_, exception_taken, is_mret } != 3'h5;
-  assign _026_ = { _087_, _066_, _065_, mdu_done } != 4'h8;
-  assign _027_ = { _087_, _065_, mdu_done } != 3'h6;
-  assign _028_ = { _087_, mdu_done } != 2'h3;
-  assign _029_ = | { _094_, _087_ };
-  assign _030_ = { _094_, exception_taken, is_mret, is_m } != 4'h8;
-  assign _051_ = ~ interrupt_pending;
-  assign _052_ = ~ mdu_done;
-  assign _053_ = ~ is_mret;
-  assign _054_ = ~ exception_taken;
-  assign _031_ = & { _089_, _077_ };
-  assign _032_ = & { _089_, _077_, rst_n };
-  assign _033_ = & { _089_, _077_, rst_n, mem_write };
-  assign _034_ = & { _051_, _093_ };
-  assign _035_ = & { _051_, _093_, iwb_ack_i, rst_n };
-  assign _036_ = & { _016_, _015_, _014_ };
-  assign _037_ = & { _019_, _018_, _017_ };
-  assign _038_ = & { _022_, _021_, _020_ };
-  assign _039_ = & { _022_, _018_, _017_ };
-  assign _040_ = & { _023_, _021_, _020_ };
-  assign _041_ = & { _089_, _077_, dwb_ack_i, mem_read };
-  assign _042_ = & { _029_, _028_, _027_, _026_, _025_, _024_, _021_, rst_n };
-  assign _043_ = & { _030_, _029_, _025_, _021_ };
-  assign _044_ = & { _052_, _087_, _065_ };
-  assign _045_ = & { _030_, _029_, _026_, _025_, _021_ };
-  assign _046_ = & { _054_, _053_, _094_, rst_n, is_m };
-  assign _047_ = | { _079_, _080_ };
-  assign _048_ = | { _081_, _082_ };
-  assign _049_ = | { _084_, _083_, _085_ };
-  assign _050_ = | { _122_, instr_retired };
-  assign _055_ = opcode == 7'h17;
-  assign _056_ = opcode == 7'h37;
-  assign _059_ = alu_result_reg[1:0] == 2'h2;
-  assign _057_ = ! alu_result_reg[1:0];
-  assign _058_ = alu_result_reg[1:0] == 2'h1;
-  assign _064_ = opcode == 7'h0f;
-  assign _065_ = mdu_pending == 2'h1;
-  assign _066_ = mdu_pending == 2'h2;
-  assign _067_ = opcode == 7'h6f;
-  assign _068_ = rs1_data >= rs2_data;
-  assign _069_ = reg_write && instr_retired;
-  assign rd_wen = _069_ && _073_;
-  assign _070_ = is_system && _074_;
-  assign _071_ = _070_ && _075_;
-  assign _072_ = _071_ && _076_;
-  assign _073_ = ! is_branch;
-  assign _074_ = ! is_mret;
-  assign _075_ = ! is_ecall;
-  assign _076_ = ! is_ebreak;
-  assign _077_ = mem_read || mem_write;
-  assign _078_ = rs1_data < rs2_data;
-  function [31:0] _245_;
+    if (_049_) mdu_funct3 <= funct3;
+  assign _015_ = { _098_, iwb_ack_i, interrupt_pending } != 3'h4;
+  assign _016_ = { _094_, _082_, dwb_ack_i } != 3'h6;
+  assign _017_ = | { _053_, _098_, _154_, _099_, _092_, _094_ };
+  assign _018_ = { _098_, interrupt_pending } != 2'h2;
+  assign _019_ = { _099_, exception_taken } != 2'h2;
+  assign _020_ = | { _098_, _099_, _130_ };
+  assign _021_ = { _099_, exception_taken, is_mret } != 3'h4;
+  assign _022_ = { _099_, exception_taken } != 2'h3;
+  assign _023_ = | { _098_, _099_ };
+  assign _024_ = | { _099_, _130_, instr_retired };
+  assign _025_ = { _099_, exception_taken, is_mret, is_m } != 4'h9;
+  assign _026_ = { _099_, exception_taken, is_mret } != 3'h5;
+  assign _027_ = { _092_, _070_, _069_, _077_ } != 4'h8;
+  assign _028_ = { _092_, _069_, _077_ } != 3'h6;
+  assign _029_ = { _092_, _077_ } != 2'h3;
+  assign _030_ = | { _099_, _092_ };
+  assign _031_ = { _099_, exception_taken, is_mret, is_m } != 4'h8;
+  assign _032_ = | { _092_, instr_retired };
+  assign _054_ = ~ interrupt_pending;
+  assign _055_ = ~ _077_;
+  assign _056_ = ~ is_mret;
+  assign _057_ = ~ exception_taken;
+  assign _033_ = & { _094_, _082_ };
+  assign _034_ = & { _094_, _082_, rst_n };
+  assign _035_ = & { _094_, _082_, rst_n, mem_write };
+  assign _036_ = & { _054_, _098_ };
+  assign _037_ = & { _054_, _098_, iwb_ack_i, rst_n };
+  assign _038_ = & { _017_, _016_, _015_ };
+  assign _039_ = & { _020_, _019_, _018_ };
+  assign _040_ = & { _023_, _022_, _021_ };
+  assign _041_ = & { _023_, _019_, _018_ };
+  assign _042_ = & { _024_, _022_, _021_ };
+  assign _043_ = & { _094_, _082_, dwb_ack_i, mem_read };
+  assign _044_ = & { _030_, _029_, _028_, _027_, _026_, _025_, _022_, rst_n };
+  assign _045_ = & { _031_, _030_, _026_, _022_ };
+  assign _046_ = & { _032_, _029_, _028_, _027_ };
+  assign _047_ = & { _055_, _092_, _069_ };
+  assign _048_ = & { _031_, _030_, _027_, _026_, _022_ };
+  assign _049_ = & { _057_, _056_, _099_, rst_n, is_m };
+  assign _050_ = | { _084_, _085_ };
+  assign _051_ = | { _086_, _087_ };
+  assign _052_ = | { _089_, _088_, _090_ };
+  assign _053_ = | { _130_, instr_retired };
+  assign _058_ = opcode == 7'h17;
+  assign _059_ = opcode == 7'h37;
+  assign _062_ = alu_result_reg[1:0] == 2'h2;
+  assign _060_ = ! alu_result_reg[1:0];
+  assign _061_ = alu_result_reg[1:0] == 2'h1;
+  assign _067_ = opcode == 7'h0f;
+  assign _068_ = ! mdu_pending;
+  assign _069_ = mdu_pending == 2'h1;
+  assign _070_ = mdu_pending == 2'h2;
+  assign _071_ = opcode == 7'h6f;
+  assign _072_ = rs1_data >= rs2_data;
+  assign _073_ = reg_write && instr_retired;
+  assign rd_wen = _073_ && _078_;
+  assign _074_ = is_system && _079_;
+  assign _075_ = _074_ && _080_;
+  assign _076_ = _075_ && _081_;
+  assign _077_ = mdu_done && _068_;
+  assign _078_ = ! is_branch;
+  assign _079_ = ! is_mret;
+  assign _080_ = ! is_ecall;
+  assign _081_ = ! is_ebreak;
+  assign _082_ = mem_read || mem_write;
+  assign _083_ = rs1_data < rs2_data;
+  function [31:0] _258_;
     input [31:0] a;
     input [127:0] b;
     input [3:0] s;
     casez (s) // synopsys parallel_case
       4'b???1:
-        _245_ = b[31:0];
+        _258_ = b[31:0];
       4'b??1?:
-        _245_ = b[63:32];
+        _258_ = b[63:32];
       4'b?1??:
-        _245_ = b[95:64];
+        _258_ = b[95:64];
       4'b1???:
-        _245_ = b[127:96];
+        _258_ = b[127:96];
       default:
-        _245_ = a;
+        _258_ = a;
     endcase
   endfunction
-  assign _010_ = _245_(32'hxxxxxxxx, { mdu_product[31:0], mdu_product[63:32], mdu_quotient, mdu_remainder }, { _086_, _049_, _048_, _047_ });
-  assign _079_ = mdu_funct3 == 3'h7;
-  assign _080_ = mdu_funct3 == 3'h6;
-  assign _081_ = mdu_funct3 == 3'h5;
-  assign _082_ = mdu_funct3 == 3'h4;
-  assign _083_ = mdu_funct3 == 3'h3;
-  assign _084_ = mdu_funct3 == 3'h2;
-  assign _085_ = mdu_funct3 == 3'h1;
-  assign _086_ = ! mdu_funct3;
-  function [3:0] _254_;
+  assign _011_ = _258_(32'hxxxxxxxx, { mdu_product[31:0], mdu_product[63:32], mdu_quotient, mdu_remainder }, { _091_, _052_, _051_, _050_ });
+  assign _084_ = mdu_funct3 == 3'h7;
+  assign _085_ = mdu_funct3 == 3'h6;
+  assign _086_ = mdu_funct3 == 3'h5;
+  assign _087_ = mdu_funct3 == 3'h4;
+  assign _088_ = mdu_funct3 == 3'h3;
+  assign _089_ = mdu_funct3 == 3'h2;
+  assign _090_ = mdu_funct3 == 3'h1;
+  assign _091_ = ! mdu_funct3;
+  function [3:0] _267_;
     input [3:0] a;
     input [7:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _254_ = b[3:0];
+        _267_ = b[3:0];
       2'b1?:
-        _254_ = b[7:4];
+        _267_ = b[7:4];
       default:
-        _254_ = a;
+        _267_ = a;
     endcase
   endfunction
-  assign _088_ = _254_(4'hf, { _149_, _150_ }, { _060_, _061_ });
-  function [31:0] _255_;
+  assign _093_ = _267_(4'hf, { _157_, _158_ }, { _063_, _064_ });
+  function [31:0] _268_;
     input [31:0] a;
     input [63:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _255_ = b[31:0];
+        _268_ = b[31:0];
       2'b1?:
-        _255_ = b[63:32];
+        _268_ = b[63:32];
       default:
-        _255_ = a;
+        _268_ = a;
     endcase
   endfunction
-  assign _090_ = _255_(rs2_data, { rs2_data[7:0], rs2_data[7:0], rs2_data[7:0], rs2_data[7:0], rs2_data[15:0], rs2_data[15:0] }, { _060_, _061_ });
-  assign _091_ = dwb_ack_i ? 1'h0 : 1'h1;
-  assign _092_ = iwb_ack_i ? 1'h0 : 1'h1;
-  assign _095_ = _066_ ? 2'h0 : 2'hx;
-  assign _096_ = _065_ ? 2'h2 : _095_;
-  assign _097_ = mdu_done ? 2'h1 : _096_;
-  function [1:0] _261_;
+  assign _095_ = _268_(rs2_data, { rs2_data[7:0], rs2_data[7:0], rs2_data[7:0], rs2_data[7:0], rs2_data[15:0], rs2_data[15:0] }, { _063_, _064_ });
+  assign _096_ = dwb_ack_i ? 1'h0 : 1'h1;
+  assign _097_ = iwb_ack_i ? 1'h0 : 1'h1;
+  assign _100_ = _070_ ? 2'h0 : 2'hx;
+  assign _101_ = _069_ ? 2'h2 : _100_;
+  assign _102_ = _077_ ? 2'h1 : _101_;
+  function [1:0] _274_;
     input [1:0] a;
     input [3:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _261_ = b[1:0];
+        _274_ = b[1:0];
       2'b1?:
-        _261_ = b[3:2];
+        _274_ = b[3:2];
       default:
-        _261_ = a;
+        _274_ = a;
     endcase
   endfunction
-  assign _001_ = _261_(2'hx, { _100_, _097_ }, { _094_, _087_ });
-  assign _098_ = is_m ? 2'h0 : 2'hx;
-  assign _099_ = is_mret ? 2'hx : _098_;
-  assign _100_ = exception_taken ? 2'hx : _099_;
-  function [0:0] _265_;
+  assign _002_ = _274_(2'hx, { _105_, _102_ }, { _099_, _092_ });
+  assign _103_ = is_m ? 2'h0 : 2'hx;
+  assign _104_ = is_mret ? 2'hx : _103_;
+  assign _105_ = exception_taken ? 2'hx : _104_;
+  function [0:0] _278_;
     input [0:0] a;
     input [1:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _265_ = b[0:0];
+        _278_ = b[0:0];
       2'b1?:
-        _265_ = b[1:1];
+        _278_ = b[1:1];
       default:
-        _265_ = a;
+        _278_ = a;
     endcase
   endfunction
-  assign _002_ = _265_(1'hx, { _103_, 1'h0 }, { _094_, _087_ });
-  assign _101_ = is_m ? 1'h1 : 1'hx;
-  assign _102_ = is_mret ? 1'hx : _101_;
-  assign _103_ = exception_taken ? 1'hx : _102_;
-  assign _104_ = _066_ ? mdu_result_reg : 32'hxxxxxxxx;
-  assign _105_ = _065_ ? 32'hxxxxxxxx : _104_;
-  assign _106_ = mdu_done ? 32'hxxxxxxxx : _105_;
-  function [31:0] _272_;
+  assign _001_ = _278_(1'hx, { _108_, 1'h0 }, { _092_, instr_retired });
+  assign _106_ = _070_ ? 1'h1 : 1'hx;
+  assign _107_ = _069_ ? 1'hx : _106_;
+  assign _108_ = _077_ ? 1'hx : _107_;
+  function [0:0] _282_;
+    input [0:0] a;
+    input [1:0] b;
+    input [1:0] s;
+    casez (s) // synopsys parallel_case
+      2'b?1:
+        _282_ = b[0:0];
+      2'b1?:
+        _282_ = b[1:1];
+      default:
+        _282_ = a;
+    endcase
+  endfunction
+  assign _003_ = _282_(1'hx, { _111_, 1'h0 }, { _099_, _092_ });
+  assign _109_ = is_m ? 1'h1 : 1'hx;
+  assign _110_ = is_mret ? 1'hx : _109_;
+  assign _111_ = exception_taken ? 1'hx : _110_;
+  assign _112_ = _070_ ? mdu_result_reg : 32'hxxxxxxxx;
+  assign _113_ = _069_ ? 32'hxxxxxxxx : _112_;
+  assign _114_ = _077_ ? 32'hxxxxxxxx : _113_;
+  function [31:0] _289_;
     input [31:0] a;
     input [63:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _272_ = b[31:0];
+        _289_ = b[31:0];
       2'b1?:
-        _272_ = b[63:32];
+        _289_ = b[63:32];
       default:
-        _272_ = a;
+        _289_ = a;
     endcase
   endfunction
-  assign _000_ = _272_(32'hxxxxxxxx, { _109_, _106_ }, { _094_, _087_ });
-  assign _107_ = is_m ? 32'hxxxxxxxx : alu_result;
-  assign _108_ = is_mret ? 32'hxxxxxxxx : _107_;
-  assign _109_ = exception_taken ? 32'hxxxxxxxx : _108_;
-  assign _110_ = _068_ ? _012_ : _011_;
-  function [31:0] _277_;
+  assign _000_ = _289_(32'hxxxxxxxx, { _117_, _114_ }, { _099_, _092_ });
+  assign _115_ = is_m ? 32'hxxxxxxxx : alu_result;
+  assign _116_ = is_mret ? 32'hxxxxxxxx : _115_;
+  assign _117_ = exception_taken ? 32'hxxxxxxxx : _116_;
+  assign _118_ = _072_ ? _013_ : _012_;
+  function [31:0] _294_;
     input [31:0] a;
     input [191:0] b;
     input [5:0] s;
     casez (s) // synopsys parallel_case
       6'b?????1:
-        _277_ = b[31:0];
+        _294_ = b[31:0];
       6'b????1?:
-        _277_ = b[63:32];
+        _294_ = b[63:32];
       6'b???1??:
-        _277_ = b[95:64];
+        _294_ = b[95:64];
       6'b??1???:
-        _277_ = b[127:96];
+        _294_ = b[127:96];
       6'b?1????:
-        _277_ = b[159:128];
+        _294_ = b[159:128];
       6'b1?????:
-        _277_ = b[191:160];
+        _294_ = b[191:160];
       default:
-        _277_ = a;
+        _294_ = a;
     endcase
   endfunction
-  assign _111_ = _277_(_011_, { _118_, _117_, _116_, _115_, _113_, _110_ }, { _060_, _061_, _062_, _063_, _114_, _112_ });
-  assign _112_ = funct3 == 3'h7;
-  assign _113_ = _078_ ? _012_ : _011_;
-  assign _114_ = funct3 == 3'h6;
-  assign _115_ = alu_result[31] ? _011_ : _012_;
-  assign _063_ = funct3 == 3'h5;
-  assign _116_ = alu_result[31] ? _012_ : _011_;
-  assign _062_ = funct3 == 3'h4;
-  assign _117_ = alu_zero ? _011_ : _012_;
-  assign _061_ = funct3 == 3'h1;
-  assign _118_ = alu_zero ? _012_ : _011_;
-  assign _060_ = ! funct3;
-  assign _119_ = is_branch ? _111_ : _011_;
-  assign _120_ = _067_ ? _012_ : { _013_[31:1], 1'h0 };
-  assign _121_ = is_jump ? _120_ : _119_;
-  function [31:0] _292_;
+  assign _119_ = _294_(_012_, { _126_, _125_, _124_, _123_, _121_, _118_ }, { _063_, _064_, _065_, _066_, _122_, _120_ });
+  assign _120_ = funct3 == 3'h7;
+  assign _121_ = _083_ ? _013_ : _012_;
+  assign _122_ = funct3 == 3'h6;
+  assign _123_ = alu_result[31] ? _012_ : _013_;
+  assign _066_ = funct3 == 3'h5;
+  assign _124_ = alu_result[31] ? _013_ : _012_;
+  assign _065_ = funct3 == 3'h4;
+  assign _125_ = alu_zero ? _012_ : _013_;
+  assign _064_ = funct3 == 3'h1;
+  assign _126_ = alu_zero ? _013_ : _012_;
+  assign _063_ = ! funct3;
+  assign _127_ = is_branch ? _119_ : _012_;
+  assign _128_ = _071_ ? _013_ : { _014_[31:1], 1'h0 };
+  assign _129_ = is_jump ? _128_ : _127_;
+  function [31:0] _309_;
     input [31:0] a;
     input [95:0] b;
     input [2:0] s;
     casez (s) // synopsys parallel_case
       3'b??1:
-        _292_ = b[31:0];
+        _309_ = b[31:0];
       3'b?1?:
-        _292_ = b[63:32];
+        _309_ = b[63:32];
       3'b1??:
-        _292_ = b[95:64];
+        _309_ = b[95:64];
       default:
-        _292_ = a;
+        _309_ = a;
     endcase
   endfunction
-  assign _003_ = _292_(32'hxxxxxxxx, { _124_, trap_vector, _121_ }, { _094_, _122_, instr_retired });
-  assign _123_ = is_mret ? epc_out : 32'hxxxxxxxx;
-  assign _124_ = exception_taken ? 32'hxxxxxxxx : _123_;
-  assign _125_ = exception_taken ? exception_val : 32'hxxxxxxxx;
-  function [31:0] _296_;
+  assign _004_ = _309_(32'hxxxxxxxx, { _132_, trap_vector, _129_ }, { _099_, _130_, instr_retired });
+  assign _131_ = is_mret ? epc_out : 32'hxxxxxxxx;
+  assign _132_ = exception_taken ? 32'hxxxxxxxx : _131_;
+  assign _133_ = exception_taken ? exception_val : 32'hxxxxxxxx;
+  function [31:0] _313_;
     input [31:0] a;
     input [63:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _296_ = b[31:0];
+        _313_ = b[31:0];
       2'b1?:
-        _296_ = b[63:32];
+        _313_ = b[63:32];
       default:
-        _296_ = a;
+        _313_ = a;
     endcase
   endfunction
-  assign _009_ = _296_(32'hxxxxxxxx, { _126_, _125_ }, { _093_, _094_ });
-  assign _126_ = interrupt_pending ? 32'd0 : 32'hxxxxxxxx;
-  assign _127_ = exception_taken ? exception_cause : 32'hxxxxxxxx;
-  function [31:0] _299_;
+  assign _010_ = _313_(32'hxxxxxxxx, { _134_, _133_ }, { _098_, _099_ });
+  assign _134_ = interrupt_pending ? 32'd0 : 32'hxxxxxxxx;
+  assign _135_ = exception_taken ? exception_cause : 32'hxxxxxxxx;
+  function [31:0] _316_;
     input [31:0] a;
     input [63:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _299_ = b[31:0];
+        _316_ = b[31:0];
       2'b1?:
-        _299_ = b[63:32];
+        _316_ = b[63:32];
       default:
-        _299_ = a;
+        _316_ = a;
     endcase
   endfunction
-  assign _005_ = _299_(32'hxxxxxxxx, { _128_, _127_ }, { _093_, _094_ });
-  assign _128_ = interrupt_pending ? interrupt_cause : 32'hxxxxxxxx;
-  assign _129_ = exception_taken ? pc : 32'hxxxxxxxx;
-  function [31:0] _302_;
+  assign _006_ = _316_(32'hxxxxxxxx, { _136_, _135_ }, { _098_, _099_ });
+  assign _136_ = interrupt_pending ? interrupt_cause : 32'hxxxxxxxx;
+  assign _137_ = exception_taken ? pc : 32'hxxxxxxxx;
+  function [31:0] _319_;
     input [31:0] a;
     input [63:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _302_ = b[31:0];
+        _319_ = b[31:0];
       2'b1?:
-        _302_ = b[63:32];
+        _319_ = b[63:32];
       default:
-        _302_ = a;
+        _319_ = a;
     endcase
   endfunction
-  assign _007_ = _302_(32'hxxxxxxxx, { _130_, _129_ }, { _093_, _094_ });
-  assign _130_ = interrupt_pending ? pc : 32'hxxxxxxxx;
-  assign _131_ = is_mret ? 1'h1 : 1'hx;
-  assign _132_ = exception_taken ? 1'hx : _131_;
-  function [0:0] _306_;
+  assign _008_ = _319_(32'hxxxxxxxx, { _138_, _137_ }, { _098_, _099_ });
+  assign _138_ = interrupt_pending ? pc : 32'hxxxxxxxx;
+  assign _139_ = is_mret ? 1'h1 : 1'hx;
+  assign _140_ = exception_taken ? 1'hx : _139_;
+  function [0:0] _323_;
     input [0:0] a;
     input [1:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _306_ = b[0:0];
+        _323_ = b[0:0];
       2'b1?:
-        _306_ = b[1:1];
+        _323_ = b[1:1];
       default:
-        _306_ = a;
+        _323_ = a;
     endcase
   endfunction
-  assign _008_ = _306_(1'hx, { 1'h0, _132_ }, { _093_, _094_ });
-  function [0:0] _307_;
+  assign _009_ = _323_(1'hx, { 1'h0, _140_ }, { _098_, _099_ });
+  function [0:0] _324_;
     input [0:0] a;
     input [2:0] b;
     input [2:0] s;
     casez (s) // synopsys parallel_case
       3'b??1:
-        _307_ = b[0:0];
+        _324_ = b[0:0];
       3'b?1?:
-        _307_ = b[1:1];
+        _324_ = b[1:1];
       3'b1??:
-        _307_ = b[2:2];
+        _324_ = b[2:2];
       default:
-        _307_ = a;
+        _324_ = a;
     endcase
   endfunction
-  assign _006_ = _307_(1'hx, { _134_, _133_, 1'h0 }, { _093_, _094_, _122_ });
-  assign _133_ = exception_taken ? 1'h1 : 1'hx;
-  assign _134_ = interrupt_pending ? 1'h1 : 1'hx;
-  function [2:0] _310_;
+  assign _007_ = _324_(1'hx, { _142_, _141_, 1'h0 }, { _098_, _099_, _130_ });
+  assign _141_ = exception_taken ? 1'h1 : 1'hx;
+  assign _142_ = interrupt_pending ? 1'h1 : 1'hx;
+  function [2:0] _327_;
     input [2:0] a;
     input [17:0] b;
     input [5:0] s;
     casez (s) // synopsys parallel_case
       6'b?????1:
-        _310_ = b[2:0];
+        _327_ = b[2:0];
       6'b????1?:
-        _310_ = b[5:3];
+        _327_ = b[5:3];
       6'b???1??:
-        _310_ = b[8:6];
+        _327_ = b[8:6];
       6'b??1???:
-        _310_ = b[11:9];
+        _327_ = b[11:9];
       6'b?1????:
-        _310_ = b[14:12];
+        _327_ = b[14:12];
       6'b1?????:
-        _310_ = b[17:15];
+        _327_ = b[17:15];
       default:
-        _310_ = a;
+        _327_ = a;
     endcase
   endfunction
-  assign _004_ = _310_(3'hx, { _148_, 3'h2, _145_, _139_, _136_, 3'h0 }, { _093_, _146_, _094_, _087_, _089_, _050_ });
+  assign _005_ = _327_(3'hx, { _156_, 3'h2, _153_, _147_, _144_, 3'h0 }, { _098_, _154_, _099_, _092_, _094_, _053_ });
   assign instr_retired = state == 3'h4;
-  assign _135_ = dwb_ack_i ? 3'h4 : 3'hx;
-  assign _136_ = _077_ ? _135_ : 3'h4;
-  assign _089_ = state == 3'h3;
-  assign _137_ = _066_ ? 3'h4 : 3'h5;
-  assign _138_ = _065_ ? 3'h5 : _137_;
-  assign _139_ = mdu_done ? 3'h5 : _138_;
-  assign _087_ = state == 3'h5;
-  assign _122_ = state == 3'h6;
-  assign _140_ = _077_ ? 3'h3 : 3'h4;
-  assign _141_ = dwb_cyc_reg ? 3'h2 : 3'h4;
-  assign _142_ = _064_ ? _141_ : _140_;
-  assign _143_ = is_m ? 3'h5 : _142_;
-  assign _144_ = is_mret ? 3'h0 : _143_;
-  assign _145_ = exception_taken ? 3'h6 : _144_;
-  assign _094_ = state == 3'h2;
-  assign _146_ = state == 3'h1;
-  assign _147_ = iwb_ack_i ? 3'h1 : 3'hx;
-  assign _148_ = interrupt_pending ? 3'h6 : _147_;
-  assign _093_ = ! state;
-  assign _149_ = 4'h1 << alu_result_reg[1:0];
-  assign _150_ = 4'h3 << { alu_result_reg[1], 1'h0 };
-  assign alu_operand_a = _055_ ? pc : _151_;
-  assign _151_ = _056_ ? 32'd0 : rs1_data;
+  assign _143_ = dwb_ack_i ? 3'h4 : 3'hx;
+  assign _144_ = _082_ ? _143_ : 3'h4;
+  assign _094_ = state == 3'h3;
+  assign _145_ = _070_ ? 3'h4 : 3'h5;
+  assign _146_ = _069_ ? 3'h5 : _145_;
+  assign _147_ = _077_ ? 3'h5 : _146_;
+  assign _092_ = state == 3'h5;
+  assign _130_ = state == 3'h6;
+  assign _148_ = _082_ ? 3'h3 : 3'h4;
+  assign _149_ = dwb_cyc_reg ? 3'h2 : 3'h4;
+  assign _150_ = _067_ ? _149_ : _148_;
+  assign _151_ = is_m ? 3'h5 : _150_;
+  assign _152_ = is_mret ? 3'h0 : _151_;
+  assign _153_ = exception_taken ? 3'h6 : _152_;
+  assign _099_ = state == 3'h2;
+  assign _154_ = state == 3'h1;
+  assign _155_ = iwb_ack_i ? 3'h1 : 3'hx;
+  assign _156_ = interrupt_pending ? 3'h6 : _155_;
+  assign _098_ = ! state;
+  assign _157_ = 4'h1 << alu_result_reg[1:0];
+  assign _158_ = 4'h3 << { alu_result_reg[1], 1'h0 };
+  assign alu_operand_a = _058_ ? pc : _159_;
+  assign _159_ = _059_ ? 32'd0 : rs1_data;
   assign alu_operand_b = alu_src_imm ? immediate : rs2_data;
-  assign load_byte = _057_ ? mem_data_reg[7:0] : _152_;
-  assign _152_ = _058_ ? mem_data_reg[15:8] : _153_;
-  assign _153_ = _059_ ? mem_data_reg[23:16] : mem_data_reg[31:24];
-  assign load_halfword = _057_ ? mem_data_reg[15:0] : _154_;
-  assign _154_ = _058_ ? mem_data_reg[23:8] : mem_data_reg[31:16];
-  assign load_sign_bit = _060_ ? load_byte[7] : load_halfword[15];
-  assign load_data_processed = _060_ ? { load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_byte } : _155_;
-  assign _155_ = _061_ ? { load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_halfword } : _156_;
-  assign _156_ = _062_ ? { 24'h000000, load_byte } : _157_;
-  assign _157_ = _063_ ? { 16'h0000, load_halfword } : mem_data_reg;
-  assign rd_data = mem_read ? load_data_processed : _158_;
-  assign _158_ = is_system ? csr_rdata : _159_;
-  assign _159_ = is_jump ? _011_ : alu_result_reg;
+  assign load_byte = _060_ ? mem_data_reg[7:0] : _160_;
+  assign _160_ = _061_ ? mem_data_reg[15:8] : _161_;
+  assign _161_ = _062_ ? mem_data_reg[23:16] : mem_data_reg[31:24];
+  assign load_halfword = _060_ ? mem_data_reg[15:0] : _162_;
+  assign _162_ = _061_ ? mem_data_reg[23:8] : mem_data_reg[31:16];
+  assign load_sign_bit = _063_ ? load_byte[7] : load_halfword[15];
+  assign load_data_processed = _063_ ? { load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_byte } : _163_;
+  assign _163_ = _064_ ? { load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_sign_bit, load_halfword } : _164_;
+  assign _164_ = _065_ ? { 24'h000000, load_byte } : _165_;
+  assign _165_ = _066_ ? { 16'h0000, load_halfword } : mem_data_reg;
+  assign rd_data = mem_read ? load_data_processed : _166_;
+  assign _166_ = is_system ? csr_rdata : _167_;
+  assign _167_ = is_jump ? _012_ : alu_result_reg;
   assign csr_wdata = funct3[2] ? { 27'h0000000, instruction[19:15] } : rs1_data;
-  assign csr_op = _072_ ? funct3 : 3'h0;
+  assign csr_op = _076_ ? funct3 : 3'h0;
   alu alu_inst (
     .alu_op(alu_op),
     .operand_a(alu_operand_a),
@@ -1246,7 +1279,7 @@ module custom_riscv_core(clk, rst_n, iwb_adr_o, iwb_dat_i, iwb_cyc_o, iwb_stb_o,
     .is_m(is_m),
     .is_mret(is_mret),
     .is_system(is_system),
-    .is_zpec(1'h0),
+    .is_zpec(is_zpec),
     .mem_read(mem_read),
     .mem_write(mem_write),
     .opcode(opcode),
@@ -1272,6 +1305,7 @@ module custom_riscv_core(clk, rst_n, iwb_adr_o, iwb_dat_i, iwb_cyc_o, iwb_stb_o,
   );
   mdu mdu_inst (
     .a(rs1_data),
+    .ack(mdu_ack),
     .b(rs2_data),
     .busy(mdu_busy),
     .clk(clk),
@@ -1303,7 +1337,6 @@ module custom_riscv_core(clk, rst_n, iwb_adr_o, iwb_dat_i, iwb_cyc_o, iwb_stb_o,
   assign dwb_stb_reg = dwb_cyc_reg;
   assign dwb_we_o = dwb_we_reg;
   assign interrupt_req = interrupt_pending;
-  assign is_zpec = 1'h0;
   assign iwb_adr_o = pc;
   assign iwb_cyc_o = iwb_cyc_reg;
   assign iwb_stb_o = iwb_cyc_reg;
@@ -1321,15 +1354,15 @@ module decoder(instruction, opcode, funct3, funct7, rs1_addr, rs2_addr, rd_addr,
   wire _004_;
   wire _005_;
   wire _006_;
-  wire [3:0] _007_;
-  wire _008_;
+  wire _007_;
+  wire [3:0] _008_;
   wire _009_;
   wire _010_;
   wire _011_;
   wire _012_;
-  wire [3:0] _013_;
+  wire _013_;
   wire [3:0] _014_;
-  wire _015_;
+  wire [3:0] _015_;
   wire _016_;
   wire _017_;
   wire _018_;
@@ -1342,8 +1375,8 @@ module decoder(instruction, opcode, funct3, funct7, rs1_addr, rs2_addr, rd_addr,
   wire _025_;
   wire _026_;
   wire _027_;
-  wire [5:0] _028_;
-  wire _029_;
+  wire _028_;
+  wire [5:0] _029_;
   wire _030_;
   wire _031_;
   wire _032_;
@@ -1357,8 +1390,9 @@ module decoder(instruction, opcode, funct3, funct7, rs1_addr, rs2_addr, rd_addr,
   wire _040_;
   wire _041_;
   wire _042_;
-  wire [3:0] _043_;
+  wire _043_;
   wire [3:0] _044_;
+  wire [3:0] _045_;
   output [3:0] alu_op;
   wire [3:0] alu_op;
   output alu_src_imm;
@@ -1405,146 +1439,132 @@ module decoder(instruction, opcode, funct3, funct7, rs1_addr, rs2_addr, rd_addr,
   wire [4:0] rs1_addr;
   output [4:0] rs2_addr;
   wire [4:0] rs2_addr;
-  reg [3:0] \$auto$proc_rom.cc:150:do_switch$284  [7:0];
+  reg [3:0] \$auto$proc_rom.cc:150:do_switch$272  [7:0];
   initial begin
-    \$auto$proc_rom.cc:150:do_switch$284 [0] = 4'ha;
-    \$auto$proc_rom.cc:150:do_switch$284 [1] = 4'hb;
-    \$auto$proc_rom.cc:150:do_switch$284 [2] = 4'hc;
-    \$auto$proc_rom.cc:150:do_switch$284 [3] = 4'hd;
-    \$auto$proc_rom.cc:150:do_switch$284 [4] = 4'he;
-    \$auto$proc_rom.cc:150:do_switch$284 [5] = 4'hf;
-    \$auto$proc_rom.cc:150:do_switch$284 [6] = 4'he;
-    \$auto$proc_rom.cc:150:do_switch$284 [7] = 4'hf;
+    \$auto$proc_rom.cc:150:do_switch$272 [0] = 4'ha;
+    \$auto$proc_rom.cc:150:do_switch$272 [1] = 4'hb;
+    \$auto$proc_rom.cc:150:do_switch$272 [2] = 4'hc;
+    \$auto$proc_rom.cc:150:do_switch$272 [3] = 4'hd;
+    \$auto$proc_rom.cc:150:do_switch$272 [4] = 4'he;
+    \$auto$proc_rom.cc:150:do_switch$272 [5] = 4'hf;
+    \$auto$proc_rom.cc:150:do_switch$272 [6] = 4'he;
+    \$auto$proc_rom.cc:150:do_switch$272 [7] = 4'hf;
   end
-  assign _013_ = \$auto$proc_rom.cc:150:do_switch$284 [instruction[14:12]];
-  assign _015_ = | { _038_, _037_, _036_, _035_, _034_, _032_, _031_ };
-  assign _016_ = | { _040_, _039_, _038_, _037_, _036_, _035_, _034_, _033_, _032_, _031_ };
-  assign _017_ = | { _037_, _036_ };
-  assign _018_ = | { _027_, _026_, _025_, _022_ };
-  assign _019_ = | { _039_, _038_, _037_, _036_, _035_, _034_, _032_ };
-  assign _020_ = instruction[31:25] == 7'h01;
-  assign _021_ = | instruction[11:7];
-  assign _010_ = _022_ ? 1'h1 : 1'h0;
-  assign _008_ = _018_ ? 1'h0 : 1'h1;
-  assign _022_ = ! instruction[31:20];
-  assign _012_ = _025_ ? 1'h1 : 1'h0;
-  assign _025_ = instruction[31:20] == 12'h105;
-  assign _011_ = _026_ ? 1'h1 : 1'h0;
-  assign _026_ = instruction[31:20] == 12'h302;
-  assign _009_ = _027_ ? 1'h1 : 1'h0;
-  assign _027_ = instruction[31:20] == 12'h001;
-  function [0:0] _063_;
+  assign _014_ = \$auto$proc_rom.cc:150:do_switch$272 [instruction[14:12]];
+  assign _016_ = | { _039_, _038_, _037_, _036_, _035_, _033_, _032_ };
+  assign _017_ = | { _041_, _040_, _039_, _038_, _037_, _036_, _035_, _034_, _033_, _032_ };
+  assign _018_ = | { _040_, _039_, _038_, _037_, _036_, _035_, _033_ };
+  assign _019_ = | { _028_, _027_, _026_, _023_ };
+  assign _020_ = | { _038_, _037_ };
+  assign _021_ = instruction[31:25] == 7'h01;
+  assign _022_ = | instruction[11:7];
+  assign _011_ = _023_ ? 1'h1 : 1'h0;
+  assign _009_ = _019_ ? 1'h0 : 1'h1;
+  assign _023_ = ! instruction[31:20];
+  assign _013_ = _026_ ? 1'h1 : 1'h0;
+  assign _026_ = instruction[31:20] == 12'h105;
+  assign _012_ = _027_ ? 1'h1 : 1'h0;
+  assign _027_ = instruction[31:20] == 12'h302;
+  assign _010_ = _028_ ? 1'h1 : 1'h0;
+  assign _028_ = instruction[31:20] == 12'h001;
+  function [0:0] _064_;
     input [0:0] a;
     input [1:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _063_ = b[0:0];
+        _064_ = b[0:0];
       2'b1?:
-        _063_ = b[1:1];
+        _064_ = b[1:1];
       default:
-        _063_ = a;
+        _064_ = a;
     endcase
   endfunction
-  assign _001_ = _063_(1'h1, { _008_, 1'h0 }, { _023_, _029_ });
-  assign _005_ = _023_ ? _012_ : 1'h0;
-  assign _004_ = _023_ ? _011_ : 1'h0;
-  assign _002_ = _023_ ? _009_ : 1'h0;
-  assign _003_ = _023_ ? _010_ : 1'h0;
-  assign _006_ = _029_ ? _021_ : 1'h0;
-  assign _029_ = | _028_;
-  function [3:0] _070_;
+  assign _001_ = _064_(1'h1, { _009_, 1'h0 }, { _024_, _030_ });
+  assign _006_ = _024_ ? _013_ : 1'h0;
+  assign _005_ = _024_ ? _012_ : 1'h0;
+  assign _002_ = _024_ ? _010_ : 1'h0;
+  assign _003_ = _024_ ? _011_ : 1'h0;
+  assign _007_ = _030_ ? _022_ : 1'h0;
+  assign _030_ = | _029_;
+  function [3:0] _071_;
     input [3:0] a;
     input [31:0] b;
     input [7:0] s;
     casez (s) // synopsys parallel_case
       8'b???????1:
-        _070_ = b[3:0];
+        _071_ = b[3:0];
       8'b??????1?:
-        _070_ = b[7:4];
+        _071_ = b[7:4];
       8'b?????1??:
-        _070_ = b[11:8];
+        _071_ = b[11:8];
       8'b????1???:
-        _070_ = b[15:12];
+        _071_ = b[15:12];
       8'b???1????:
-        _070_ = b[19:16];
+        _071_ = b[19:16];
       8'b??1?????:
-        _070_ = b[23:20];
+        _071_ = b[23:20];
       8'b?1??????:
-        _070_ = b[27:24];
+        _071_ = b[27:24];
       8'b1???????:
-        _070_ = b[31:28];
+        _071_ = b[31:28];
       default:
-        _070_ = a;
+        _071_ = a;
     endcase
   endfunction
-  assign _014_ = _070_(4'hx, { _044_, 16'h5894, _043_, 8'h32 }, { _023_, _028_[0], _028_[1], _028_[2], _030_, _028_[3], _028_[4], _028_[5] });
-  assign _007_ = _020_ ? _013_ : _014_;
-  function [3:0] _072_;
+  assign _015_ = _071_(4'hx, { _045_, 16'h5894, _044_, 8'h32 }, { _024_, _029_[0], _029_[1], _029_[2], _031_, _029_[3], _029_[4], _029_[5] });
+  assign _008_ = _021_ ? _014_ : _015_;
+  assign _004_ = _021_ ? 1'h1 : 1'h0;
+  function [3:0] _074_;
     input [3:0] a;
     input [31:0] b;
     input [7:0] s;
     casez (s) // synopsys parallel_case
       8'b???????1:
-        _072_ = b[3:0];
+        _074_ = b[3:0];
       8'b??????1?:
-        _072_ = b[7:4];
+        _074_ = b[7:4];
       8'b?????1??:
-        _072_ = b[11:8];
+        _074_ = b[11:8];
       8'b????1???:
-        _072_ = b[15:12];
+        _074_ = b[15:12];
       8'b???1????:
-        _072_ = b[19:16];
+        _074_ = b[19:16];
       8'b??1?????:
-        _072_ = b[23:20];
+        _074_ = b[23:20];
       8'b?1??????:
-        _072_ = b[27:24];
+        _074_ = b[27:24];
       8'b1???????:
-        _072_ = b[31:28];
+        _074_ = b[31:28];
       default:
-        _072_ = a;
+        _074_ = a;
     endcase
   endfunction
-  assign _000_ = _072_(4'hx, { 28'h0894325, _043_ }, { _023_, _028_[1], _028_[2], _030_, _028_[4], _028_[5], _028_[0], _028_[3] });
-  assign _028_[3] = instruction[14:12] == 3'h5;
-  assign _028_[0] = instruction[14:12] == 3'h1;
-  assign _028_[5] = instruction[14:12] == 3'h7;
-  assign _028_[4] = instruction[14:12] == 3'h6;
-  assign _030_ = instruction[14:12] == 3'h4;
-  assign _028_[2] = instruction[14:12] == 3'h3;
-  assign _028_[1] = instruction[14:12] == 3'h2;
-  assign _023_ = ! instruction[14:12];
-  function [3:0] _081_;
+  assign _000_ = _074_(4'hx, { 28'h0894325, _044_ }, { _024_, _029_[1], _029_[2], _031_, _029_[4], _029_[5], _029_[0], _029_[3] });
+  assign _029_[3] = instruction[14:12] == 3'h5;
+  assign _029_[0] = instruction[14:12] == 3'h1;
+  assign _029_[5] = instruction[14:12] == 3'h7;
+  assign _029_[4] = instruction[14:12] == 3'h6;
+  assign _031_ = instruction[14:12] == 3'h4;
+  assign _029_[2] = instruction[14:12] == 3'h3;
+  assign _029_[1] = instruction[14:12] == 3'h2;
+  assign _024_ = ! instruction[14:12];
+  function [3:0] _083_;
     input [3:0] a;
     input [11:0] b;
     input [2:0] s;
     casez (s) // synopsys parallel_case
       3'b??1:
-        _081_ = b[3:0];
+        _083_ = b[3:0];
       3'b?1?:
-        _081_ = b[7:4];
+        _083_ = b[7:4];
       3'b1??:
-        _081_ = b[11:8];
+        _083_ = b[11:8];
       default:
-        _081_ = a;
+        _083_ = a;
     endcase
   endfunction
-  assign alu_op = _081_(4'h0, { _000_, _007_, 4'h1 }, { _032_, _031_, _033_ });
-  function [0:0] _082_;
-    input [0:0] a;
-    input [1:0] b;
-    input [1:0] s;
-    casez (s) // synopsys parallel_case
-      2'b?1:
-        _082_ = b[0:0];
-      2'b1?:
-        _082_ = b[1:1];
-      default:
-        _082_ = a;
-    endcase
-  endfunction
-  assign reg_write = _082_(1'h0, { 1'h1, _006_ }, { _015_, _024_ });
-  assign alu_src_imm = _019_ ? 1'h1 : 1'h0;
+  assign alu_op = _083_(4'h0, { _000_, _008_, 4'h1 }, { _033_, _032_, _034_ });
   function [0:0] _084_;
     input [0:0] a;
     input [1:0] b;
@@ -1558,54 +1578,69 @@ module decoder(instruction, opcode, funct3, funct7, rs1_addr, rs2_addr, rd_addr,
         _084_ = a;
     endcase
   endfunction
-  assign illegal_instr = _084_(1'h1, { _001_, 1'h0 }, { _024_, _016_ });
-  assign _040_ = instruction[6:0] == 7'h0f;
-  assign is_wfi = _024_ ? _005_ : 1'h0;
-  assign is_mret = _024_ ? _004_ : 1'h0;
-  assign is_ebreak = _024_ ? _002_ : 1'h0;
-  assign is_ecall = _024_ ? _003_ : 1'h0;
-  assign _031_ = instruction[6:0] == 7'h33;
-  assign is_system = _024_ ? 1'h1 : 1'h0;
-  assign _024_ = instruction[6:0] == 7'h73;
-  assign is_jump = _017_ ? 1'h1 : 1'h0;
-  assign is_branch = _033_ ? 1'h1 : 1'h0;
-  assign mem_write = _039_ ? 1'h1 : 1'h0;
-  assign mem_read = _038_ ? 1'h1 : 1'h0;
-  function [31:0] _097_;
+  assign reg_write = _084_(1'h0, { 1'h1, _007_ }, { _016_, _025_ });
+  assign alu_src_imm = _018_ ? 1'h1 : 1'h0;
+  function [0:0] _086_;
+    input [0:0] a;
+    input [1:0] b;
+    input [1:0] s;
+    casez (s) // synopsys parallel_case
+      2'b?1:
+        _086_ = b[0:0];
+      2'b1?:
+        _086_ = b[1:1];
+      default:
+        _086_ = a;
+    endcase
+  endfunction
+  assign illegal_instr = _086_(1'h1, { _001_, 1'h0 }, { _025_, _017_ });
+  assign _041_ = instruction[6:0] == 7'h0f;
+  assign is_wfi = _025_ ? _006_ : 1'h0;
+  assign is_mret = _025_ ? _005_ : 1'h0;
+  assign is_ebreak = _025_ ? _002_ : 1'h0;
+  assign is_ecall = _025_ ? _003_ : 1'h0;
+  assign is_m = _032_ ? _004_ : 1'h0;
+  assign _032_ = instruction[6:0] == 7'h33;
+  assign is_system = _025_ ? 1'h1 : 1'h0;
+  assign _025_ = instruction[6:0] == 7'h73;
+  assign is_jump = _020_ ? 1'h1 : 1'h0;
+  assign is_branch = _034_ ? 1'h1 : 1'h0;
+  assign mem_write = _040_ ? 1'h1 : 1'h0;
+  assign mem_read = _039_ ? 1'h1 : 1'h0;
+  function [31:0] _100_;
     input [31:0] a;
     input [159:0] b;
     input [4:0] s;
     casez (s) // synopsys parallel_case
       5'b????1:
-        _097_ = b[31:0];
+        _100_ = b[31:0];
       5'b???1?:
-        _097_ = b[63:32];
+        _100_ = b[63:32];
       5'b??1??:
-        _097_ = b[95:64];
+        _100_ = b[95:64];
       5'b?1???:
-        _097_ = b[127:96];
+        _100_ = b[127:96];
       5'b1????:
-        _097_ = b[159:128];
+        _100_ = b[159:128];
       default:
-        _097_ = a;
+        _100_ = a;
     endcase
   endfunction
-  assign immediate = _097_(32'd0, { instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31:20], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31:25], instruction[11:7], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[7], instruction[30:25], instruction[11:8], 1'h0, instruction[31:12], 12'h000, instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[19:12], instruction[20], instruction[30:21], 1'h0 }, { _042_, _039_, _033_, _041_, _037_ });
-  assign _037_ = instruction[6:0] == 7'h6f;
-  assign _041_ = | { _035_, _034_ };
-  assign _035_ = instruction[6:0] == 7'h37;
-  assign _034_ = instruction[6:0] == 7'h17;
-  assign _033_ = instruction[6:0] == 7'h63;
-  assign _039_ = instruction[6:0] == 7'h23;
-  assign _042_ = | { _038_, _036_, _032_ };
-  assign _032_ = instruction[6:0] == 7'h13;
-  assign _038_ = instruction[6:0] == 7'h03;
-  assign _036_ = instruction[6:0] == 7'h67;
-  assign _044_ = instruction[30] ? 4'h1 : 4'h0;
-  assign _043_ = instruction[30] ? 4'h7 : 4'h6;
+  assign immediate = _100_(32'd0, { instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31:20], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31:25], instruction[11:7], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[7], instruction[30:25], instruction[11:8], 1'h0, instruction[31:12], 12'h000, instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[31], instruction[19:12], instruction[20], instruction[30:21], 1'h0 }, { _043_, _040_, _034_, _042_, _038_ });
+  assign _038_ = instruction[6:0] == 7'h6f;
+  assign _042_ = | { _036_, _035_ };
+  assign _036_ = instruction[6:0] == 7'h37;
+  assign _035_ = instruction[6:0] == 7'h17;
+  assign _034_ = instruction[6:0] == 7'h63;
+  assign _040_ = instruction[6:0] == 7'h23;
+  assign _043_ = | { _039_, _037_, _033_ };
+  assign _033_ = instruction[6:0] == 7'h13;
+  assign _039_ = instruction[6:0] == 7'h03;
+  assign _037_ = instruction[6:0] == 7'h67;
+  assign _045_ = instruction[30] ? 4'h1 : 4'h0;
+  assign _044_ = instruction[30] ? 4'h7 : 4'h6;
   assign funct3 = instruction[14:12];
   assign funct7 = instruction[31:25];
-  assign is_m = 1'h1;
   assign is_zpec = 1'h0;
   assign opcode = instruction[6:0];
   assign rd_addr = instruction[11:7];
@@ -1719,27 +1754,27 @@ module exception_unit(pc, instruction, funct3, mem_addr, mem_read, mem_write, bu
   assign _05_ = bus_error ? mem_addr : 32'd0;
 endmodule
 
-module mdu(clk, rst_n, start, funct3, a, b, busy, done, product, quotient, remainder);
+module mdu(clk, rst_n, start, ack, funct3, a, b, busy, done, product, quotient, remainder);
   wire [63:0] _000_;
   wire _001_;
   wire [5:0] _002_;
-  wire [63:0] _003_;
-  wire _004_;
-  wire [5:0] _005_;
-  wire [63:0] _006_;
+  wire _003_;
+  wire [5:0] _004_;
+  wire [63:0] _005_;
+  wire [31:0] _006_;
   wire [31:0] _007_;
   wire [31:0] _008_;
   wire [31:0] _009_;
-  wire [1:0] _010_;
-  wire [31:0] _011_;
+  wire [32:0] _010_;
+  wire [1:0] _011_;
   wire [31:0] _012_;
-  wire [63:0] _013_;
-  wire [31:0] _014_;
-  wire [63:0] _015_;
-  wire [31:0] _016_;
+  wire [31:0] _013_;
+  wire [63:0] _014_;
+  wire [31:0] _015_;
+  wire [63:0] _016_;
   wire [31:0] _017_;
   wire [31:0] _018_;
-  wire _019_;
+  wire [31:0] _019_;
   wire _020_;
   wire _021_;
   wire _022_;
@@ -1788,81 +1823,86 @@ module mdu(clk, rst_n, start, funct3, a, b, busy, done, product, quotient, remai
   wire _065_;
   wire _066_;
   wire _067_;
-  wire [31:0] _068_;
-  wire [31:0] _069_;
-  wire [63:0] _070_;
-  wire [31:0] _071_;
-  wire [31:0] _072_;
-  wire _073_;
-  wire [5:0] _074_;
-  wire [5:0] _075_;
-  wire _076_;
-  wire [5:0] _077_;
-  wire [5:0] _078_;
-  wire [31:0] _079_;
-  wire [31:0] _080_;
-  wire [31:0] _081_;
-  wire [31:0] _082_;
-  wire [31:0] _083_;
-  wire [31:0] _084_;
-  wire [31:0] _085_;
-  wire [31:0] _086_;
-  wire [63:0] _087_;
-  wire [63:0] _088_;
-  wire [63:0] _089_;
-  wire [63:0] _090_;
-  wire [5:0] _091_;
-  wire _092_;
-  wire [5:0] _093_;
-  wire [5:0] _094_;
-  wire [63:0] _095_;
-  wire [63:0] _096_;
-  wire [63:0] _097_;
-  wire [63:0] _098_;
-  wire [31:0] _099_;
-  wire [31:0] _100_;
-  wire [31:0] _101_;
+  wire _068_;
+  wire _069_;
+  wire _070_;
+  wire _071_;
+  wire _072_;
+  wire [31:0] _073_;
+  wire [31:0] _074_;
+  wire [63:0] _075_;
+  wire [31:0] _076_;
+  wire [31:0] _077_;
+  wire _078_;
+  wire _079_;
+  wire _080_;
+  wire [5:0] _081_;
+  wire [5:0] _082_;
+  wire _083_;
+  wire [5:0] _084_;
+  wire [5:0] _085_;
+  wire [32:0] _086_;
+  wire [32:0] _087_;
+  wire [32:0] _088_;
+  wire [32:0] _089_;
+  wire [32:0] _090_;
+  wire [31:0] _091_;
+  wire [31:0] _092_;
+  wire [31:0] _093_;
+  wire [31:0] _094_;
+  wire [31:0] _095_;
+  wire [31:0] _096_;
+  wire [31:0] _097_;
+  wire [5:0] _098_;
+  wire _099_;
+  wire [5:0] _100_;
+  wire [5:0] _101_;
   wire [63:0] _102_;
   wire [63:0] _103_;
   wire [63:0] _104_;
-  wire [1:0] _105_;
-  wire [1:0] _106_;
-  wire [1:0] _107_;
-  wire [1:0] _108_;
-  wire [1:0] _109_;
-  wire [31:0] _110_;
-  wire [31:0] _111_;
-  wire [31:0] _112_;
-  wire [31:0] _113_;
-  wire [31:0] _114_;
-  wire [31:0] _115_;
-  wire [31:0] _116_;
-  wire [31:0] _117_;
+  wire [63:0] _105_;
+  wire [31:0] _106_;
+  wire [31:0] _107_;
+  wire [31:0] _108_;
+  wire [63:0] _109_;
+  wire [63:0] _110_;
+  wire [63:0] _111_;
+  wire _112_;
+  wire [1:0] _113_;
+  wire [1:0] _114_;
+  wire [1:0] _115_;
+  wire [1:0] _116_;
+  wire [1:0] _117_;
   wire [31:0] _118_;
   wire [31:0] _119_;
-  wire [63:0] _120_;
-  wire [63:0] _121_;
+  wire [31:0] _120_;
+  wire [31:0] _121_;
   wire [63:0] _122_;
-  wire _123_;
-  wire _124_;
+  wire [63:0] _123_;
+  wire [63:0] _124_;
   wire _125_;
   wire _126_;
   wire _127_;
   wire _128_;
   wire _129_;
   wire _130_;
-  wire [31:0] _131_;
-  wire [31:0] _132_;
+  wire _131_;
+  wire _132_;
   wire [31:0] _133_;
   wire [31:0] _134_;
   wire [31:0] _135_;
   wire [31:0] _136_;
   wire [31:0] _137_;
-  wire _138_;
+  wire [31:0] _138_;
+  wire [31:0] _139_;
+  wire [31:0] _140_;
+  wire _141_;
   input [31:0] a;
   wire [31:0] a;
   reg [31:0] a_latched;
   reg [63:0] acc;
+  input ack;
+  wire ack;
   input [31:0] b;
   wire [31:0] b;
   reg [31:0] b_latched;
@@ -1871,10 +1911,10 @@ module mdu(clk, rst_n, start, funct3, a, b, busy, done, product, quotient, remai
   input clk;
   wire clk;
   reg [5:0] div_count;
-  reg dividend_neg;
-  reg [63:0] dividend_shift;
-  reg [31:0] divisor_abs;
-  reg divisor_neg;
+  reg div_sign_q;
+  reg div_sign_r;
+  reg [31:0] dividend;
+  reg [31:0] divisor;
   output done;
   reg done;
   input [2:0] funct3;
@@ -1891,359 +1931,410 @@ module mdu(clk, rst_n, start, funct3, a, b, busy, done, product, quotient, remai
   reg [31:0] quotient_reg;
   output [31:0] remainder;
   reg [31:0] remainder;
-  reg [31:0] remainder_reg;
+  reg [32:0] remainder_reg;
   input rst_n;
   wire rst_n;
   input start;
   wire start;
   reg [1:0] state;
-  assign _012_ = _069_ + 1'h1;
-  assign _011_ = _068_ + 1'h1;
-  assign _013_ = acc + multiplicand;
-  assign _014_ = mul_count + 32'd1;
-  assign _015_ = _070_ + 64'h0000000000000001;
-  assign _016_ = div_count + 32'd1;
-  assign _018_ = _072_ + 32'd1;
-  assign _017_ = _071_ + 32'd1;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) dividend_shift <= 64'h0000000000000000;
-    else if (_032_) dividend_shift <= _003_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) divisor_abs <= 32'd0;
-    else if (_033_) divisor_abs <= _135_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) quotient_reg <= 32'd0;
-    else if (_032_) quotient_reg <= _008_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) remainder_reg <= 32'd0;
-    else if (_032_) remainder_reg <= _009_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) multiplier <= 32'd0;
-    else if (_034_) multiplier <= _007_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) mul_count <= 6'h00;
-    else if (_034_) mul_count <= _005_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) div_count <= 6'h00;
-    else if (_032_) div_count <= _002_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) acc <= 64'h0000000000000000;
-    else if (_035_) acc <= _000_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) dividend_neg <= 1'h0;
-    else if (_033_) dividend_neg <= _058_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) b_latched <= 32'd0;
-    else if (_036_) b_latched <= b;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) a_latched <= 32'd0;
-    else if (_036_) a_latched <= a;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) op_latched <= 3'h0;
-    else if (_036_) op_latched <= funct3;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) divisor_neg <= 1'h0;
-    else if (_033_) divisor_neg <= _059_;
-  always @(posedge clk, negedge rst_n)
-    if (!rst_n) multiplicand <= 64'h0000000000000000;
-    else if (_034_) multiplicand <= _006_;
+  assign _012_ = _073_ + 1'h1;
+  assign _013_ = _074_ + 1'h1;
+  assign _014_ = acc + multiplicand;
+  assign _015_ = mul_count + 32'd1;
+  assign _016_ = _075_ + 64'h0000000000000001;
+  assign _017_ = div_count + 32'd1;
+  assign _018_ = _076_ + 1'h1;
+  assign _019_ = _077_ + 1'h1;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) busy <= 1'h0;
-    else if (_037_) busy <= _001_;
+    else if (_035_) busy <= _001_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) product <= 64'h0000000000000000;
-    else if (_038_) product <= _122_;
+    else if (_036_) product <= _124_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) quotient <= 32'd0;
-    else if (_039_) quotient <= _119_;
+    else if (_037_) quotient <= _007_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) remainder <= 32'd0;
-    else if (_039_) remainder <= _114_;
+    else if (_037_) remainder <= _009_;
   always @(posedge clk, negedge rst_n)
     if (!rst_n) state <= 2'h0;
-    else if (_040_) state <= _010_;
-  assign _019_ = { _073_, start } != 2'h2;
-  assign _020_ = { _073_, _065_, start } != 3'h7;
-  assign _021_ = { _076_, _067_, _049_ } != 3'h4;
-  assign _022_ = { _076_, _049_ } != 2'h3;
-  assign _023_ = | { _073_, _076_ };
-  assign _024_ = { _073_, _065_, start } != 3'h5;
-  assign _025_ = { _092_, _066_ } != 2'h2;
-  assign _026_ = | { _073_, _092_ };
-  assign _027_ = { _092_, _066_, multiplier[0] } != 3'h6;
-  assign _028_ = { _092_, _066_ } != 2'h3;
-  assign _029_ = { _076_, _067_, _049_ } != 3'h6;
-  assign _030_ = | { _073_, _092_, _076_ };
-  assign _031_ = { _067_, _049_ } != 2'h2;
-  assign _041_ = ~ _065_;
-  assign _042_ = ~ _066_;
-  assign _032_ = & { _023_, _022_, _021_, _020_, _019_ };
-  assign _033_ = & { _041_, _073_, start };
-  assign _034_ = & { _024_, _019_, _026_, _025_ };
-  assign _035_ = & { _024_, _019_, _027_, _026_, _025_ };
-  assign _036_ = & { _073_, start };
-  assign _037_ = & { _030_, _029_, _028_, _019_ };
-  assign _038_ = & { _092_, _042_ };
-  assign _039_ = & { _076_, _031_ };
-  assign _040_ = & { _029_, _028_, _019_ };
-  assign _044_ = funct3 == 3'h2;
-  assign _043_ = funct3 == 3'h1;
-  assign _045_ = funct3 == 3'h4;
-  assign _046_ = funct3 == 3'h6;
+    else if (_038_) state <= _011_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) multiplicand <= 64'h0000000000000000;
+    else if (_039_) multiplicand <= _005_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) multiplier <= 32'd0;
+    else if (_039_) multiplier <= _006_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) acc <= 64'h0000000000000000;
+    else if (_040_) acc <= _000_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) b_latched <= 32'd0;
+    else if (_041_) b_latched <= b;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) a_latched <= 32'd0;
+    else if (_041_) a_latched <= a;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) op_latched <= 3'h0;
+    else if (_041_) op_latched <= funct3;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) mul_count <= 6'h00;
+    else if (_039_) mul_count <= _004_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) div_sign_r <= 1'h0;
+    else if (_042_) div_sign_r <= _079_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) div_sign_q <= 1'h0;
+    else if (_042_) div_sign_q <= _080_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) div_count <= 6'h00;
+    else if (_043_) div_count <= _002_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) dividend <= 32'd0;
+    else if (_042_) dividend <= _097_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) divisor <= 32'd0;
+    else if (_042_) divisor <= _096_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) quotient_reg <= 32'd0;
+    else if (_043_) quotient_reg <= _008_;
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) remainder_reg <= 33'h000000000;
+    else if (_043_) remainder_reg <= _010_;
+  assign _020_ = { _078_, start } != 2'h2;
+  assign _021_ = { _099_, _071_ } != 2'h3;
+  assign _022_ = { _083_, _056_ } != 2'h2;
+  assign _023_ = | { _078_, _099_, _083_, _112_ };
+  assign _024_ = { _044_, _112_, _057_, _059_ } != 4'h4;
+  assign _025_ = | { _083_, _112_ };
+  assign _026_ = { _083_, _072_, _056_ } != 3'h6;
+  assign _027_ = { _078_, _068_, start } != 3'h5;
+  assign _028_ = { _099_, _071_ } != 2'h2;
+  assign _029_ = | { _078_, _099_ };
+  assign _030_ = { _099_, _071_, multiplier[0] } != 3'h6;
+  assign _031_ = { _078_, _068_, start } != 3'h7;
+  assign _032_ = { _083_, _072_, _056_ } != 3'h4;
+  assign _033_ = { _083_, _056_ } != 2'h3;
+  assign _034_ = | { _078_, _083_ };
+  assign _046_ = ~ _071_;
+  assign _047_ = ~ _068_;
+  assign _035_ = & { _023_, _022_, _021_, _020_ };
+  assign _036_ = & { _046_, _099_ };
+  assign _037_ = & { _025_, _024_, _022_ };
+  assign _038_ = & { _023_, _021_, _020_, _026_ };
+  assign _039_ = & { _020_, _027_, _029_, _028_ };
+  assign _040_ = & { _020_, _027_, _030_, _029_, _028_ };
+  assign _041_ = & { _078_, start };
+  assign _042_ = & { _047_, _078_, start };
+  assign _043_ = & { _034_, _033_, _032_, _031_, _020_ };
+  assign _044_ = | { _060_, _058_ };
+  assign _045_ = | { _059_, _057_ };
+  assign _048_ = ! funct3;
+  assign _051_ = funct3 == 3'h3;
+  assign _050_ = funct3 == 3'h2;
+  assign _049_ = funct3 == 3'h1;
+  assign _052_ = funct3 == 3'h4;
+  assign _053_ = funct3 == 3'h6;
   assign mul_signed_b = op_latched == 3'h1;
-  assign _048_ = op_latched == 3'h2;
-  assign _049_ = ! divisor_abs;
-  assign _050_ = op_latched == 3'h4;
-  assign _051_ = op_latched == 3'h5;
-  assign _052_ = op_latched == 3'h6;
-  assign _053_ = ! funct3;
-  assign _054_ = funct3 == 3'h3;
-  assign _055_ = { remainder_reg[30:0], dividend_shift[63] } >= divisor_abs;
-  assign _056_ = _061_ && a[31];
-  assign _057_ = _043_ && b[31];
-  assign _059_ = _062_ && b[31];
-  assign _058_ = _062_ && a[31];
-  assign _060_ = _048_ && a_latched[31];
-  assign _061_ = _043_ || _044_;
-  assign _062_ = _045_ || _046_;
-  assign _063_ = _053_ || _043_;
-  assign _064_ = _063_ || _044_;
-  assign _065_ = _064_ || _054_;
-  assign _066_ = mul_count < 32'd32;
-  assign _067_ = div_count < 32'd32;
-  assign _069_ = ~ b;
-  assign _068_ = ~ a;
-  assign _070_ = ~ acc;
-  assign _072_ = ~ remainder_reg;
-  assign _071_ = ~ quotient_reg;
+  assign _055_ = op_latched == 3'h2;
+  assign _056_ = ! b_latched;
+  assign _061_ = { remainder_reg[30:0], _132_ } >= divisor;
+  assign _062_ = _069_ && a[31];
+  assign _063_ = _049_ && b[31];
+  assign _064_ = _055_ && a_latched[31];
+  assign _065_ = ack && done;
+  assign _066_ = _048_ || _049_;
+  assign _067_ = _066_ || _050_;
+  assign _068_ = _067_ || _051_;
+  assign _069_ = _049_ || _050_;
+  assign _070_ = _052_ || _053_;
+  assign _071_ = mul_count < 32'd32;
+  assign _072_ = div_count < 32'd32;
+  assign _073_ = ~ a;
+  assign _074_ = ~ b;
+  assign _075_ = ~ acc;
+  assign _076_ = ~ quotient_reg;
+  assign _077_ = ~ remainder_reg[31:0];
   always @(posedge clk, negedge rst_n)
     if (!rst_n) done <= 1'h0;
-    else done <= _004_;
-  assign _074_ = _067_ ? _016_[5:0] : 6'hxx;
-  assign _075_ = _049_ ? 6'hxx : _074_;
-  function [5:0] _223_;
+    else done <= _003_;
+  assign _079_ = _070_ ? a[31] : 1'h0;
+  assign _080_ = _070_ ? _141_ : 1'h0;
+  assign _081_ = _072_ ? _017_[5:0] : 6'hxx;
+  assign _082_ = _056_ ? 6'hxx : _081_;
+  function [5:0] _228_;
     input [5:0] a;
     input [11:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _223_ = b[5:0];
+        _228_ = b[5:0];
       2'b1?:
-        _223_ = b[11:6];
+        _228_ = b[11:6];
       default:
-        _223_ = a;
+        _228_ = a;
     endcase
   endfunction
-  assign _002_ = _223_(6'hxx, { _078_, _075_ }, { _073_, _076_ });
-  assign _077_ = _065_ ? 6'hxx : 6'h00;
-  assign _078_ = start ? _077_ : 6'hxx;
-  assign _079_ = _055_ ? _131_ : { remainder_reg[30:0], dividend_shift[63] };
-  assign _080_ = _067_ ? _079_ : 32'hxxxxxxxx;
-  assign _081_ = _049_ ? 32'hxxxxxxxx : _080_;
-  function [31:0] _229_;
+  assign _002_ = _228_(6'hxx, { _085_, _082_ }, { _078_, _083_ });
+  assign _084_ = _068_ ? 6'hxx : 6'h00;
+  assign _085_ = start ? _084_ : 6'hxx;
+  assign _086_ = _061_ ? { 1'h0, _134_ } : { remainder_reg[31:0], _132_ };
+  assign _087_ = _072_ ? _086_ : 33'hxxxxxxxxx;
+  assign _088_ = _056_ ? 33'hxxxxxxxxx : _087_;
+  function [32:0] _234_;
+    input [32:0] a;
+    input [65:0] b;
+    input [1:0] s;
+    casez (s) // synopsys parallel_case
+      2'b?1:
+        _234_ = b[32:0];
+      2'b1?:
+        _234_ = b[65:33];
+      default:
+        _234_ = a;
+    endcase
+  endfunction
+  assign _010_ = _234_(33'hxxxxxxxxx, { _090_, _088_ }, { _078_, _083_ });
+  assign _089_ = _068_ ? 33'hxxxxxxxxx : 33'h000000000;
+  assign _090_ = start ? _089_ : 33'hxxxxxxxxx;
+  assign _091_ = _061_ ? { quotient_reg[30:0], 1'h1 } : { quotient_reg[30:0], 1'h0 };
+  assign _092_ = _072_ ? _091_ : 32'hxxxxxxxx;
+  assign _093_ = _056_ ? 32'hxxxxxxxx : _092_;
+  function [31:0] _240_;
     input [31:0] a;
     input [63:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _229_ = b[31:0];
+        _240_ = b[31:0];
       2'b1?:
-        _229_ = b[63:32];
+        _240_ = b[63:32];
       default:
-        _229_ = a;
+        _240_ = a;
     endcase
   endfunction
-  assign _009_ = _229_(32'hxxxxxxxx, { _083_, _081_ }, { _073_, _076_ });
-  assign _082_ = _065_ ? 32'hxxxxxxxx : 32'd0;
-  assign _083_ = start ? _082_ : 32'hxxxxxxxx;
-  assign _084_ = _055_ ? { quotient_reg[30:0], 1'h1 } : { quotient_reg[30:0], 1'h0 };
-  assign _085_ = _067_ ? _084_ : 32'hxxxxxxxx;
-  assign _086_ = _049_ ? 32'hxxxxxxxx : _085_;
-  function [31:0] _235_;
-    input [31:0] a;
-    input [63:0] b;
-    input [1:0] s;
-    casez (s) // synopsys parallel_case
-      2'b?1:
-        _235_ = b[31:0];
-      2'b1?:
-        _235_ = b[63:32];
-      default:
-        _235_ = a;
-    endcase
-  endfunction
-  assign _008_ = _235_(32'hxxxxxxxx, { _083_, _086_ }, { _073_, _076_ });
-  assign _087_ = _067_ ? { dividend_shift[62:0], 1'h0 } : 64'hxxxxxxxxxxxxxxxx;
-  assign _088_ = _049_ ? 64'hxxxxxxxxxxxxxxxx : _087_;
-  function [63:0] _238_;
-    input [63:0] a;
-    input [127:0] b;
-    input [1:0] s;
-    casez (s) // synopsys parallel_case
-      2'b?1:
-        _238_ = b[63:0];
-      2'b1?:
-        _238_ = b[127:64];
-      default:
-        _238_ = a;
-    endcase
-  endfunction
-  assign _003_ = _238_(64'hxxxxxxxxxxxxxxxx, { _090_, _088_ }, { _073_, _076_ });
-  assign _089_ = _065_ ? 64'hxxxxxxxxxxxxxxxx : { _134_, 32'h00000000 };
-  assign _090_ = start ? _089_ : 64'hxxxxxxxxxxxxxxxx;
-  assign _091_ = _066_ ? _014_[5:0] : 6'hxx;
-  function [5:0] _242_;
+  assign _008_ = _240_(32'hxxxxxxxx, { _095_, _093_ }, { _078_, _083_ });
+  assign _094_ = _068_ ? 32'hxxxxxxxx : 32'd0;
+  assign _095_ = start ? _094_ : 32'hxxxxxxxx;
+  assign _096_ = _070_ ? _138_ : b;
+  assign _097_ = _070_ ? _137_ : a;
+  assign _098_ = _071_ ? _015_[5:0] : 6'hxx;
+  function [5:0] _246_;
     input [5:0] a;
     input [11:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _242_ = b[5:0];
+        _246_ = b[5:0];
       2'b1?:
-        _242_ = b[11:6];
+        _246_ = b[11:6];
       default:
-        _242_ = a;
+        _246_ = a;
     endcase
   endfunction
-  assign _005_ = _242_(6'hxx, { _094_, _091_ }, { _073_, _092_ });
-  assign _093_ = _065_ ? 6'h00 : 6'hxx;
-  assign _094_ = start ? _093_ : 6'hxx;
-  assign _095_ = multiplier[0] ? _013_ : 64'hxxxxxxxxxxxxxxxx;
-  assign _096_ = _066_ ? _095_ : 64'hxxxxxxxxxxxxxxxx;
-  function [63:0] _247_;
+  assign _004_ = _246_(6'hxx, { _101_, _098_ }, { _078_, _099_ });
+  assign _100_ = _068_ ? 6'h00 : 6'hxx;
+  assign _101_ = start ? _100_ : 6'hxx;
+  assign _102_ = multiplier[0] ? _014_ : 64'hxxxxxxxxxxxxxxxx;
+  assign _103_ = _071_ ? _102_ : 64'hxxxxxxxxxxxxxxxx;
+  function [63:0] _251_;
     input [63:0] a;
     input [127:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _247_ = b[63:0];
+        _251_ = b[63:0];
       2'b1?:
-        _247_ = b[127:64];
-      default:
-        _247_ = a;
-    endcase
-  endfunction
-  assign _000_ = _247_(64'hxxxxxxxxxxxxxxxx, { _098_, _096_ }, { _073_, _092_ });
-  assign _097_ = _065_ ? 64'h0000000000000000 : 64'hxxxxxxxxxxxxxxxx;
-  assign _098_ = start ? _097_ : 64'hxxxxxxxxxxxxxxxx;
-  assign _099_ = _066_ ? { 1'h0, multiplier[31:1] } : 32'hxxxxxxxx;
-  function [31:0] _251_;
-    input [31:0] a;
-    input [63:0] b;
-    input [1:0] s;
-    casez (s) // synopsys parallel_case
-      2'b?1:
-        _251_ = b[31:0];
-      2'b1?:
-        _251_ = b[63:32];
+        _251_ = b[127:64];
       default:
         _251_ = a;
     endcase
   endfunction
-  assign _007_ = _251_(32'hxxxxxxxx, { _101_, _099_ }, { _073_, _092_ });
-  assign _100_ = _065_ ? _133_ : 32'hxxxxxxxx;
-  assign _101_ = start ? _100_ : 32'hxxxxxxxx;
-  assign _102_ = _066_ ? { multiplicand[62:0], 1'h0 } : 64'hxxxxxxxxxxxxxxxx;
-  function [63:0] _255_;
+  assign _000_ = _251_(64'hxxxxxxxxxxxxxxxx, { _105_, _103_ }, { _078_, _099_ });
+  assign _104_ = _068_ ? 64'h0000000000000000 : 64'hxxxxxxxxxxxxxxxx;
+  assign _105_ = start ? _104_ : 64'hxxxxxxxxxxxxxxxx;
+  assign _106_ = _071_ ? { 1'h0, multiplier[31:1] } : 32'hxxxxxxxx;
+  function [31:0] _255_;
+    input [31:0] a;
+    input [63:0] b;
+    input [1:0] s;
+    casez (s) // synopsys parallel_case
+      2'b?1:
+        _255_ = b[31:0];
+      2'b1?:
+        _255_ = b[63:32];
+      default:
+        _255_ = a;
+    endcase
+  endfunction
+  assign _006_ = _255_(32'hxxxxxxxx, { _108_, _106_ }, { _078_, _099_ });
+  assign _107_ = _068_ ? _136_ : 32'hxxxxxxxx;
+  assign _108_ = start ? _107_ : 32'hxxxxxxxx;
+  assign _109_ = _071_ ? { multiplicand[62:0], 1'h0 } : 64'hxxxxxxxxxxxxxxxx;
+  function [63:0] _259_;
     input [63:0] a;
     input [127:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _255_ = b[63:0];
+        _259_ = b[63:0];
       2'b1?:
-        _255_ = b[127:64];
+        _259_ = b[127:64];
       default:
-        _255_ = a;
+        _259_ = a;
     endcase
   endfunction
-  assign _006_ = _255_(64'hxxxxxxxxxxxxxxxx, { _104_, _102_ }, { _073_, _092_ });
-  assign _103_ = _065_ ? { 32'h00000000, _132_ } : 64'hxxxxxxxxxxxxxxxx;
-  assign _104_ = start ? _103_ : 64'hxxxxxxxxxxxxxxxx;
-  assign _105_ = _067_ ? 2'hx : 2'h0;
-  assign _106_ = _049_ ? 2'h0 : _105_;
-  function [1:0] _260_;
+  assign _005_ = _259_(64'hxxxxxxxxxxxxxxxx, { _111_, _109_ }, { _078_, _099_ });
+  assign _110_ = _068_ ? { 32'h00000000, _135_ } : 64'hxxxxxxxxxxxxxxxx;
+  assign _111_ = start ? _110_ : 64'hxxxxxxxxxxxxxxxx;
+  function [1:0] _262_;
     input [1:0] a;
-    input [5:0] b;
-    input [2:0] s;
+    input [7:0] b;
+    input [3:0] s;
     casez (s) // synopsys parallel_case
-      3'b??1:
-        _260_ = b[1:0];
-      3'b?1?:
-        _260_ = b[3:2];
-      3'b1??:
-        _260_ = b[5:4];
+      4'b???1:
+        _262_ = b[1:0];
+      4'b??1?:
+        _262_ = b[3:2];
+      4'b?1??:
+        _262_ = b[5:4];
+      4'b1???:
+        _262_ = b[7:6];
       default:
-        _260_ = a;
+        _262_ = a;
     endcase
   endfunction
-  assign _010_ = _260_(2'h0, { _109_, _107_, _106_ }, { _073_, _092_, _076_ });
-  assign _107_ = _066_ ? 2'hx : 2'h0;
-  assign _108_ = _065_ ? 2'h1 : 2'h2;
-  assign _109_ = start ? _108_ : 2'hx;
-  assign _110_ = _052_ ? _137_ : remainder_reg;
-  assign _111_ = _051_ ? remainder_reg : _110_;
-  assign _112_ = _050_ ? _137_ : _111_;
-  assign _113_ = _067_ ? 32'hxxxxxxxx : _112_;
-  assign _114_ = _049_ ? dividend_shift[63:32] : _113_;
-  assign _115_ = _052_ ? _136_ : quotient_reg;
-  assign _116_ = _051_ ? quotient_reg : _115_;
-  assign _117_ = _050_ ? _136_ : _116_;
-  assign _118_ = _067_ ? 32'hxxxxxxxx : _117_;
-  assign _119_ = _049_ ? 32'd4294967295 : _118_;
-  assign _120_ = _060_ ? _015_ : acc;
-  assign _121_ = _047_ ? _015_ : acc;
-  assign _122_ = mul_signed_b ? _121_ : _120_;
-  assign _123_ = _067_ ? 1'h0 : 1'h1;
-  assign _124_ = _049_ ? 1'h1 : _123_;
-  function [0:0] _279_;
-    input [0:0] a;
-    input [1:0] b;
+  assign _011_ = _262_(2'hx, { _117_, _115_, _114_, 2'h0 }, { _078_, _099_, _083_, _112_ });
+  assign _113_ = _072_ ? 2'hx : 2'h3;
+  assign _114_ = _056_ ? 2'h0 : _113_;
+  assign _115_ = _071_ ? 2'hx : 2'h0;
+  assign _116_ = _068_ ? 2'h1 : 2'h2;
+  assign _117_ = start ? _116_ : 2'hx;
+  function [31:0] _268_;
+    input [31:0] a;
+    input [63:0] b;
     input [1:0] s;
     casez (s) // synopsys parallel_case
       2'b?1:
-        _279_ = b[0:0];
+        _268_ = b[31:0];
       2'b1?:
-        _279_ = b[1:1];
+        _268_ = b[63:32];
       default:
-        _279_ = a;
+        _268_ = a;
     endcase
   endfunction
-  assign _125_ = _279_(1'h0, { _126_, _124_ }, { _092_, _076_ });
-  assign _126_ = _066_ ? 1'h0 : 1'h1;
-  assign _004_ = done ? 1'h0 : _125_;
-  assign _127_ = _067_ ? 1'hx : 1'h0;
-  assign _128_ = _049_ ? 1'h0 : _127_;
-  function [0:0] _284_;
-    input [0:0] a;
-    input [2:0] b;
-    input [2:0] s;
+  assign _118_ = _268_(32'hxxxxxxxx, { _140_, remainder_reg[31:0] }, { _045_, _044_ });
+  function [31:0] _269_;
+    input [31:0] a;
+    input [63:0] b;
+    input [1:0] s;
     casez (s) // synopsys parallel_case
-      3'b??1:
-        _284_ = b[0:0];
-      3'b?1?:
-        _284_ = b[1:1];
-      3'b1??:
-        _284_ = b[2:2];
+      2'b?1:
+        _269_ = b[31:0];
+      2'b1?:
+        _269_ = b[63:32];
       default:
-        _284_ = a;
+        _269_ = a;
     endcase
   endfunction
-  assign _001_ = _284_(1'hx, { _130_, _129_, _128_ }, { _073_, _092_, _076_ });
-  assign _076_ = state == 2'h2;
-  assign _129_ = _066_ ? 1'hx : 1'h0;
-  assign _092_ = state == 2'h1;
-  assign _130_ = start ? 1'h1 : 1'hx;
-  assign _073_ = ! state;
-  assign _131_ = { remainder_reg[30:0], dividend_shift[63] } - divisor_abs;
-  assign _132_ = _056_ ? _011_ : a;
-  assign _133_ = _057_ ? _012_ : b;
-  assign _135_ = _059_ ? _012_ : b;
-  assign _134_ = _058_ ? _011_ : a;
-  assign _137_ = dividend_neg ? _018_ : remainder_reg;
-  assign _136_ = _138_ ? _017_ : quotient_reg;
-  assign _047_ = a_latched[31] ^ b_latched[31];
-  assign _138_ = dividend_neg ^ divisor_neg;
+  assign _009_ = _269_(32'hxxxxxxxx, { _119_, _118_ }, { _083_, _112_ });
+  assign _119_ = _056_ ? a_latched : 32'hxxxxxxxx;
+  function [31:0] _271_;
+    input [31:0] a;
+    input [63:0] b;
+    input [1:0] s;
+    casez (s) // synopsys parallel_case
+      2'b?1:
+        _271_ = b[31:0];
+      2'b1?:
+        _271_ = b[63:32];
+      default:
+        _271_ = a;
+    endcase
+  endfunction
+  assign _120_ = _271_(32'hxxxxxxxx, { _139_, quotient_reg }, { _045_, _044_ });
+  assign _060_ = op_latched == 3'h7;
+  assign _059_ = op_latched == 3'h6;
+  assign _058_ = op_latched == 3'h5;
+  assign _057_ = op_latched == 3'h4;
+  function [31:0] _276_;
+    input [31:0] a;
+    input [63:0] b;
+    input [1:0] s;
+    casez (s) // synopsys parallel_case
+      2'b?1:
+        _276_ = b[31:0];
+      2'b1?:
+        _276_ = b[63:32];
+      default:
+        _276_ = a;
+    endcase
+  endfunction
+  assign _007_ = _276_(32'hxxxxxxxx, { _121_, _120_ }, { _083_, _112_ });
+  assign _121_ = _056_ ? 32'd4294967295 : 32'hxxxxxxxx;
+  assign _122_ = _064_ ? _016_ : acc;
+  assign _123_ = _054_ ? _016_ : acc;
+  assign _124_ = mul_signed_b ? _123_ : _122_;
+  assign _125_ = _065_ ? 1'h0 : done;
+  function [0:0] _282_;
+    input [0:0] a;
+    input [3:0] b;
+    input [3:0] s;
+    casez (s) // synopsys parallel_case
+      4'b???1:
+        _282_ = b[0:0];
+      4'b??1?:
+        _282_ = b[1:1];
+      4'b?1??:
+        _282_ = b[2:2];
+      4'b1???:
+        _282_ = b[3:3];
+      default:
+        _282_ = a;
+    endcase
+  endfunction
+  assign _003_ = _282_(_125_, { _128_, _127_, _126_, 1'h1 }, { _078_, _099_, _083_, _112_ });
+  assign _126_ = _056_ ? 1'h1 : _125_;
+  assign _127_ = _071_ ? _125_ : 1'h1;
+  assign _128_ = start ? 1'h0 : _125_;
+  function [0:0] _286_;
+    input [0:0] a;
+    input [3:0] b;
+    input [3:0] s;
+    casez (s) // synopsys parallel_case
+      4'b???1:
+        _286_ = b[0:0];
+      4'b??1?:
+        _286_ = b[1:1];
+      4'b?1??:
+        _286_ = b[2:2];
+      4'b1???:
+        _286_ = b[3:3];
+      default:
+        _286_ = a;
+    endcase
+  endfunction
+  assign _001_ = _286_(1'hx, { _131_, _130_, _129_, 1'h0 }, { _078_, _099_, _083_, _112_ });
+  assign _112_ = state == 2'h3;
+  assign _129_ = _056_ ? 1'h0 : 1'hx;
+  assign _083_ = state == 2'h2;
+  assign _130_ = _071_ ? 1'hx : 1'h0;
+  assign _099_ = state == 2'h1;
+  assign _131_ = start ? 1'h1 : 1'hx;
+  assign _078_ = ! state;
+  wire [31:0] _305_ = dividend;
+  assign _132_ = _305_[$signed(_133_) +: 1];
+  assign _133_ = 32'd31 - div_count;
+  assign _134_ = { remainder_reg[30:0], _132_ } - divisor;
+  assign _135_ = _062_ ? _012_ : a;
+  assign _136_ = _063_ ? _013_ : b;
+  assign _137_ = a[31] ? _012_ : { 1'h0, a[30:0] };
+  assign _138_ = b[31] ? _013_ : { 1'h0, b[30:0] };
+  assign _139_ = div_sign_q ? _018_ : quotient_reg;
+  assign _140_ = div_sign_r ? _019_ : remainder_reg[31:0];
+  assign _141_ = a[31] ^ b[31];
+  assign _054_ = a_latched[31] ^ b_latched[31];
 endmodule
 
 module regfile(clk, rst_n, rs1_addr, rs1_data, rs2_addr, rs2_data, rd_addr, rd_data, rd_wen);

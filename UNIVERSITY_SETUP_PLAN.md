@@ -1,9 +1,11 @@
 # University Cadence PC Setup Plan for RV32IM Core
+
 # Complete Step-by-Step Guide for Academic Implementation
 
 ## Phase 1: Project Transfer to University System
 
 ### Step 1.1: Download Essential SKY130 PDK Files
+
 ```bash
 # Create PDK directory structure
 cd /home/furka/RV32IMZ
@@ -44,6 +46,7 @@ curl -L -o libs.tech/klayout/tech/sky130A.lyt \
 ```
 
 ### Step 1.2: Create Self-Contained Homework Package
+
 ```bash
 # Create PDK configuration for homework
 cat > pdk/sky130A/pdk_config.sh << 'EOF'
@@ -61,7 +64,7 @@ echo "Verifying PDK files..."
 ls pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/*.lib
 ls pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/*.lef
 
-# Clean up unnecessary files  
+# Clean up unnecessary files
 cd /home/furka/RV32IMZ
 rm -rf __pycache__ *.vcd sim/build synthesis/build
 
@@ -85,6 +88,7 @@ echo "Package includes everything needed - no PDK setup required at university!"
 ### Step 1.2: Transfer Options
 
 **Option A: University File Server**
+
 ```bash
 # Upload complete self-contained package
 scp RV32IM_homework_complete.tar.gz username@university.edu:~/
@@ -94,6 +98,7 @@ scp RV32IM_homework_complete.tar.gz username@university.edu:~/
 ```
 
 **Option B: Git Repository with PDK (Recommended)**
+
 ```bash
 # Create git repo with PDK subset
 git init
@@ -107,6 +112,7 @@ git push -u origin main
 ```
 
 **Option C: USB Drive**
+
 ```bash
 # Copy complete package to USB drive
 cp RV32IM_homework_complete.tar.gz /media/usb/
@@ -116,6 +122,7 @@ cp RV32IM_homework_complete.tar.gz /media/usb/
 ## Phase 2: University Cadence PC Setup
 
 ### Step 2.1: Initial Environment Check
+
 ```bash
 # Login to university Cadence workstation
 ssh username@cadence-server.university.edu
@@ -129,6 +136,7 @@ module list   # If using environment modules
 ```
 
 ### Step 2.2: Create Workspace with Embedded PDK
+
 ```bash
 # Create your homework workspace
 mkdir -p ~/ece_homework/rv32im_asic
@@ -155,6 +163,7 @@ mkdir -p cadence_work/{synthesis,pnr,verification,reports,scripts}
 ## Phase 3: Using Embedded SKY130 PDK (No Installation Needed!)
 
 ### Step 3.1: Embedded PDK Verification
+
 ```bash
 # Your PDK is already included in the project!
 cd ~/ece_homework/rv32im_asic
@@ -165,18 +174,19 @@ source pdk/sky130A/pdk_config.sh
 # Verify all required files are present
 echo "Checking embedded PDK files..."
 test -f $STD_CELL_LIB/lib/sky130_fd_sc_hd__tt_025C_1v80.lib && echo "✓ Typical timing lib"
-test -f $STD_CELL_LIB/lib/sky130_fd_sc_hd__ff_100C_1v95.lib && echo "✓ Fast timing lib" 
+test -f $STD_CELL_LIB/lib/sky130_fd_sc_hd__ff_100C_1v95.lib && echo "✓ Fast timing lib"
 test -f $STD_CELL_LIB/lib/sky130_fd_sc_hd__ss_n40C_1v60.lib && echo "✓ Slow timing lib"
 test -f $STD_CELL_LIB/lef/sky130_fd_sc_hd.lef && echo "✓ LEF file"
 
 # Show PDK info
 echo "Embedded PDK configured:"
 echo "  PDK_ROOT: $PDK_ROOT"
-echo "  STD_CELL_LIB: $STD_CELL_LIB" 
+echo "  STD_CELL_LIB: $STD_CELL_LIB"
 echo "  Size: $(du -sh pdk/)"
 ```
 
 ### Step 3.2: No Additional Downloads Required!
+
 ```bash
 # Everything is self-contained!
 echo "PDK Status: ✓ EMBEDDED - Ready to use"
@@ -190,6 +200,7 @@ ln -sf ../pdk/sky130A cadence_work/pdk
 ## Phase 4: Create SKY130-Specific Scripts
 
 ### Step 4.1: SKY130 Synthesis Script
+
 ```bash
 cat > cadence_work/scripts/genus_sky130.tcl << 'EOF'
 #!/usr/bin/env genus
@@ -236,7 +247,7 @@ read_sdc ../constraints/timing_sky130.sdc
 
 # Synthesis settings for academic use
 set_db syn_generic_effort medium
-set_db syn_map_effort medium  
+set_db syn_map_effort medium
 set_db syn_opt_effort medium
 
 # Sky130 specific settings
@@ -264,6 +275,7 @@ EOF
 ```
 
 ### Step 4.2: SKY130 Timing Constraints
+
 ```bash
 cat > cadence_work/constraints/timing_sky130.sdc << 'EOF'
 #==============================================================================
@@ -279,7 +291,7 @@ set_clock_transition 0.1 [get_clocks clk]
 set_input_delay -clock clk -max 1.0 [remove_from_collection [all_inputs] [get_ports clk]]
 set_input_delay -clock clk -min 0.5 [remove_from_collection [all_inputs] [get_ports clk]]
 
-# Output constraints - assume driving other flip-flops  
+# Output constraints - assume driving other flip-flops
 set_output_delay -clock clk -max 1.0 [all_outputs]
 set_output_delay -clock clk -min 0.5 [all_outputs]
 
@@ -300,12 +312,13 @@ set_load [expr 4 * [load_of sky130_fd_sc_hd__buf_2/A]] [all_outputs]
 set_multicycle_path -setup 2 -through [get_pins -of [get_cells *] -filter "name =~ *wb_*"]
 set_multicycle_path -hold 1 -through [get_pins -of [get_cells *] -filter "name =~ *wb_*"]
 
-# Don't optimize test/debug signals aggressively  
+# Don't optimize test/debug signals aggressively
 set_case_analysis 0 [get_ports scan_mode] -if_exists
 EOF
 ```
 
 ### Step 4.3: SKY130 Place & Route Script
+
 ```bash
 cat > cadence_work/scripts/innovus_sky130.tcl << 'EOF'
 #!/usr/bin/env innovus
@@ -340,7 +353,7 @@ create_rc_corner -name typical_rc \
 
 # Create delay corners
 create_delay_corner -name slow_corner -library_set slow_libs -rc_corner typical_rc
-create_delay_corner -name typical_corner -library_set typical_libs -rc_corner typical_rc  
+create_delay_corner -name typical_corner -library_set typical_libs -rc_corner typical_rc
 create_delay_corner -name fast_corner -library_set fast_libs -rc_corner typical_rc
 
 # Create analysis views
@@ -382,7 +395,7 @@ placeDesign -prePlaceOpt
 setCTSMode -engine ck
 clockDesign -specFile Clock.ctstch -outDir ../reports/cts
 
-# Pre-route optimization  
+# Pre-route optimization
 setOptMode -fixCap true -fixTran true -fixFanoutLoad true
 optDesign -preCTS
 optDesign -preroute
@@ -422,6 +435,7 @@ EOF
 ## Phase 5: Environment Configuration
 
 ### Step 5.1: Setup Script for University System (With Embedded PDK)
+
 ```bash
 cat > cadence_work/setup_env.sh << 'EOF'
 #!/bin/bash
@@ -455,7 +469,7 @@ export LM_LICENSE_FILE=27020@license-server.university.edu:$LM_LICENSE_FILE
 export WORK_DIR=$PWD
 
 echo "Environment configured with embedded PDK:"
-echo "  PDK_ROOT: $PDK_ROOT" 
+echo "  PDK_ROOT: $PDK_ROOT"
 echo "  STD_CELL_LIB: $STD_CELL_LIB"
 echo "  CADENCE_HOME: $CADENCE_HOME"
 
@@ -483,6 +497,7 @@ chmod +x cadence_work/setup_env.sh
 ```
 
 ### Step 5.2: Master Run Script
+
 ```bash
 cat > cadence_work/run_homework.sh << 'EOF'
 #!/bin/bash
@@ -516,7 +531,7 @@ else
 fi
 
 # Step 2: Place & Route
-echo ""  
+echo ""
 echo "=== Step 2: Place & Route ==="
 cd scripts
 innovus -init innovus_sky130.tcl -log ../reports/innovus_$TIMESTAMP.log
@@ -550,7 +565,7 @@ Design Specifications:
 
 Implementation Results:
 - Synthesis Tool: Cadence Genus
-- Place & Route: Cadence Innovus  
+- Place & Route: Cadence Innovus
 - Target Frequency: 100 MHz
 - Core Area: $(grep -i "Total cell area" reports/area_syn.rpt | tail -1)
 - Gate Count: $(grep -i "instances" reports/qor_syn.rpt | tail -1)
@@ -565,7 +580,7 @@ Status: COMPLETED SUCCESSFULLY ✓
 
 Next Steps:
 - Physical verification (DRC/LVS)
-- Parasitic extraction  
+- Parasitic extraction
 - Sign-off timing analysis
 REPORT
 
@@ -587,6 +602,7 @@ chmod +x cadence_work/run_homework.sh
 ## Phase 6: Execution Plan
 
 ### Step 6.1: First Session (Setup & Synthesis)
+
 ```bash
 # On university Cadence PC
 cd ~/ece_homework/rv32im_asic/cadence_work
@@ -603,7 +619,8 @@ ls -la ../synthesis/
 cat ../reports/area_syn.rpt
 ```
 
-### Step 6.2: Second Session (Place & Route)  
+### Step 6.2: Second Session (Place & Route)
+
 ```bash
 # Continue from synthesis
 cd ~/ece_homework/rv32im_asic/cadence_work/scripts
@@ -614,6 +631,7 @@ ls -lh ../RV32IM_sky130.gds
 ```
 
 ### Step 6.3: Complete Automated Run
+
 ```bash
 # Full flow in one go (recommended after testing)
 cd ~/ece_homework/rv32im_asic/cadence_work
@@ -626,6 +644,7 @@ cd ~/ece_homework/rv32im_asic/cadence_work
 ## Phase 7: Deliverables Package
 
 ### Step 7.1: Create Submission Package
+
 ```bash
 # Create final homework package
 cd ~/ece_homework/rv32im_asic
@@ -644,6 +663,7 @@ ls -lh RV32IM_homework_submission.tar.gz
 ```
 
 ### Step 7.2: What to Include in Report
+
 ```
 1. Design overview (RV32IM architecture)
 2. Implementation flow (Genus → Innovus → GDS2)

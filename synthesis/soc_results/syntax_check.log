@@ -1,0 +1,223 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.33 (git sha1 2584903a060)
+
+
+-- Running command `
+    read_verilog -sv rtl/soc/soc_simple.v
+    read_verilog -sv rtl/core/custom_core_wrapper.v
+    read_verilog -sv rtl/core/custom_riscv_core.v
+    read_verilog -sv rtl/core/decoder.v
+    read_verilog -sv rtl/core/alu.v
+    read_verilog -sv rtl/core/mdu.v
+    read_verilog -sv rtl/core/csr_unit.v
+    read_verilog -sv rtl/core/exception_unit.v
+    read_verilog -sv rtl/core/regfile.v
+    read_verilog -sv rtl/memory/rom_32kb.v
+    read_verilog -sv rtl/memory/ram_64kb.v
+    read_verilog -sv rtl/peripherals/uart.v
+    read_verilog -sv rtl/peripherals/gpio.v
+    read_verilog -sv rtl/peripherals/timer.v
+    hierarchy -top soc_simple
+    check
+' --
+
+1. Executing Verilog-2005 frontend: rtl/soc/soc_simple.v
+Parsing SystemVerilog input from `rtl/soc/soc_simple.v' to AST representation.
+Warning: Yosys has only limited support for tri-state logic at the moment. (rtl/soc/soc_simple.v:212)
+Warning: Encountered `translate_off' comment! Such legacy hot comments are supported by Yosys, but are not part of any formal language specification. Using a portable and standards-compliant construct such as `ifdef is recommended!
+Generating RTLIL representation for module `\soc_simple'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: rtl/core/custom_core_wrapper.v
+Parsing SystemVerilog input from `rtl/core/custom_core_wrapper.v' to AST representation.
+Generating RTLIL representation for module `\custom_core_wrapper'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/core/custom_riscv_core.v
+Parsing SystemVerilog input from `rtl/core/custom_riscv_core.v' to AST representation.
+Generating RTLIL representation for module `\custom_riscv_core'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: rtl/core/decoder.v
+Parsing SystemVerilog input from `rtl/core/decoder.v' to AST representation.
+Generating RTLIL representation for module `\decoder'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend: rtl/core/alu.v
+Parsing SystemVerilog input from `rtl/core/alu.v' to AST representation.
+Generating RTLIL representation for module `\alu'.
+Successfully finished Verilog frontend.
+
+6. Executing Verilog-2005 frontend: rtl/core/mdu.v
+Parsing SystemVerilog input from `rtl/core/mdu.v' to AST representation.
+Generating RTLIL representation for module `\mdu'.
+Successfully finished Verilog frontend.
+
+7. Executing Verilog-2005 frontend: rtl/core/csr_unit.v
+Parsing SystemVerilog input from `rtl/core/csr_unit.v' to AST representation.
+Generating RTLIL representation for module `\csr_unit'.
+Successfully finished Verilog frontend.
+
+8. Executing Verilog-2005 frontend: rtl/core/exception_unit.v
+Parsing SystemVerilog input from `rtl/core/exception_unit.v' to AST representation.
+Generating RTLIL representation for module `\exception_unit'.
+Successfully finished Verilog frontend.
+
+9. Executing Verilog-2005 frontend: rtl/core/regfile.v
+Parsing SystemVerilog input from `rtl/core/regfile.v' to AST representation.
+Generating RTLIL representation for module `\regfile'.
+Warning: Replacing memory \registers with list of registers. See rtl/core/regfile.v:44
+Successfully finished Verilog frontend.
+
+10. Executing Verilog-2005 frontend: rtl/memory/rom_32kb.v
+Parsing SystemVerilog input from `rtl/memory/rom_32kb.v' to AST representation.
+Generating RTLIL representation for module `\rom_32kb'.
+Successfully finished Verilog frontend.
+
+11. Executing Verilog-2005 frontend: rtl/memory/ram_64kb.v
+Parsing SystemVerilog input from `rtl/memory/ram_64kb.v' to AST representation.
+Generating RTLIL representation for module `\ram_64kb'.
+[RAM] Initialized 64KB RAM
+Successfully finished Verilog frontend.
+
+12. Executing Verilog-2005 frontend: rtl/peripherals/uart.v
+Parsing SystemVerilog input from `rtl/peripherals/uart.v' to AST representation.
+Generating RTLIL representation for module `\uart'.
+Successfully finished Verilog frontend.
+
+13. Executing Verilog-2005 frontend: rtl/peripherals/gpio.v
+Parsing SystemVerilog input from `rtl/peripherals/gpio.v' to AST representation.
+Generating RTLIL representation for module `\gpio'.
+Successfully finished Verilog frontend.
+
+14. Executing Verilog-2005 frontend: rtl/peripherals/timer.v
+Parsing SystemVerilog input from `rtl/peripherals/timer.v' to AST representation.
+Generating RTLIL representation for module `\timer'.
+Successfully finished Verilog frontend.
+
+15. Executing HIERARCHY pass (managing design hierarchy).
+
+15.1. Analyzing design hierarchy..
+Top module:  \soc_simple
+Used module:     \timer
+Used module:     \gpio
+Used module:     \uart
+Used module:     \ram_64kb
+Used module:     \rom_32kb
+Used module:     \custom_core_wrapper
+Used module:         \custom_riscv_core
+Used module:             \mdu
+Used module:             \exception_unit
+Used module:             \csr_unit
+Used module:             \decoder
+Used module:             \alu
+Used module:             \regfile
+Parameter \CLK_FREQ = 50000000
+
+15.2. Executing AST frontend in derive mode using pre-parsed AST for module `\timer'.
+Parameter \CLK_FREQ = 50000000
+Generating RTLIL representation for module `$paramod\timer\CLK_FREQ=s32'00000010111110101111000010000000'.
+Parameter \NUM_GPIOS = 16
+
+15.3. Executing AST frontend in derive mode using pre-parsed AST for module `\gpio'.
+Parameter \NUM_GPIOS = 16
+Generating RTLIL representation for module `$paramod\gpio\NUM_GPIOS=s32'00000000000000000000000000010000'.
+Parameter \CLK_FREQ = 50000000
+Parameter \DEFAULT_BAUD = 115200
+
+15.4. Executing AST frontend in derive mode using pre-parsed AST for module `\uart'.
+Parameter \CLK_FREQ = 50000000
+Parameter \DEFAULT_BAUD = 115200
+Generating RTLIL representation for module `$paramod$c572276ecbbeffe431050e076bcda5e200a10498\uart'.
+Parameter \MEM_FILE = 168'011001100110100101110010011011010111011101100001011100100110010100101111011001100110100101110010011011010111011101100001011100100110010100101110011010000110010101111000
+
+15.5. Executing AST frontend in derive mode using pre-parsed AST for module `\rom_32kb'.
+Parameter \MEM_FILE = 168'011001100110100101110010011011010111011101100001011100100110010100101111011001100110100101110010011011010111011101100001011100100110010100101110011010000110010101111000
+Generating RTLIL representation for module `$paramod$fde3facfc07a12854e34182612975fd2622c4c37\rom_32kb'.
+Parameter \RESET_VECTOR = 0
+
+15.6. Executing AST frontend in derive mode using pre-parsed AST for module `\custom_riscv_core'.
+Parameter \RESET_VECTOR = 0
+Generating RTLIL representation for module `$paramod\custom_riscv_core\RESET_VECTOR=32'00000000000000000000000000000000'.
+
+15.7. Analyzing design hierarchy..
+Top module:  \soc_simple
+Used module:     $paramod\timer\CLK_FREQ=s32'00000010111110101111000010000000
+Used module:     $paramod\gpio\NUM_GPIOS=s32'00000000000000000000000000010000
+Used module:     $paramod$c572276ecbbeffe431050e076bcda5e200a10498\uart
+Used module:     \ram_64kb
+Used module:     $paramod$fde3facfc07a12854e34182612975fd2622c4c37\rom_32kb
+Used module:     \custom_core_wrapper
+Used module:         $paramod\custom_riscv_core\RESET_VECTOR=32'00000000000000000000000000000000
+Used module:             \mdu
+Used module:             \exception_unit
+Used module:             \csr_unit
+Used module:             \decoder
+Used module:             \alu
+Used module:             \regfile
+
+15.8. Analyzing design hierarchy..
+Top module:  \soc_simple
+Used module:     $paramod\timer\CLK_FREQ=s32'00000010111110101111000010000000
+Used module:     $paramod\gpio\NUM_GPIOS=s32'00000000000000000000000000010000
+Used module:     $paramod$c572276ecbbeffe431050e076bcda5e200a10498\uart
+Used module:     \ram_64kb
+Used module:     $paramod$fde3facfc07a12854e34182612975fd2622c4c37\rom_32kb
+Used module:     \custom_core_wrapper
+Used module:         $paramod\custom_riscv_core\RESET_VECTOR=32'00000000000000000000000000000000
+Used module:             \mdu
+Used module:             \exception_unit
+Used module:             \csr_unit
+Used module:             \decoder
+Used module:             \alu
+Used module:             \regfile
+Removing unused module `\timer'.
+Removing unused module `\gpio'.
+Removing unused module `\uart'.
+Removing unused module `\rom_32kb'.
+Removing unused module `\custom_riscv_core'.
+Removed 5 unused modules.
+Warning: Resizing cell port soc_simple.ram_inst.addr from 32 bits to 16 bits.
+Warning: Resizing cell port soc_simple.rom_inst.addr from 32 bits to 15 bits.
+
+16. Executing CHECK pass (checking for obvious problems).
+Checking module $paramod\custom_riscv_core\RESET_VECTOR=32'00000000000000000000000000000000...
+Checking module $paramod$fde3facfc07a12854e34182612975fd2622c4c37\rom_32kb...
+Checking module $paramod$c572276ecbbeffe431050e076bcda5e200a10498\uart...
+Checking module ram_64kb...
+Checking module $paramod\gpio\NUM_GPIOS=s32'00000000000000000000000000010000...
+Checking module regfile...
+Checking module exception_unit...
+Checking module csr_unit...
+Checking module mdu...
+Checking module alu...
+Checking module decoder...
+Checking module $paramod\timer\CLK_FREQ=s32'00000010111110101111000010000000...
+Checking module custom_core_wrapper...
+Checking module soc_simple...
+Found and reported 0 problems.
+
+Warnings: 5 unique messages, 5 total
+End of script. Logfile hash: d1421167ef, CPU: user 178.24s system 0.49s, MEM: 659.40 MB peak
+Yosys 0.33 (git sha1 2584903a060)
+Time spent: 97% 28x read_verilog (173 sec), 2% 1x check (4 sec), ...

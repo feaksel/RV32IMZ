@@ -4,6 +4,7 @@ module mdu (
     input  wire        clk,
     input  wire        rst_n,
     input  wire        start,
+    input  wire        ack,        // CPU acknowledges completion
     input  wire [2:0]  funct3,     // operation select (MUL/DIV/REM variants)
     input  wire [31:0] a,
     input  wire [31:0] b,
@@ -18,6 +19,7 @@ module mdu (
     localparam IDLE = 2'd0;
     localparam MUL  = 2'd1;
     localparam DIV  = 2'd2;
+    localparam DIV2 = 2'd3;  // Additional state for division completion
 
     reg [1:0] state;
 
@@ -28,14 +30,13 @@ module mdu (
     reg [5:0]  mul_count;
     reg        mul_sign;
 
-    // Divider internals
-    reg [63:0] dividend_shift;
-    reg [31:0] divisor_abs;
+    // Division algorithm internals
+    reg [31:0] dividend;
+    reg [31:0] divisor;
     reg [31:0] quotient_reg;
-    reg [31:0] remainder_reg;
+    reg [32:0] remainder_reg;  // 33-bit for overflow detection
     reg [5:0]  div_count;
-    reg        dividend_neg, divisor_neg;
-    reg [31:0] dividend_abs;
+    reg        div_sign_q, div_sign_r;  // Sign flags for quotient and remainder
 
     // Latches for start
     reg [2:0]  op_latched;
@@ -67,21 +68,26 @@ module mdu (
             multiplier <= 32'd0;
             acc <= 64'd0;
             mul_count <= 6'd0;
-            dividend_shift <= 64'd0;
-            divisor_abs <= 32'd0;
+            dividend <= 32'd0;
+            divisor <= 32'd0;
             quotient_reg <= 32'd0;
-            remainder_reg <= 32'd0;
+            remainder_reg <= 33'd0;
             div_count <= 6'd0;
+            div_sign_q <= 1'b0;
+            div_sign_r <= 1'b0;
             op_latched <= 3'd0;
             a_latched <= 32'd0;
             b_latched <= 32'd0;
-            dividend_neg <= 1'b0;
-            divisor_neg <= 1'b0;
         end else begin
+            // Clear done when CPU acknowledges completion
+            if (ack && done) begin
+                done <= 1'b0;
+            end
+            
             case (state)
                 IDLE: begin
-                    done <= 1'b0;
                     if (start) begin
+                        done <= 1'b0;  // Clear done when new operation starts
                         // Latch inputs
                         op_latched <= funct3;
                         a_latched <= a;
@@ -105,17 +111,27 @@ module mdu (
                             busy <= 1'b1;
                             state <= MUL;
                         end else begin
-                            // Divider prepare
-                            dividend_neg <= ((funct3 == `FUNCT3_DIV) || (funct3 == `FUNCT3_REM)) && a[31];
-                            divisor_neg <= ((funct3 == `FUNCT3_DIV) || (funct3 == `FUNCT3_REM)) && b[31];
-                            dividend_abs <= (((funct3 == `FUNCT3_DIV) || (funct3 == `FUNCT3_REM)) && a[31]) ? (~a + 1'b1) : a;
-                            divisor_abs <= (((funct3 == `FUNCT3_DIV) || (funct3 == `FUNCT3_REM)) && b[31]) ? (~b + 1'b1) : b;
-                            // Put dividend in upper 32 bits so we can shift it out MSB-first
-                            dividend_shift <= {(((funct3 == `FUNCT3_DIV) || (funct3 == `FUNCT3_REM)) && a[31]) ? (~a + 1'b1) : a, 32'd0};
-                            quotient_reg <= 32'd0;
-                            remainder_reg <= 32'd0;
-                            div_count <= 6'd0;
+                            // Division - setup restoring division algorithm
                             busy <= 1'b1;
+                            
+                            // Handle signed division: convert to positive and track signs
+                            if (funct3 == `FUNCT3_DIV || funct3 == `FUNCT3_REM) begin
+                                // Signed division
+                                dividend <= a[31] ? (~a + 1'b1) : a;  // Absolute value
+                                divisor <= b[31] ? (~b + 1'b1) : b;   // Absolute value
+                                div_sign_q <= a[31] ^ b[31];          // Quotient negative if signs differ
+                                div_sign_r <= a[31];                  // Remainder takes dividend sign
+                            end else begin
+                                // Unsigned division
+                                dividend <= a;
+                                divisor <= b;
+                                div_sign_q <= 1'b0;
+                                div_sign_r <= 1'b0;
+                            end
+                            
+                            quotient_reg <= 32'd0;
+                            remainder_reg <= 33'd0;
+                            div_count <= 6'd0;
                             state <= DIV;
                         end
                     end
@@ -152,7 +168,7 @@ module mdu (
                             product <= acc;
                         end
                         busy <= 1'b0;
-                        done <= 1'b1;
+                        done <= 1'b1;  // Set done when operation completes
                         `ifdef SIMULATION
                         $display("[MDU] MUL DONE: acc=0x%016h product_out=0x%016h op_latched=%0d a_latched=0x%08h b_latched=0x%08h multiplicand=0x%016h multiplier=0x%08h", acc, product, op_latched, a_latched, b_latched, multiplicand, multiplier);
                         `endif
@@ -161,64 +177,63 @@ module mdu (
                 end
 
                 DIV: begin
-                    if (divisor_abs == 32'd0) begin
-                        // division by zero behaviour
+                    // Handle division by zero
+                    if (b_latched == 32'd0) begin
                         quotient <= 32'hFFFFFFFF;
-                        remainder <= dividend_shift[63:32];
+                        remainder <= a_latched;
                         busy <= 1'b0;
                         done <= 1'b1;
-                        `ifdef SIMULATION
-                        $display("[MDU] DIV DONE: quotient=0x%08h remainder=0x%08h, op_latched=%0d", quotient, remainder, op_latched);
-                        `endif
                         state <= IDLE;
                     end else if (div_count < 32) begin
-                        // Standard long division: 
-                        // Shift remainder left, bring in next dividend bit from MSB
-                        // Check if remainder >= divisor, if so subtract and set quotient bit to 1
+                        // Restoring division algorithm
+                        // Shift remainder left and bring down next bit of dividend
+                        remainder_reg <= {remainder_reg[31:0], dividend[31-div_count]};
                         
-                        if ({remainder_reg[30:0], dividend_shift[63]} >= divisor_abs) begin
-                            // Remainder is large enough: subtract divisor and set quotient bit to 1
-                            remainder_reg <= {remainder_reg[30:0], dividend_shift[63]} - divisor_abs;
-                            quotient_reg <= {quotient_reg[30:0], 1'b1};
+                        // Check if we can subtract divisor from shifted remainder
+                        if ({remainder_reg[30:0], dividend[31-div_count]} >= divisor) begin
+                            // Subtraction successful - set quotient bit and subtract
+                            remainder_reg <= {1'b0, ({remainder_reg[30:0], dividend[31-div_count]} - divisor)};
+                            quotient_reg <= (quotient_reg << 1) | 1'b1;
                         end else begin
-                            // Remainder is small: keep as is and set quotient bit to 0
-                            remainder_reg <= {remainder_reg[30:0], dividend_shift[63]};
-                            quotient_reg <= {quotient_reg[30:0], 1'b0};
+                            // Subtraction would be negative - just shift and clear quotient bit
+                            quotient_reg <= quotient_reg << 1;
                         end
-                        dividend_shift <= {dividend_shift[62:0], 1'b0};
+                        
                         div_count <= div_count + 1;
                     end else begin
-                        // Done with iterations - apply sign correction and output
-                        if (op_latched == `FUNCT3_DIV) begin
-                            // signed: quotient sign = sign_a ^ sign_b, remainder sign = sign_a
-                            quotient <= (dividend_neg ^ divisor_neg) ? (~quotient_reg + 32'd1) : quotient_reg;
-                            remainder <= dividend_neg ? (~remainder_reg + 32'd1) : remainder_reg[31:0];
-                        end else if (op_latched == `FUNCT3_DIVU) begin
-                            // unsigned
-                            quotient <= quotient_reg;
-                            remainder <= remainder_reg[31:0];
-                        end else if (op_latched == `FUNCT3_REM) begin
-                            // signed remainder: remainder sign = sign of dividend
-                            remainder <= dividend_neg ? (~remainder_reg + 32'd1) : remainder_reg[31:0];
-                            quotient <= (dividend_neg ^ divisor_neg) ? (~quotient_reg + 32'd1) : quotient_reg;
-                        end else begin
-                            // REMU: unsigned remainder
-                            remainder <= remainder_reg[31:0];
-                            quotient <= quotient_reg;
-                        end
-                        busy <= 1'b0;
-                        done <= 1'b1;
-                        state <= IDLE;
+                        // Division complete - apply sign corrections
+                        state <= DIV2;
                     end
+                end
+                
+                DIV2: begin
+                    // Apply final sign corrections based on operation type
+                    case (op_latched)
+                        `FUNCT3_DIV: begin
+                            quotient <= div_sign_q ? (~quotient_reg + 1'b1) : quotient_reg;
+                            remainder <= div_sign_r ? (~remainder_reg[31:0] + 1'b1) : remainder_reg[31:0];
+                        end
+                        `FUNCT3_DIVU: begin
+                            quotient <= quotient_reg;
+                            remainder <= remainder_reg[31:0];
+                        end
+                        `FUNCT3_REM: begin
+                            quotient <= div_sign_q ? (~quotient_reg + 1'b1) : quotient_reg;
+                            remainder <= div_sign_r ? (~remainder_reg[31:0] + 1'b1) : remainder_reg[31:0];
+                        end
+                        `FUNCT3_REMU: begin
+                            quotient <= quotient_reg;
+                            remainder <= remainder_reg[31:0];
+                        end
+                    endcase
+                    
+                    busy <= 1'b0;
+                    done <= 1'b1;  // Set done when operation completes
+                    state <= IDLE;
                 end
 
                 default: state <= IDLE;
             endcase
-
-            // clear done after one cycle (so it's a pulse)
-            if (done) begin
-                done <= 1'b0;
-            end
         end
     end
 

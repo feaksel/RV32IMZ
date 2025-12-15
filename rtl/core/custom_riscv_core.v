@@ -137,7 +137,8 @@ module custom_riscv_core #(
     wire        alu_zero;
     // M-extension signal from decoder
     wire        is_m;
-    wire is_zpec = 1'b0;
+    // ZPEC-extension signal from decoder (always 0)
+    wire        is_zpec;
 
     // Memory data register (to capture load data)
     reg [31:0]  mem_data_reg;
@@ -169,6 +170,7 @@ module custom_riscv_core #(
     localparam STATE_TRAP      = 3'd6;
 
     reg         mdu_start;
+    reg         mdu_ack;
     wire        mdu_busy;
     wire        mdu_done;
     wire [63:0] mdu_product;
@@ -314,6 +316,7 @@ module custom_riscv_core #(
             dwb_cyc_reg <= 1'b0;
             dwb_stb_reg <= 1'b0;
             mdu_start <= 1'b0;
+            mdu_ack <= 1'b0;
             mdu_result_reg <= 32'd0;
             mdu_pending <= 2'd0;
             mem_data_reg <= 32'd0;
@@ -432,7 +435,7 @@ module custom_riscv_core #(
                     mdu_start <= 1'b0;
 
                     // Wait for MDU completion
-                    if (mdu_done) begin
+                    if (mdu_done && mdu_pending == 2'd0) begin
                         // Pulse seen: wait one cycle for MDU outputs to be stable (avoid non-blocking update race)
                         mdu_pending <= 2'd1;
                         state <= STATE_MULDIV;
@@ -460,6 +463,7 @@ module custom_riscv_core #(
                         // now move to writeback after `mdu_result_reg` is stable
                         alu_result_reg <= mdu_result_reg;
                         mdu_pending <= 2'd0;
+                        mdu_ack <= 1'b1;  // Signal MDU that we've completed processing
                         state <= STATE_WRITEBACK;
                     end else begin
                         // remain in MULDIV until unit signals done
@@ -525,6 +529,9 @@ module custom_riscv_core #(
                 end
 
                 STATE_WRITEBACK: begin
+                    // Clear mdu_ack after one cycle
+                    if (mdu_ack) mdu_ack <= 1'b0;
+                    
                     // Register write happens via rd_wen signal (combinational)
 
                     `ifdef SIMULATION
@@ -680,6 +687,7 @@ module custom_riscv_core #(
         .clk(clk),
         .rst_n(rst_n),
         .start(mdu_start),
+        .ack(mdu_ack),
         .funct3(funct3),
         .a(rs1_data),
         .b(rs2_data),

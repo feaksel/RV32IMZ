@@ -11,13 +11,10 @@
 .globl _start
 
 # Define peripheral base addresses from the memory map
-.equ UART_BASE, 0x00020500
+.equ UART_BASE, 0x80000000
 .equ UART_TX_DATA, UART_BASE
-<<<<<<< HEAD
 .equ UART_STATUS, UART_BASE + 4
 .equ TX_EMPTY_BIT, 0x02  # Bit 1 of STATUS register
-=======
->>>>>>> 014932e0bf99694e514378b62e54c0b8b3600767
 
 _start:
     # --- Test UART Output ---
@@ -28,7 +25,6 @@ loop:
     lb t0, 0(s1)        # Load a byte (character) from the string
     beq t0, zero, end_loop # If it's the null terminator, exit loop
 
-<<<<<<< HEAD
 wait_tx_empty:
     # Poll UART STATUS register until TX_EMPTY is set
     li t1, UART_STATUS  # Load UART STATUS register address
@@ -47,11 +43,6 @@ inter_char_delay:
     li t1, UART_TX_DATA # Load UART TX data register address
     sw t0, 0(t1)        # Write character to UART
 
-=======
-    # Write the character to the UART TX data register
-    sb t0, 0(s1) # This is a bug, should be sw t0, 0(UART_TX_DATA)
-    
->>>>>>> 014932e0bf99694e514378b62e54c0b8b3600767
     addi s1, s1, 1      # Move to the next character
     j loop
 

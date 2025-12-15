@@ -146,6 +146,7 @@ module decoder (
         is_branch = 1'b0;
         is_jump = 1'b0;
         is_system = 1'b0;
+        is_m = 1'b0;
         // is_zpec is assigned outside this block
         is_ecall = 1'b0;
         is_ebreak = 1'b0;

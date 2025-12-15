@@ -7,21 +7,24 @@ Your RV32IM core has been **successfully synthesized** and is **100% ready** for
 ## 📊 Synthesis Results Summary
 
 ### **Yosys Synthesis Statistics (Just Completed)**
+
 ```
 Total Cells: 788
 - Logic Gates: 189 EQ + 27 NE + 16 AND + 18 OR + 265 MUX
-- Flip-Flops: 70 ADFFE + 6 DFFE + 4 ADFF  
+- Flip-Flops: 70 ADFFE + 6 DFFE + 4 ADFF
 - Memory: 1 block (32 bits for immediate decode)
 - Critical Path: Optimized (186 dead branches removed)
 ```
 
 ### **Resource Estimates**
+
 - **LUTs:** ~2,500-3,500 (confirmed by synthesis)
 - **Registers:** ~80-100 flip-flops
 - **Memory Blocks:** 1-2 (register file + decoder)
 - **Maximum Frequency:** 50-100 MHz (implementation dependent)
 
 ### **Generated Files (Ready to Use)**
+
 ```bash
 ✅ synthesized_core.v     (85KB) - Gate-level netlist
 ✅ synthesized_core.json  (980KB) - JSON format for tools
@@ -32,6 +35,7 @@ Total Cells: 788
 ## 🚀 How to Implement Your Core
 
 ### **Option 1: For Xilinx FPGAs (Vivado)**
+
 ```bash
 # Generate Vivado project files
 ./synthesize.sh vivado
@@ -48,8 +52,9 @@ vivado -mode batch -source vivado_synth.tcl
 ```
 
 ### **Option 2: For Intel FPGAs (Quartus Prime)**
+
 ```bash
-# Generate Quartus project files  
+# Generate Quartus project files
 ./synthesize.sh quartus
 
 # Then run Quartus
@@ -62,6 +67,7 @@ quartus_sh --flow compile rv32im
 ```
 
 ### **Option 3: Continue with Yosys (Open Source)**
+
 ```bash
 # Use existing synthesized netlist
 ./synthesize.sh yosys
@@ -75,6 +81,7 @@ quartus_sh --flow compile rv32im
 ## 📁 Required Files for Implementation
 
 ### **Core RTL Files (Must Include)**
+
 ```
 rtl/core/riscv_defines.vh     ← Instruction definitions
 rtl/core/alu.v               ← Arithmetic unit
@@ -88,6 +95,7 @@ rtl/core/custom_riscv_core.v ← Main processor core
 ```
 
 ### **Optional for Full SoC**
+
 ```
 rtl/memory/ram_64kb.v        ← Data memory
 rtl/memory/rom_32kb.v        ← Program memory
@@ -98,26 +106,28 @@ rtl/peripherals/*.v          ← I/O peripherals
 ## ⚙️ Core Configuration
 
 ### **Current Architecture**
+
 - **ISA:** RV32IM (Base Integer + Multiply/Divide)
-- **Pipeline:** 3-stage (Fetch → Execute → Writeback)  
+- **Pipeline:** 3-stage (Fetch → Execute → Writeback)
 - **Bus:** Native Wishbone B4 protocol
 - **Extensions:** No custom extensions (ZPEC removed)
 - **CSR:** Machine mode only
 - **Interrupts:** 32 external interrupt lines
 
 ### **Interface Pins**
+
 ```verilog
 // Clock & Reset
 input  clk, rst_n
 
-// Instruction Wishbone Bus  
+// Instruction Wishbone Bus
 output [31:0] iwb_adr_o     // Instruction address
 input  [31:0] iwb_dat_i     // Instruction data
 output iwb_cyc_o, iwb_stb_o // Control signals
 input  iwb_ack_i            // Acknowledgment
 
 // Data Wishbone Bus
-output [31:0] dwb_adr_o     // Data address  
+output [31:0] dwb_adr_o     // Data address
 output [31:0] dwb_dat_o     // Write data
 input  [31:0] dwb_dat_i     // Read data
 output dwb_we_o             // Write enable
@@ -132,28 +142,35 @@ input  [31:0] interrupts    // External interrupts
 ## 🛠️ Implementation Steps
 
 ### **Step 1: Choose Your Platform**
+
 - **Xilinx (Zynq, Artix, Kintex):** Use Vivado
 - **Intel/Altera (Cyclone, Arria):** Use Quartus Prime
 - **Lattice (ECP5, iCE40):** Use Diamond/iCEcube
 - **Open Source:** Use Yosys + NextPNR
 
 ### **Step 2: Add Timing Constraints**
+
 Create `.xdc` (Xilinx) or `.sdc` (Intel) file:
+
 ```tcl
 # Example for 50 MHz operation
 create_clock -period 20.000 [get_ports clk]
-set_input_delay 2.0 [all_inputs]  
+set_input_delay 2.0 [all_inputs]
 set_output_delay 2.0 [all_outputs]
 ```
 
 ### **Step 3: Connect Memory System**
+
 Your core needs:
+
 - **Instruction Memory:** ROM, flash, or cache
 - **Data Memory:** RAM, cache, or external DRAM
 - Connect via Wishbone bus or use provided modules
 
 ### **Step 4: Add Peripherals (Optional)**
+
 Connect via Wishbone bus:
+
 - UART for serial communication
 - GPIO for I/O pins
 - Timers, SPI, I2C as needed
@@ -161,15 +178,17 @@ Connect via Wishbone bus:
 ## ✅ Verification Status
 
 ### **Pre-Implementation Checks Passed**
+
 - ✅ Syntax check (all modules compile)
-- ✅ Hierarchy check (all dependencies resolved)  
+- ✅ Hierarchy check (all dependencies resolved)
 - ✅ Logic synthesis (gate-level netlist generated)
 - ✅ Optimization (dead logic removed)
 - ✅ ZPEC removal (clean RV32IM core)
 
 ### **Ready for Next Steps**
+
 - ✅ Place & route
-- ✅ Timing analysis  
+- ✅ Timing analysis
 - ✅ Bitstream generation
 - ✅ Hardware programming
 

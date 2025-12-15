@@ -126,7 +126,6 @@ module soc_simple #(
         .MEM_FILE("firmware/firmware.hex")
     ) rom_inst (
         .clk(clk),
-        .rst_n(rst_n_sync),
         .addr(cpu_ibus_addr),
         .data_out(rom_wb_dat_o),
         .stb(cpu_ibus_stb & (cpu_ibus_addr[31:15] == 17'h0)), // 0x0000_0000-0x0000_7FFF
@@ -143,12 +142,11 @@ module soc_simple #(
 
     ram_64kb ram_inst (
         .clk(clk),
-        .rst_n(rst_n_sync),
         .addr(cpu_dbus_addr),
         .data_in(cpu_dbus_dat_o),
         .data_out(ram_wb_dat_o),
         .we(cpu_dbus_we),
-        .sel(cpu_dbus_sel),
+        .be(cpu_dbus_sel),  // Byte enable
         .stb(cpu_dbus_stb & (cpu_dbus_addr[31:16] == 16'h1000)), // 0x1000_0000-0x1000_FFFF
         .ack(ram_wb_ack)
     );
