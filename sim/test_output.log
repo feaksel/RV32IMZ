@@ -1,0 +1,53 @@
+[0;34m========================================[0m
+[0;34mSoC Top Testbench Build and Run[0m
+[0;34m========================================[0m
+[1;33mStep 1: Compiling test_soc firmware...[0m
+[0;32mFirmware compiled successfully![0m
+  ELF: /home/furka/5level-inverter/02-embedded/riscv/sim/build/test_soc.elf
+  HEX: /home/furka/5level-inverter/02-embedded/riscv/sim/firmware/firmware.hex
+  DIS: /home/furka/5level-inverter/02-embedded/riscv/sim/build/test_soc.dis
+
+[1;33mStep 2: Compiling RTL modules...[0m
+/home/furka/5level-inverter/02-embedded/riscv/sim/testbench/tb_soc_top.v:13: warning: redefinition of macro SIMULATION from value '1' to ''
+warning: Some design elements have no explicit time unit and/or
+       : time precision. This may cause confusing timing results.
+       : Affected design elements are:
+       :   -- module alu declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/alu.v:3
+       :   -- module carrier_generator declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/carrier_generator.v:19
+       :   -- module csr_unit declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/csr_unit.v:3
+       :   -- module custom_core_wrapper declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/custom_core_wrapper.v:20
+       :   -- module custom_riscv_core declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/custom_riscv_core.v:25
+       :   -- module decoder declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/decoder.v:3
+       :   -- module exception_unit declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/exception_unit.v:3
+       :   -- module gpio declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/gpio.v:26
+       :   -- module interrupt_controller declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/interrupt_controller.v:3
+       :   -- module mdu declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/mdu.v:3
+       :   -- module protection declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/protection.v:32
+       :   -- module pwm_accelerator declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/pwm_accelerator.v:23
+       :   -- module pwm_comparator declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/pwm_comparator.v:24
+       :   -- module regfile declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/core/regfile.v:2
+       :   -- module sigma_delta_adc declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:31
+       :   -- module sigma_delta_channel declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:194
+       :   -- module sine_generator declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sine_generator.v:24
+       :   -- module soc_top declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/soc/soc_top.v:30
+       :   -- module timer declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/timer.v:37
+       :   -- module uart declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/uart.v:39
+       :   -- module wishbone_arbiter_2x1 declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/bus/wishbone_arbiter_2x1.v:16
+       :   -- module wishbone_interconnect declared here: /home/furka/5level-inverter/02-embedded/riscv/rtl/bus/wishbone_interconnect.v:24
+/home/furka/5level-inverter/02-embedded/riscv/rtl/soc/soc_top.v:132: error: port ``ibus_dat_o'' is not a port of cpu.
+/home/furka/5level-inverter/02-embedded/riscv/rtl/soc/soc_top.v:132: error: port ``ibus_we'' is not a port of cpu.
+/home/furka/5level-inverter/02-embedded/riscv/rtl/soc/soc_top.v:132: error: port ``ibus_sel'' is not a port of cpu.
+/home/furka/5level-inverter/02-embedded/riscv/rtl/soc/soc_top.v:132: error: port ``ibus_err'' is not a port of cpu.
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94: error: expression not valid in assign l-value: ((i)==('sd0))?(adc_ch0):(((i)==('sd1))?(adc_ch1):(((i)==('sd2))?(adc_ch2):(adc_ch3)))
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94: error: Output port expression must support continuous assignment.
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94:      : Port 6 (adc_data) of sigma_delta_channel is connected to ((i)==('sd0))?(adc_ch0):(((i)==('sd1))?(adc_ch1):(((i)==('sd2))?(adc_ch2):(adc_ch3)))
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94: error: expression not valid in assign l-value: ((i)==('sd0))?(adc_ch0):(((i)==('sd1))?(adc_ch1):(((i)==('sd2))?(adc_ch2):(adc_ch3)))
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94: error: Output port expression must support continuous assignment.
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94:      : Port 6 (adc_data) of sigma_delta_channel is connected to ((i)==('sd0))?(adc_ch0):(((i)==('sd1))?(adc_ch1):(((i)==('sd2))?(adc_ch2):(adc_ch3)))
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94: error: expression not valid in assign l-value: ((i)==('sd0))?(adc_ch0):(((i)==('sd1))?(adc_ch1):(((i)==('sd2))?(adc_ch2):(adc_ch3)))
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94: error: Output port expression must support continuous assignment.
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94:      : Port 6 (adc_data) of sigma_delta_channel is connected to ((i)==('sd0))?(adc_ch0):(((i)==('sd1))?(adc_ch1):(((i)==('sd2))?(adc_ch2):(adc_ch3)))
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94: error: expression not valid in assign l-value: ((i)==('sd0))?(adc_ch0):(((i)==('sd1))?(adc_ch1):(((i)==('sd2))?(adc_ch2):(adc_ch3)))
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94: error: Output port expression must support continuous assignment.
+/home/furka/5level-inverter/02-embedded/riscv/rtl/peripherals/sigma_delta_adc.v:94:      : Port 6 (adc_data) of sigma_delta_channel is connected to ((i)==('sd0))?(adc_ch0):(((i)==('sd1))?(adc_ch1):(((i)==('sd2))?(adc_ch2):(adc_ch3)))
+8 error(s) during elaboration.

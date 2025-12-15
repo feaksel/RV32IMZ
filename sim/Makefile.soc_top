@@ -1,0 +1,175 @@
+# Makefile.soc_top
+#
+# Build and run the SoC top testbench
+#
+# Usage:
+#   make -f Makefile.soc_top all      # Build and run
+#   make -f Makefile.soc_top build    # Build only
+#   make -f Makefile.soc_top sim      # Simulate only (requires build)
+#   make -f Makefile.soc_top wave     # View waveforms
+#   make -f Makefile.soc_top clean    # Clean build artifacts
+#
+
+# Directories
+RISCV_ROOT  := ..
+RTL_DIR     := $(RISCV_ROOT)/rtl
+FIRMWARE_DIR := $(RISCV_ROOT)/firmware/pr_controller
+TB_DIR      := testbench
+BUILD_DIR   := build
+FW_OUT_DIR  := firmware
+
+# Firmware sources
+FW_SOURCES  := \
+	$(FIRMWARE_DIR)/startup.S \
+	$(FIRMWARE_DIR)/pr_controller.c
+
+# Output files
+VVP_OUT     := $(BUILD_DIR)/tb_soc_top.vvp
+VCD_OUT     := tb_soc_top.vcd
+FW_HEX      := $(FW_OUT_DIR)/firmware.hex
+FW_ELF      := $(BUILD_DIR)/pr_controller.elf
+FW_DIS      := $(BUILD_DIR)/pr_controller.dis
+SIM_LOG     := $(BUILD_DIR)/simulation.log
+
+# RISC-V Toolchain
+RISCV_PREFIX ?= riscv32-unknown-elf
+RISCV_CC      = $(RISCV_PREFIX)-gcc
+RISCV_OBJCOPY = $(RISCV_PREFIX)-objcopy
+RISCV_OBJDUMP = $(RISCV_PREFIX)-objdump
+
+# Compiler flags
+RISCV_CFLAGS = -march=rv32im -mabi=ilp32 -nostdlib -nostartfiles -Wl,-T,$(FIRMWARE_DIR)/linker.ld
+
+
+# RTL source files
+RTL_CORE := \
+	$(RTL_DIR)/core/alu.v \
+	$(RTL_DIR)/core/regfile.v \
+	$(RTL_DIR)/core/decoder.v \
+	$(RTL_DIR)/core/mdu.v \
+	$(RTL_DIR)/core/csr_unit.v \
+	$(RTL_DIR)/core/interrupt_controller.v \
+	$(RTL_DIR)/core/exception_unit.v \
+	$(RTL_DIR)/core/custom_riscv_core.v \
+	$(RTL_DIR)/core/custom_core_wrapper.v
+
+RTL_BUS := \
+	$(RTL_DIR)/bus/wishbone_arbiter_2x1.v \
+	$(RTL_DIR)/bus/wishbone_interconnect.v
+
+RTL_PERIPH := \
+	$(RTL_DIR)/peripherals/carrier_generator.v \
+	$(RTL_DIR)/peripherals/sine_generator.v \
+	$(RTL_DIR)/peripherals/pwm_comparator.v \
+	$(RTL_DIR)/peripherals/pwm_accelerator.v \
+	$(RTL_DIR)/peripherals/sigma_delta_adc.v \
+	$(RTL_DIR)/peripherals/protection.v \
+	$(RTL_DIR)/peripherals/timer.v \
+	$(RTL_DIR)/peripherals/gpio.v \
+	$(RTL_DIR)/peripherals/uart.v
+
+RTL_SOC := \
+	$(RTL_DIR)/soc/soc_top.v
+
+RTL_TB := \
+	$(TB_DIR)/tb_soc_top.v
+
+RTL_ALL := $(RTL_CORE) $(RTL_BUS) $(RTL_PERIPH) $(RTL_SOC) $(RTL_TB)
+
+# Iverilog flags
+IVERILOG_FLAGS = -g2012 -Wall -DSIMULATION -D ZPEC_ENABLED -I$(RTL_DIR)/core
+
+# Colors
+RED    = \033[0;31m
+GREEN  = \033[0;32m
+YELLOW = \033[1;33m
+BLUE   = \033[0;34m
+NC     = \033[0m # No Color
+
+.PHONY: all build sim wave clean help
+
+# Default target
+all: build sim
+
+# Build firmware and compile RTL
+build: $(VVP_OUT)
+
+# Compile firmware
+$(FW_ELF): $(FW_SOURCES) | $(BUILD_DIR) $(FW_OUT_DIR)
+	@echo -e "$(YELLOW)Compiling firmware...$(NC)"
+	$(RISCV_CC) $(RISCV_CFLAGS) -o $@ $^
+	@echo -e "$(GREEN)Firmware ELF created: $@$(NC)"
+
+$(FW_HEX): $(FW_ELF)
+	@echo -e "$(YELLOW)Generating firmware hex...$(NC)"
+	$(RISCV_OBJCOPY) -O verilog $< $@
+	@echo -e "$(GREEN)Firmware HEX created: $@$(NC)"
+
+$(FW_DIS): $(FW_ELF)
+	@echo -e "$(YELLOW)Generating disassembly...$(NC)"
+	$(RISCV_OBJDUMP) -d $< > $@
+	@echo -e "$(GREEN)Disassembly created: $@$(NC)"
+
+# Compile RTL
+$(VVP_OUT): $(RTL_ALL) $(FW_HEX) $(FW_DIS) | $(BUILD_DIR)
+	@echo -e "$(YELLOW)Compiling RTL...$(NC)"
+	iverilog $(IVERILOG_FLAGS) -o $@ $(RTL_ALL)
+	@echo -e "$(GREEN)RTL compilation successful: $@$(NC)"
+
+# Run simulation
+sim: $(VVP_OUT)
+	@echo -e "$(BLUE)========================================$(NC)"
+	@echo -e "$(BLUE)Running SoC Top Simulation$(NC)"
+	@echo -e "$(BLUE)========================================$(NC)"
+	vvp $(VVP_OUT) | tee $(SIM_LOG)
+	@if grep -q "^PASS:" $(SIM_LOG); then \
+		echo -e "$(BLUE)========================================$(NC)"; \
+		echo -e "$(GREEN)✓ TESTBENCH PASSED!$(NC)"; \
+		echo -e "$(BLUE)========================================$(NC)"; \
+		exit 0; \
+	else \
+		echo -e "$(BLUE)========================================$(NC)"; \
+		echo -e "$(RED)✗ TESTBENCH FAILED!$(NC)"; \
+		echo -e "$(BLUE)========================================$(NC)"; \
+		exit 1; \
+	fi
+
+# View waveforms
+wave: $(VCD_OUT)
+	@echo -e "$(BLUE)Opening waveform viewer...$(NC)"
+	gtkwave $< &
+
+# Create directories
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+$(FW_OUT_DIR):
+	mkdir -p $(FW_OUT_DIR)
+
+# Clean build artifacts
+clean:
+	@echo -e "$(YELLOW)Cleaning build artifacts...$(NC)"
+	rm -rf $(BUILD_DIR)
+	rm -rf $(FW_OUT_DIR)
+	rm -f $(VCD_OUT)
+	@echo -e "$(GREEN)Clean complete!$(NC)"
+
+# Help
+help:
+	@echo "SoC Top Testbench Makefile"
+	@echo ""
+	@echo "Targets:"
+	@echo "  make -f Makefile.soc_top all      - Build firmware, compile RTL, and run simulation (default)"
+	@echo "  make -f Makefile.soc_top build    - Build firmware and compile RTL only"
+	@echo "  make -f Makefile.soc_top sim      - Run simulation (requires build)"
+	@echo "  make -f Makefile.soc_top wave     - Open waveform viewer (gtkwave)"
+	@echo "  make -f Makefile.soc_top clean    - Remove all build artifacts"
+	@echo "  make -f Makefile.soc_top help     - Show this help message"
+	@echo ""
+	@echo "Environment Variables:"
+	@echo "  RISCV_PREFIX    - RISC-V toolchain prefix (default: riscv32-unknown-elf)"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make -f Makefile.soc_top              # Build and run"
+	@echo "  make -f Makefile.soc_top clean all    # Clean rebuild and run"
+	@echo "  make -f Makefile.soc_top wave         # View waveforms"

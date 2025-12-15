@@ -1,0 +1,305 @@
+Found 50 compliance tests
+============================================================
+\nRunning rv32ui-p-add...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-add.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-addi...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-addi.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-and...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-and.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-andi...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-andi.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-auipc...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-auipc.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-beq...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-beq.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-bge...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-bge.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-bgeu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-bgeu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-blt...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-blt.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-bltu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-bltu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-bne...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-bne.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-fence_i...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-fence_i.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-jal...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-jal.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-jalr...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-jalr.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-lb...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-lb.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-lbu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-lbu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-ld_st...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-ld_st.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-lh...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-lh.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-lhu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-lhu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-lui...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-lui.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-lw...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-lw.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-ma_data...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-ma_data.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-or...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-or.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-ori...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-ori.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-sb...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-sb.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-sh...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-sh.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-simple...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-simple.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-sll...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-sll.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-slli...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-slli.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-slt...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-slt.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-slti...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-slti.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-sltiu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-sltiu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-sltu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-sltu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-sra...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-sra.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-srai...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-srai.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-srl...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-srl.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-srli...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-srli.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-st_ld...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-st_ld.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-sub...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-sub.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-sw...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-sw.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-xor...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-xor.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32ui-p-xori...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32ui-p-xori.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32um-p-div...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32um-p-div.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32um-p-divu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32um-p-divu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32um-p-mul...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32um-p-mul.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32um-p-mulh...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32um-p-mulh.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32um-p-mulhsu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32um-p-mulhsu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32um-p-mulhu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32um-p-mulhu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32um-p-rem...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32um-p-rem.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\nRunning rv32um-p-remu...
+  Compilation failed:
+sim/testbench/tb_compliance_rv32um-p-remu.v:4: syntax error
+I give up.
+
+  ✗ FAILED
+\n============================================================
+Results: 0 passed, 50 failed, 50 total
+Pass rate: 0.0%

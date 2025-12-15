@@ -1,0 +1,18 @@
+# Build / binaries
+build/
+dist/
+*.o
+*.elf
+*.bin
+*.hex
+
+# Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Misc
+.DS_Store
