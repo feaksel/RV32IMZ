@@ -53,22 +53,7 @@
 `define OPCODE_JAL        7'b1101111  // Jump and link
 `define OPCODE_SYSTEM     7'b1110011  // System instructions (ECALL, EBREAK, CSR)
 
-`ifdef ZPEC_ENABLED
-//==========================================================================
-// Custom Extensions: ZPEC (Power Electronics Control)
-//==========================================================================
 
-`define OPCODE_ZPEC       7'b1011011  // Custom-2 opcode for ZPEC extension
-
-// Funct3 Codes for ZPEC instructions
-`define FUNCT3_ZPEC_MAC     3'b000
-`define FUNCT3_ZPEC_SAT     3'b001
-`define FUNCT3_ZPEC_ABS     3'b010
-// `define FUNCT3_ZPEC_PWM  3'b011 // This is intentionally commented out as per the plan
-`define FUNCT3_ZPEC_SINCOS  3'b100
-`define FUNCT3_ZPEC_SQRT    3'b101
-
-`endif // ZPEC_ENABLED
 
 //==========================================================================
 // Funct3 Codes for ALU Operations (OP and OP_IMM)

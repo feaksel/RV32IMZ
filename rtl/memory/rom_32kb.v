@@ -33,6 +33,7 @@ module rom_32kb #(
     initial begin
         $readmemh(MEM_FILE, rom_memory);
 
+        // synthesis translate_off
         // Print first few words for verification
         $display("[ROM] Initialized from %s", MEM_FILE);
         $display("[ROM] First 4 words:");
@@ -40,6 +41,7 @@ module rom_32kb #(
         $display("  0x00000004: 0x%08X", rom_memory[1]);
         $display("  0x00000008: 0x%08X", rom_memory[2]);
         $display("  0x0000000C: 0x%08X", rom_memory[3]);
+        // synthesis translate_on
     end
 
     // Word address (ignore bottom 2 bits for 32-bit alignment)

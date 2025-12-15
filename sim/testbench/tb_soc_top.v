@@ -7,11 +7,8 @@
 // 3. Defines `SIMULATION` to enable behavioral memory.
 // 4. Monitors the UART TX line for a "Hello World!" message.
 // 5. Reports PASS or FAIL based on the UART output.
-<<<<<<< HEAD
 // 6. Dumps waveforms for debugging.
 // 7. Monitors SoC signals (PWM, GPIO, LEDs, etc.)
-=======
->>>>>>> 014932e0bf99694e514378b62e54c0b8b3600767
 
 `define SIMULATION
 `timescale 1ns/1ps
@@ -21,11 +18,7 @@ module tb_soc_top;
     // SoC Parameters
     localparam CLK_100MHZ_PERIOD = 10; // 100 MHz clock
     localparam UART_BAUD = 115200;
-<<<<<<< HEAD
     localparam UART_BIT_PERIOD = 1_000_000_000 / UART_BAUD; // ~8680 ns
-=======
-    localparam UART_BIT_PERIOD = 1_000_000_000 / UART_BAUD;
->>>>>>> 014932e0bf99694e514378b62e54c0b8b3600767
 
     // Signals
     reg clk_100mhz;

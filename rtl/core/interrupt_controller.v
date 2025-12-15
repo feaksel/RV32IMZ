@@ -34,6 +34,9 @@ module interrupt_controller (
     output reg  [31:0] interrupt_cause  // Which interrupt (for mcause)
 );
 
+    // Loop variable for interrupt priority
+    integer i;
+
     // Standard RISC-V interrupt bit positions:
     // Bit 3:  Machine software interrupt
     // Bit 7:  Machine timer interrupt
@@ -74,7 +77,6 @@ module interrupt_controller (
                 interrupt_cause = `MCAUSE_TIMER_INT;     // 0x80000007
             end else begin
                 // Find first set bit in platform-specific range
-                integer i;
                 for (i = 31; i >= 16; i = i - 1) begin
                     if (pending_and_enabled[i]) begin
                         interrupt_cause = 32'h80000000 | i;

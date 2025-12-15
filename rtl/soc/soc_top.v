@@ -3,7 +3,7 @@
  * @brief Top-level RISC-V SoC for 5-Level Inverter Control (Custom Core)
  *
  * Integrates all components of the RISC-V-based inverter control system:
- * - Custom RV32IM CPU core with Zpec extension
+ * - Custom RV32IM CPU core
  * - 32 KB ROM (firmware storage)
  * - 64 KB RAM (runtime data)
  * - PWM accelerator peripheral (8 channels with dead-time)
@@ -102,14 +102,10 @@ module soc_top #(
     // CPU (Custom RISC-V Core)
     //==========================================================================
     wire [31:0] cpu_ibus_addr;
-    wire [31:0] cpu_ibus_dat_o; // Not used, CPU ibus is read-only
     wire [31:0] cpu_ibus_dat_i;
-    wire        cpu_ibus_we;    // Tied low
-    wire [3:0]  cpu_ibus_sel;   // Tied high
     wire        cpu_ibus_stb;
     wire        cpu_ibus_cyc;
     wire        cpu_ibus_ack;
-    wire        cpu_ibus_err;
 
     wire [31:0] cpu_dbus_addr;
     wire [31:0] cpu_dbus_dat_o;
@@ -123,16 +119,7 @@ module soc_top #(
 
     wire [31:0] cpu_interrupts;
 
-<<<<<<< HEAD
-    // Tie off unused instruction bus signals (ibus is read-only)
-    assign cpu_ibus_we = 1'b0;
-    assign cpu_ibus_sel = 4'hF;
-    assign cpu_ibus_dat_o = 32'h0;  // Not used
-    assign cpu_ibus_err = 1'b0;      // Not supported by wrapper
-=======
-    assign cpu_ibus_we = 1'b0;
-    assign cpu_ibus_sel = 4'hF;
->>>>>>> 014932e0bf99694e514378b62e54c0b8b3600767
+    // Note: ibus signals not needed by wrapper are handled internally
 
     custom_core_wrapper cpu (
         .clk(clk),
@@ -140,21 +127,10 @@ module soc_top #(
 
         // Instruction bus (Wishbone) - Read-only
         .ibus_addr(cpu_ibus_addr),
-<<<<<<< HEAD
         .ibus_dat_i(cpu_ibus_dat_i),
-        .ibus_stb(cpu_ibus_stb),
         .ibus_cyc(cpu_ibus_cyc),
-        .ibus_ack(cpu_ibus_ack),
-=======
-        .ibus_dat_o(cpu_ibus_dat_o),
-        .ibus_dat_i(cpu_ibus_dat_i),
-        .ibus_we(cpu_ibus_we),
-        .ibus_sel(cpu_ibus_sel),
         .ibus_stb(cpu_ibus_stb),
-        .ibus_cyc(cpu_ibus_cyc),
         .ibus_ack(cpu_ibus_ack),
-        .ibus_err(cpu_ibus_err),
->>>>>>> 014932e0bf99694e514378b62e54c0b8b3600767
 
         // Data bus (Wishbone)
         .dbus_addr(cpu_dbus_addr),
@@ -162,8 +138,8 @@ module soc_top #(
         .dbus_dat_i(cpu_dbus_dat_i),
         .dbus_we(cpu_dbus_we),
         .dbus_sel(cpu_dbus_sel),
-        .dbus_stb(cpu_dbus_stb),
         .dbus_cyc(cpu_dbus_cyc),
+        .dbus_stb(cpu_dbus_stb),
         .dbus_ack(cpu_dbus_ack),
         .dbus_err(cpu_dbus_err),
 
@@ -367,8 +343,8 @@ module soc_top #(
              5'd0: ram_data_muxed = ram_data_from_macros[0];
              5'd1: ram_data_muxed = ram_data_from_macros[1];
              5'd2: ram_data_muxed = ram_data_from_macros[2];
-             5_d3: ram_data_muxed = ram_data_from_macros[3];
-             5_d4: ram_data_muxed = ram_data_from_macros[4];
+             5'd3: ram_data_muxed = ram_data_from_macros[3];
+             5'd4: ram_data_muxed = ram_data_from_macros[4];
              5'd5: ram_data_muxed = ram_data_from_macros[5];
              5'd6: ram_data_muxed = ram_data_from_macros[6];
              5'd7: ram_data_muxed = ram_data_from_macros[7];

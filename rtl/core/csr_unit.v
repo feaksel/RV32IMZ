@@ -25,7 +25,7 @@ module csr_unit (
     input  wire [31:0] trap_val,      // Bad address or instruction
 
     output reg  [31:0] trap_vector,   // Address of trap handler
-    output reg  [31:0] epc_out,       // Return address (mepc)
+    output wire [31:0] epc_out,       // Return address (mepc)
 
     //==========================================================================
     // Interrupt Interface

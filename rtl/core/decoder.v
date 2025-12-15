@@ -22,11 +22,7 @@ module decoder (
     output reg         is_jump,      // Is jump instruction (JAL/JALR)
     output reg         is_system,    // Is system instruction (ECALL, CSR, etc.)
     output reg         is_m,         // Is M-extension (multiply/divide)
-`ifdef ZPEC_ENABLED
-    output reg         is_zpec,      // Is ZPEC-extension
-`else
     output wire        is_zpec,      // Is ZPEC-extension (disabled)
-`endif
 
     // System instruction decode outputs
     output reg         is_ecall,     // ECALL instruction
@@ -57,6 +53,9 @@ module decoder (
     assign rs1_addr = instruction[19:15];
     assign rs2_addr = instruction[24:20];
     assign rd_addr  = instruction[11:7];
+
+    // ZPEC is disabled - always 0
+    assign is_zpec = 1'b0;
 
     //==========================================================================
     // Immediate Decoding
@@ -147,11 +146,7 @@ module decoder (
         is_branch = 1'b0;
         is_jump = 1'b0;
         is_system = 1'b0;
-`ifdef ZPEC_ENABLED
-        is_zpec = 1'b0;
-`else
-        assign is_zpec = 1'b0;
-`endif
+        // is_zpec is assigned outside this block
         is_ecall = 1'b0;
         is_ebreak = 1'b0;
         is_mret = 1'b0;
@@ -259,13 +254,7 @@ module decoder (
                 reg_write = 1'b1;
             end
 
-`ifdef ZPEC_ENABLED
-            `OPCODE_ZPEC: begin
-                // ZPEC custom instructions
-                is_zpec = 1'b1;
-                reg_write = 1'b1;
-            end
-`endif
+
 
             `OPCODE_SYSTEM: begin
                 is_system = 1'b1;
@@ -313,13 +302,6 @@ module decoder (
             default: begin
                 // Invalid opcode
                 illegal_instr = 1'b1;
-`ifdef ZPEC_ENABLED
-                if (opcode == `OPCODE_ZPEC) begin
-                    is_zpec = 1'b1;
-                    reg_write = 1'b1;
-                    illegal_instr = 1'b0;
-                end
-`endif
             end
         endcase
     end

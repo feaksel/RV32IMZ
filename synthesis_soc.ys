@@ -1,0 +1,94 @@
+# SoC Synthesis Check Script for Yosys
+# Tests the complete RV32IM SoC (soc_top.v) with all peripherals
+
+# Clear any previous state
+design -reset
+
+# Set hierarchy mode for complex SoC
+hierarchy -check
+
+# Read all RTL source files
+# Core files
+read_verilog rtl/core/riscv_defines.vh
+read_verilog rtl/core/alu.v  
+read_verilog rtl/core/decoder.v
+read_verilog rtl/core/regfile.v
+read_verilog rtl/core/mdu.v
+read_verilog rtl/core/csr_unit.v
+read_verilog rtl/core/exception_unit.v
+read_verilog rtl/core/interrupt_controller.v
+read_verilog rtl/core/custom_riscv_core.v
+read_verilog rtl/core/custom_core_wrapper.v
+
+# Bus infrastructure
+read_verilog rtl/bus/wishbone_interconnect.v
+read_verilog rtl/bus/wishbone_arbiter_2x1.v
+
+# Memory subsystem
+read_verilog rtl/memory/rom_32kb.v
+read_verilog rtl/memory/ram_64kb.v
+
+# Peripheral modules
+read_verilog rtl/peripherals/uart.v
+read_verilog rtl/peripherals/gpio.v
+read_verilog rtl/peripherals/timer.v
+read_verilog rtl/peripherals/pwm_accelerator.v
+read_verilog rtl/peripherals/pwm_comparator.v
+read_verilog rtl/peripherals/sigma_delta_adc.v
+read_verilog rtl/peripherals/adc_interface.v
+read_verilog rtl/peripherals/protection.v
+read_verilog rtl/peripherals/carrier_generator.v
+read_verilog rtl/peripherals/sine_generator.v
+
+# Top-level SoC
+read_verilog rtl/soc/soc_top.v
+
+# Set top module
+hierarchy -top soc_top
+
+# Show initial statistics
+stat
+
+# Perform synthesis
+synth -top soc_top
+
+# Show final statistics  
+stat
+
+# Generate reports
+tee -q soc_synthesis_report.txt stat
+
+# Write synthesized netlist
+write_verilog -noattr synthesized_soc.v
+
+# Write JSON for further processing
+write_json synthesized_soc.json
+
+# Summary
+echo ""
+echo "=============================================="
+echo "RV32IM SoC Synthesis Results"
+echo "=============================================="
+echo "Top module: soc_top"
+echo "Technology: Generic (academic)"
+echo "Output files:"
+echo "  - synthesized_soc.v (Verilog netlist)"
+echo "  - synthesized_soc.json (JSON format)"
+echo "  - soc_synthesis_report.txt (Statistics)"
+echo ""
+echo "Components synthesized:"
+echo "  ✓ RV32IM CPU core"
+echo "  ✓ 32KB ROM + 64KB RAM" 
+echo "  ✓ Wishbone bus interconnect"
+echo "  ✓ UART, GPIO, Timer peripherals"
+echo "  ✓ PWM accelerator (8-channel)"
+echo "  ✓ Sigma-Delta ADC (4-channel)"
+echo "  ✓ Protection/fault monitoring"
+echo "  ✓ Clock generation and reset"
+echo ""
+if {[info exists ::env(VERBOSE)]} {
+    echo "Verbose mode - showing detailed hierarchy:"
+    hierarchy -check -top soc_top
+}
+echo "SoC synthesis completed successfully!"
+echo "=============================================="

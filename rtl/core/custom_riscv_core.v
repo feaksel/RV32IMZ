@@ -1,3 +1,5 @@
+`include "riscv_defines.vh"
+
 /**
  * @file custom_riscv_core.v
  * @brief Custom RV32IM RISC-V Core with Zpec Extension (Native Wishbone)
@@ -135,22 +137,15 @@ module custom_riscv_core #(
     wire        alu_zero;
     // M-extension signal from decoder
     wire        is_m;
-`ifdef ZPEC_ENABLED
-    wire        is_zpec;
-`else
     wire is_zpec = 1'b0;
-`endif
 
     // Memory data register (to capture load data)
     reg [31:0]  mem_data_reg;
 
-`ifdef ZPEC_ENABLED
-    // ZPEC control and results
-    reg         zpec_start;
-    wire        zpec_done;
-    wire [31:0] zpec_rd_data;
-    wire [31:0] zpec_rs2_result;
-`endif
+    // ALU result register (to capture ALU output)
+    reg [31:0]  alu_result_reg;
+
+
 
     // Control signals from decoder
     wire        alu_src_imm;      // ALU source: 0=rs2, 1=immediate
@@ -172,9 +167,7 @@ module custom_riscv_core #(
     localparam STATE_WRITEBACK = 3'd4;
     localparam STATE_MULDIV    = 3'd5;
     localparam STATE_TRAP      = 3'd6;
-`ifdef ZPEC_ENABLED
-    localparam STATE_ZPEC      = 3'd7;
-`endif
+
     reg         mdu_start;
     wire        mdu_busy;
     wire        mdu_done;
@@ -188,6 +181,8 @@ module custom_riscv_core #(
     reg [1:0]   mdu_pending;
     // latch for MDU funct3 (so it doesn't change while MDU is running)
     reg [2:0]   mdu_funct3;
+    // temporary register for MDU selection logic
+    reg [31:0]  mdu_selected_temp;
 
     //==========================================================================
     // CSR and Trap Handling Signals
@@ -292,18 +287,10 @@ module custom_riscv_core #(
         (funct3 == `FUNCT3_LHU) ? {16'b0, load_halfword} :                 // LHU: zero-extend halfword
         mem_data_reg;                                                      // LW: full word
 
-`ifdef ZPEC_ENABLED
-    assign rd_data = is_zpec ? zpec_rd_data :
-                     mem_read ? load_data_processed :
-                     is_system ? csr_rdata :
-                     is_jump ? (pc + 4) :      // Return address for JAL/JALR
-                     alu_result_reg;
-`else
     assign rd_data = mem_read ? load_data_processed :
                      is_system ? csr_rdata :
                      is_jump ? (pc + 4) :      // Return address for JAL/JALR
                      alu_result_reg;
-`endif
     assign rd_wen = reg_write && (state == STATE_WRITEBACK) && !is_branch;
 
     // CSR operation decoding
@@ -392,14 +379,7 @@ module custom_riscv_core #(
                 end else begin
 
                     // ALU operates
-`ifdef ZPEC_ENABLED
-                    if (is_zpec) begin
-                        zpec_start <= 1'b1;
-                        state <= STATE_ZPEC;
-                    end else if (is_m) begin
-`else
                     if (is_m) begin
-`endif
                         // Start multiply/divide unit based on funct3
                         // Start pulse lasts one cycle
                         // Start unified MDU
@@ -445,17 +425,7 @@ module custom_riscv_core #(
                 state <= STATE_FETCH;
             end
 
-`ifdef ZPEC_ENABLED
-            STATE_ZPEC: begin
-                zpec_start <= 1'b0;
-                if (zpec_done) begin
-                    alu_result_reg <= zpec_rd_data;
-                    // TODO: Handle dual writeback for SINCOS (rs2_result)
-                    // This will require an extra write cycle or a dual-ported regfile.
-                    state <= STATE_WRITEBACK;
-                end
-            end
-`endif
+
 
                 STATE_MULDIV: begin
                     // Clear one-cycle start pulse
@@ -468,7 +438,6 @@ module custom_riscv_core #(
                         state <= STATE_MULDIV;
                     end else if (mdu_pending == 2'd1) begin
                         // Capture MDU outputs now (product/quotient/remainder stable)
-                        reg [31:0] mdu_selected_temp;
                         case (mdu_funct3)
                             `FUNCT3_MUL:    mdu_selected_temp = mdu_product[31:0];
                             `FUNCT3_MULH:   mdu_selected_temp = mdu_product[63:32];
@@ -640,9 +609,8 @@ module custom_riscv_core #(
         .is_jump(is_jump),
         .is_system(is_system),
         .is_m(is_m),
-`ifdef ZPEC_ENABLED
         .is_zpec(is_zpec),
-`endif
+
         // System instruction decode
         .is_ecall(is_ecall),
         .is_ebreak(is_ebreak),
@@ -722,20 +690,6 @@ module custom_riscv_core #(
         .remainder(mdu_remainder)
     );
 
-`ifdef ZPEC_ENABLED
-    // ZPEC Unit
-    zpec_unit zpec_inst (
-        .clk(clk),
-        .rst_n(rst_n),
-        .start(zpec_start),
-        .funct3(funct3),
-        .rs1_data(rs1_data),
-        .rs2_data(rs2_data),
-        .rs3_data(32'h0), // TODO: Need to add rs3 read port to regfile for ZPEC.MAC
-        .rd_data(zpec_rd_data),
-        .rs2_result(zpec_rs2_result),
-        .done(zpec_done)
-    );
-`endif
+
 
 endmodule

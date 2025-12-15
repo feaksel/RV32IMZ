@@ -1,0 +1,31 @@
+# Comprehensive Yosys synthesis script for RV32IM core
+# This script verifies the complete core is synthesis-ready
+
+# Read all required Verilog files with proper include paths
+read_verilog -I rtl/core rtl/core/riscv_defines.vh
+read_verilog -I rtl/core rtl/core/alu.v
+read_verilog -I rtl/core rtl/core/regfile.v
+read_verilog -I rtl/core rtl/core/mdu.v
+read_verilog -I rtl/core rtl/core/decoder.v
+read_verilog -I rtl/core rtl/core/csr_unit.v
+read_verilog -I rtl/core rtl/core/exception_unit.v
+read_verilog -I rtl/core rtl/core/interrupt_controller.v
+read_verilog -I rtl/core rtl/core/custom_riscv_core.v
+read_verilog -I rtl/core rtl/core/custom_core_wrapper.v
+
+# Set hierarchy with top module
+hierarchy -check -top custom_riscv_core
+
+# Run synthesis passes
+proc
+opt_clean
+opt
+
+# Check for issues
+check -noinit
+
+# Generate statistics
+stat -top custom_riscv_core
+
+# Write detailed log
+tee -o synthesis_report.txt stat -width
