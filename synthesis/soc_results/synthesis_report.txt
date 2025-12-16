@@ -1,5 +1,5 @@
 ===============================================================================
-RV32IM SoC Synthesis Report - Mon Dec 15 15:45:33 +03 2025
+RV32IM SoC Synthesis Report - Tue Dec 16 21:37:27 +03 2025
 ===============================================================================
 
 SYNTHESIS SUMMARY
@@ -18,10 +18,10 @@ System Features:  ROM, RAM, UART, GPIO, Timer
 
 RESOURCE UTILIZATION
 ====================
-Total Cells:      211
-LUT4:             118
-Flip-flops:       28  
-Wires:            271
+Total Cells:      32440
+LUT4:             19467
+Flip-flops:       2538  
+Wires:            26252
 Memory Blocks:    Inferred (ROM + RAM)
 
 COMPONENTS SYNTHESIZED

@@ -1,0 +1,127 @@
+
+Discarded input sections
+
+ .text          0x00000000        0x0 boot_start.o
+ .data          0x00000000        0x0 boot_start.o
+ .bss           0x00000000        0x0 boot_start.o
+ .text          0x00000000        0x0 bootloader.o
+ .data          0x00000000        0x0 bootloader.o
+ .bss           0x00000000        0x0 bootloader.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ROM              0x00000000         0x00004000         xr
+RAM              0x00008000         0x00002000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD boot_start.o
+LOAD bootloader.o
+
+.text           0x00000000     0x1668
+ *(.text.start)
+ .text.start    0x00000000       0x6c boot_start.o
+                0x00000000                _start
+ *(.text*)
+ .text.uart_puts
+                0x0000006c       0x34 bootloader.o
+ .text.uart_put_hex
+                0x000000a0       0xa4 bootloader.o
+ .text.receive_firmware
+                0x00000144      0x720 bootloader.o
+ .text.bootloader_main
+                0x00000864      0x570 bootloader.o
+                0x00000864                bootloader_main
+ .text.startup.main
+                0x00000dd4        0xc bootloader.o
+                0x00000dd4                main
+ *(.rodata*)
+ .rodata.receive_firmware.str1.4
+                0x00000de0      0x485 bootloader.o
+                                0x179 (size before relaxing)
+ .rodata.bootloader_main.str1.4
+                0x00001265        0x0 bootloader.o
+                                0x30d (size before relaxing)
+ *fill*         0x00001265        0x3 
+ .rodata        0x00001268      0x400 bootloader.o
+ *(.srodata*)
+                0x00001668                        . = ALIGN (0x4)
+                0x00001668                        _etext = .
+                0x00001e68                        __global_pointer$ = (. + 0x800)
+
+.rela.dyn       0x00001668        0x0
+ .rela.text.start
+                0x00001668        0x0 boot_start.o
+
+.data           0x00008000        0x0 load address 0x00001668
+                0x00008000                        . = ALIGN (0x4)
+                0x00008000                        _data_start = .
+ *(.data*)
+ *(.sdata*)
+                0x00008000                        . = ALIGN (0x4)
+                0x00008000                        _data_end = .
+                0x00001668                        _data_load = LOADADDR (.data)
+
+.bss            0x00008000      0x408 load address 0x00001668
+                0x00008000                        . = ALIGN (0x4)
+                0x00008000                        _bss_start = .
+ *(.bss*)
+ .bss.crc32_table
+                0x00008000      0x400 bootloader.o
+ *(.sbss*)
+ .sbss.last_dot.0
+                0x00008400        0x4 bootloader.o
+ .sbss.crc32_table_initialized
+                0x00008404        0x1 bootloader.o
+ *(COMMON)
+                0x00008408                        . = ALIGN (0x4)
+ *fill*         0x00008405        0x3 
+                0x00008408                        _bss_end = .
+
+.stack          0x00008408     0x1bf8 load address 0x00001668
+                0x00008410                        . = ALIGN (0x10)
+ *fill*         0x00008408        0x8 
+                0x00009c00                        . = ((ORIGIN (RAM) + LENGTH (RAM)) - 0x400)
+ *fill*         0x00008410     0x17f0 
+                0x00009c00                        _stack_start = .
+                0x0000a000                        . = (. + 0x400)
+ *fill*         0x00009c00      0x400 
+                0x0000a000                        _stack_top = .
+                0x0000a000                        _end = .
+
+.comment        0x00000000        0xf
+ *(.comment)
+ .comment       0x00000000        0xf bootloader.o
+                                 0x10 (size before relaxing)
+
+.riscv.attributes
+                0x00000000       0x37
+ .riscv.attributes
+                0x00000000       0x35 boot_start.o
+ .riscv.attributes
+                0x00000035       0x37 bootloader.o
+
+.note.GNU-stack
+                0x00000000        0x0
+ .note.GNU-stack
+                0x00000000        0x0 bootloader.o
+
+.debug_info
+ *(.debug_info)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+                [!provide]                        PROVIDE (_heap_start = _bss_end)
+                [!provide]                        PROVIDE (_heap_end = _stack_start)
+OUTPUT(bootloader.elf elf32-littleriscv)

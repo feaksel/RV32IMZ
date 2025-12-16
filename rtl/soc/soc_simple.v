@@ -118,15 +118,16 @@ module soc_simple #(
     // Memory System
     //==========================================================================
 
-    // ROM (32KB at 0x00000000-0x00007FFF)
+    // Dual ROM (16KB Bootloader + 16KB Application at 0x00000000-0x00007FFF)
     wire [31:0] rom_wb_dat_o;
     wire        rom_wb_ack;
 
-    rom_32kb #(
-        .MEM_FILE("firmware/firmware.hex")
+    dual_rom #(
+        .BOOTLOADER_FILE("firmware/bootloader/bootloader.hex"),
+        .APP_FILE("firmware/firmware.hex")
     ) rom_inst (
         .clk(clk),
-        .addr(cpu_ibus_addr),
+        .addr(cpu_ibus_addr[14:0]),  // 15-bit address for 32KB space
         .data_out(rom_wb_dat_o),
         .stb(cpu_ibus_stb & (cpu_ibus_addr[31:15] == 17'h0)), // 0x0000_0000-0x0000_7FFF
         .ack(rom_wb_ack)

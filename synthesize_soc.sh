@@ -41,7 +41,7 @@ yosys -p "
     read_verilog -sv rtl/core/csr_unit.v
     read_verilog -sv rtl/core/exception_unit.v
     read_verilog -sv rtl/core/regfile.v
-    read_verilog -sv rtl/memory/rom_32kb.v
+    read_verilog -sv rtl/memory/dual_rom.v
     read_verilog -sv rtl/memory/ram_64kb.v
     read_verilog -sv rtl/peripherals/uart.v
     read_verilog -sv rtl/peripherals/gpio.v
@@ -69,7 +69,7 @@ yosys -p "
     read_verilog -sv rtl/core/csr_unit.v
     read_verilog -sv rtl/core/exception_unit.v
     read_verilog -sv rtl/core/regfile.v
-    read_verilog -sv rtl/memory/rom_32kb.v
+    read_verilog -sv rtl/memory/dual_rom.v
     read_verilog -sv rtl/memory/ram_64kb.v
     read_verilog -sv rtl/peripherals/uart.v
     read_verilog -sv rtl/peripherals/gpio.v
