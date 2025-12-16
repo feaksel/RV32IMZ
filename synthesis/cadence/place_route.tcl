@@ -4,9 +4,10 @@
 # Target: School technology library
 #===============================================================================
 
-# Note: Update paths for your school's setup
-set TECH_LIB_PATH "/path/to/school/technology/library"
+# Paths relative to synthesis/cadence/ directory
+set TECH_LIB_PATH "../../pdk/sky130A/libs.ref"
 set DESIGN_PATH "outputs"
+set SRAM_LIB_PATH "$TECH_LIB_PATH/sky130_sram_macros"
 
 #===============================================================================
 # Initialize
@@ -15,10 +16,10 @@ set DESIGN_PATH "outputs"
 puts "Initializing Innovus..."
 
 # Set paths
-set init_lef_file "$TECH_LIB_PATH/tech.lef"
-set init_verilog "$DESIGN_PATH/netlist.v"
-set init_design_netlist "$DESIGN_PATH/netlist.v"
-set init_top_cell custom_core_wrapper
+set init_lef_file "$TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef $TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef $SRAM_LIB_PATH/sky130_sram_macros.lef"
+set init_verilog "$DESIGN_PATH/soc_simple_netlist.v"
+set init_design_netlist "$DESIGN_PATH/soc_simple_netlist.v"
+set init_top_cell soc_simple
 
 # Power/ground nets
 set init_pwr_net VDD

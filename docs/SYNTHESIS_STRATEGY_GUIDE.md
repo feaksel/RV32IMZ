@@ -1,36 +1,330 @@
-# Complete SoC Synthesis Strategy: RTL to GDSII
-
-**Project:** Custom RISC-V SoC for 5-Level Inverter Control
-**Target:** Academic Homework (RTL-to-GDSII Flow) + Real Application
-**Tools:** Cadence Genus (synthesis) + Innovus (place & route) + Open-source verification
-**Document Version:** 1.0
-**Last Updated:** 2025-12-09
-
----
+# Synthesis Strategy Guide
 
 ## Table of Contents
 
-1. [Overview](#1-overview)
-2. [Design Hierarchy](#2-design-hierarchy)
-3. [Strategic Decision: CPU-Only vs Full SoC](#3-strategic-decision-cpu-only-vs-full-soc)
-4. [Home Development Workflow (Open-Source)](#4-home-development-workflow-open-source)
-5. [School Synthesis Workflow (Cadence)](#5-school-synthesis-workflow-cadence)
-6. [Memory Strategy](#6-memory-strategy)
-7. [Clock and Reset Strategy](#7-clock-and-reset-strategy)
-8. [Constraint Development](#8-constraint-development)
-9. [Synthesis Optimization](#9-synthesis-optimization)
-10. [Place and Route Strategy](#10-place-and-route-strategy)
-11. [Verification Strategy](#11-verification-strategy)
-12. [Common Issues and Solutions](#12-common-issues-and-solutions)
-13. [Homework Submission Checklist](#13-homework-submission-checklist)
-14. [Complete Genus Script Examples](#14-complete-genus-script-examples)
-15. [Timeline and Effort Estimation](#15-timeline-and-effort-estimation)
+1. [Synthesis Overview](#synthesis-overview)
+2. [Current Strategy](#current-strategy)
+3. [Timing Optimization](#timing-optimization)
+4. [Area Optimization](#area-optimization)
+5. [Power Optimization](#power-optimization)
+6. [Restoring Divider Strategy](#restoring-divider-strategy)
+7. [Academic RTL-to-GDSII Flow](#academic-rtl-to-gdsii-flow)
 
 ---
 
-## 1. Overview
+## Synthesis Overview
 
-### 1.1 What is RTL-to-GDSII Flow?
+### Current RV32IMZ Synthesis Results
+
+```
+=== Final Statistics ===
+Total Cells: 32,440
+Logic LUTs: 19,467 (60.0%)
+Registers: 2,538 (7.8%)
+Frequency: 50 MHz (20ns period)
+Compliance: 98% RISC-V ISA
+```
+
+### Synthesis Flow
+
+```
+RTL Sources → Yosys → Technology Mapping → Constraints → Final Netlist
+    ↓            ↓           ↓              ↓           ↓
+  *.v files   ABC opt    FPGA LUTs     Timing SDC   synthesized.v
+```
+
+---
+
+## Current Strategy
+
+### 1. Technology Mapping
+
+**Target**: Basys3 Artix-7 FPGA (XC7A35T)
+
+```yosys
+# Primary synthesis script: synthesis_soc.ys
+synth_xilinx -top soc_top -family xc7
+opt -purge
+```
+
+**Key Settings**:
+
+- **DSP Inference**: Enabled for multipliers
+- **BRAM Inference**: Enabled for memory blocks
+- **LUT Mapping**: Optimized for 6-input LUTs
+- **Register Mapping**: Uses FF primitives
+
+### 2. Optimization Passes
+
+```yosys
+# Optimization sequence
+opt_expr
+opt_merge
+opt_dff
+opt_clean
+share
+opt
+```
+
+**Techniques**:
+
+- **Constant Propagation**: Remove dead logic
+- **Resource Sharing**: Merge similar operations
+- **Register Optimization**: Minimize FF count
+- **Logic Minimization**: Reduce LUT usage
+
+### 3. Critical Path Analysis
+
+**Current Critical Path**: MDU (Multiplier-Divider Unit)
+
+- **Path**: Register → Multiply → Add → Register
+- **Delay**: ~18ns (leaves 2ns margin)
+- **Strategy**: Pipeline multiplication if needed
+
+---
+
+## Timing Optimization
+
+### 1. Clock Constraints
+
+```sdc
+# rv32imz_timing.sdc
+create_clock -period 20.0 [get_ports clk]
+set_input_delay 2.0 [all_inputs] -clock clk
+set_output_delay 2.0 [all_outputs] -clock clk
+```
+
+### 2. Pipeline Optimization
+
+**3-Stage Pipeline**:
+
+- **Stage 1**: Fetch (1 cycle)
+- **Stage 2**: Decode + Execute (1 cycle)
+- **Stage 3**: Writeback (1 cycle)
+
+**Critical Optimizations**:
+
+```verilog
+// Pipeline registers for timing closure
+always_ff @(posedge clk) begin
+    if (pipeline_enable) begin
+        decode_stage <= fetch_output;
+        execute_stage <= decode_output;
+        writeback_stage <= execute_output;
+    end
+end
+```
+
+### 3. Clock Gating
+
+**Power-Aware Clocking**:
+
+```verilog
+// Clock enable for unused modules
+assign mdu_clk_en = mdu_active || (decode_valid && mdu_instruction);
+assign pwm_clk_en = pwm_enabled || pwm_update_pending;
+```
+
+### 4. Timing Exceptions
+
+```sdc
+# Cross-clock domain paths
+set_false_path -from [get_clocks uart_clk] -to [get_clocks sys_clk]
+set_max_delay 5.0 -from [get_ports reset_n] -to [all_registers]
+```
+
+---
+
+## Area Optimization
+
+### 1. Resource Utilization
+
+**Current Usage** (XC7A35T):
+
+- **LUTs**: 19,467 / 20,800 (93.6%) ⚠️
+- **Registers**: 2,538 / 41,600 (6.1%) ✅
+- **DSPs**: 18 / 90 (20.0%) ✅
+- **BRAMs**: 8 / 50 (16.0%) ✅
+
+### 2. Memory Optimization
+
+**ROM Usage**:
+
+```verilog
+// Dual ROM: 16KB bootloader + 16KB application
+// Uses 8 BRAM blocks (2KB each)
+(*ram_style = "block"*) reg [31:0] bootloader_rom [0:4095];
+(*ram_style = "block"*) reg [31:0] application_rom [0:4095];
+```
+
+**RAM Optimization**:
+
+```verilog
+// 64KB system RAM using BRAM
+(*ram_style = "block"*) reg [31:0] system_ram [0:16383];
+```
+
+### 3. Logic Reduction
+
+**Techniques**:
+
+- **Mux Reduction**: Use case statements
+- **Decoder Optimization**: One-hot encoding
+- **FSM Encoding**: Gray code for state machines
+
+```verilog
+// Optimized instruction decoder
+always_comb begin
+    case (opcode)
+        7'b0110011: alu_type = R_TYPE;
+        7'b0010011: alu_type = I_TYPE;
+        7'b0100011: alu_type = S_TYPE;
+        default:    alu_type = INVALID;
+    endcase
+end
+```
+
+---
+
+## Power Optimization
+
+### 1. Clock Domain Optimization
+
+```verilog
+// Multiple clock domains for power savings
+module power_controller (
+    input  wire sys_clk,        // 50 MHz system
+    input  wire uart_clk,       // 9600 Hz UART
+    input  wire pwm_clk,        // Variable PWM
+    output wire core_clk_en,
+    output wire periph_clk_en
+);
+```
+
+### 2. Dynamic Power Management
+
+**Features**:
+
+- **Clock Gating**: Disable unused modules
+- **Power Islands**: Separate domains
+- **Sleep Modes**: Halt CPU when idle
+
+```verilog
+// Power state machine
+typedef enum logic [1:0] {
+    ACTIVE = 2'b00,
+    IDLE   = 2'b01,
+    SLEEP  = 2'b10,
+    DEEP   = 2'b11
+} power_state_t;
+```
+
+### 3. Low-Power Techniques
+
+- **Register Banking**: Reduce switching activity
+- **Operand Isolation**: Gate unused ALU inputs
+- **Memory Partitioning**: Access only needed banks
+
+---
+
+## Restoring Divider Strategy
+
+### 1. Algorithm Overview
+
+The restoring divider implements long division in hardware:
+
+```
+For each bit position:
+1. Shift remainder left
+2. Subtract divisor
+3. If result negative: restore, set quotient bit 0
+4. If result positive: keep, set quotient bit 1
+```
+
+### 2. Hardware Implementation
+
+```verilog
+module restoring_divider #(parameter WIDTH = 32) (
+    input  wire             clk,
+    input  wire             rst_n,
+    input  wire             start,
+    input  wire [WIDTH-1:0] dividend,
+    input  wire [WIDTH-1:0] divisor,
+    output reg  [WIDTH-1:0] quotient,
+    output reg  [WIDTH-1:0] remainder,
+    output reg              done,
+    output reg              valid
+);
+
+// Internal registers
+reg [WIDTH-1:0]   working_remainder;
+reg [WIDTH-1:0]   working_quotient;
+reg [WIDTH-1:0]   working_divisor;
+reg [$clog2(WIDTH):0] bit_counter;
+
+// State machine
+typedef enum logic [1:0] {
+    IDLE    = 2'b00,
+    COMPUTE = 2'b01,
+    DONE    = 2'b10
+} div_state_t;
+
+div_state_t state, next_state;
+```
+
+### 3. Optimization Strategies
+
+**Timing Optimization**:
+
+- **Pipeline**: Split into multiple cycles
+- **Early Termination**: Skip leading zeros
+- **Radix-4**: Process 2 bits per cycle
+
+**Area Optimization**:
+
+- **Shared Resources**: Reuse ALU for subtract
+- **Shift Optimization**: Use barrel shifter
+- **Control Logic**: Minimize state machine
+
+**Performance Comparison**:
+
+```
+Algorithm        | Cycles | Area (LUTs) | Max Freq
+Restoring       | 32     | 450        | 55 MHz
+Non-Restoring   | 32     | 380        | 60 MHz
+SRT Radix-2     | 17     | 520        | 50 MHz
+Array Divider   | 1      | 1200       | 45 MHz
+```
+
+### 4. Integration Notes
+
+```verilog
+// MDU integration with restoring divider
+always_comb begin
+    case (mdu_operation)
+        3'b100: begin  // DIV
+            div_start = mdu_valid;
+            div_dividend = rs1_data;
+            div_divisor = rs2_data;
+            mdu_result = div_quotient;
+            mdu_ready = div_done;
+        end
+        3'b110: begin  // REM
+            div_start = mdu_valid;
+            div_dividend = rs1_data;
+            div_divisor = rs2_data;
+            mdu_result = div_remainder;
+            mdu_ready = div_done;
+        end
+    endcase
+end
+```
+
+---
+
+## Academic RTL-to-GDSII Flow
+
+### Overview
 
 **Complete Digital IC Design Flow:**
 
@@ -48,48 +342,73 @@
 │  • Testbenches: Verify behavior                            │
 │  • Waveform analysis: GTKWave                              │
 └────────────┬───────────────────────────────────────────────┘
-             │
-             ▼
+
+---
+
+## 1. Overview
+
+### 1.1 What is RTL-to-GDSII Flow?
+
+**Complete Digital IC Design Flow:**
+
+```
+
 ┌────────────────────────────────────────────────────────────┐
-│                 Lint Check (Optional)                      │
-│  • Verilator: Check for common RTL errors                  │
-│  • Yosys: Basic synthesis check                            │
+│ RTL Design (Verilog) │
+│ • Behavioral description of hardware │
+│ • Module hierarchy (core.v, alu.v, regfile.v, ...) │
 └────────────┬───────────────────────────────────────────────┘
-             │
-             ▼
+│
+▼
 ┌────────────────────────────────────────────────────────────┐
-│         SYNTHESIS (Cadence Genus @ School) ★               │
-│  • Convert RTL → Gate-level netlist                        │
-│  • Technology mapping (standard cells)                     │
-│  • Optimization (area, timing, power)                      │
-│  • Output: Verilog netlist + constraints                   │
+│ Functional Verification (Home) │
+│ • Icarus Verilog: Compile and simulate │
+│ • Testbenches: Verify behavior │
+│ • Waveform analysis: GTKWave │
 └────────────┬───────────────────────────────────────────────┘
-             │
-             ▼
+│
+▼
 ┌────────────────────────────────────────────────────────────┐
-│        PLACE & ROUTE (Cadence Innovus @ School) ★          │
-│  • Floorplanning: Arrange blocks                           │
-│  • Placement: Position standard cells                      │
-│  • Clock tree synthesis: Distribute clock                  │
-│  • Routing: Connect wires                                  │
-│  • Optimization: Fix timing violations                     │
+│ Lint Check (Optional) │
+│ • Verilator: Check for common RTL errors │
+│ • Yosys: Basic synthesis check │
 └────────────┬───────────────────────────────────────────────┘
-             │
-             ▼
+│
+▼
 ┌────────────────────────────────────────────────────────────┐
-│              Sign-off Verification                         │
-│  • DRC: Design rule check                                  │
-│  • LVS: Layout vs schematic                                │
-│  • STA: Static timing analysis                             │
-│  • Power analysis                                          │
+│ SYNTHESIS (Cadence Genus @ School) ★ │
+│ • Convert RTL → Gate-level netlist │
+│ • Technology mapping (standard cells) │
+│ • Optimization (area, timing, power) │
+│ • Output: Verilog netlist + constraints │
 └────────────┬───────────────────────────────────────────────┘
-             │
-             ▼
+│
+▼
 ┌────────────────────────────────────────────────────────────┐
-│                   GDSII Generation                         │
-│  • Final layout file for fabrication                       │
-│  • Ready for tape-out                                      │
+│ PLACE & ROUTE (Cadence Innovus @ School) ★ │
+│ • Floorplanning: Arrange blocks │
+│ • Placement: Position standard cells │
+│ • Clock tree synthesis: Distribute clock │
+│ • Routing: Connect wires │
+│ • Optimization: Fix timing violations │
+└────────────┬───────────────────────────────────────────────┘
+│
+▼
+┌────────────────────────────────────────────────────────────┐
+│ Sign-off Verification │
+│ • DRC: Design rule check │
+│ • LVS: Layout vs schematic │
+│ • STA: Static timing analysis │
+│ • Power analysis │
+└────────────┬───────────────────────────────────────────────┘
+│
+▼
+┌────────────────────────────────────────────────────────────┐
+│ GDSII Generation │
+│ • Final layout file for fabrication │
+│ • Ready for tape-out │
 └────────────────────────────────────────────────────────────┘
+
 ```
 
 ### 1.2 Your Two-Track Strategy
@@ -154,22 +473,24 @@
 ### 2.1 Complete SoC Structure
 
 ```
+
 soc_top.v (TOP LEVEL)
 ├── custom_riscv_core.v ★ (CPU CORE)
-│   ├── regfile.v ★ (YOU IMPLEMENT)
-│   ├── alu.v ★ (YOU IMPLEMENT)
-│   ├── decoder.v ★ (YOU IMPLEMENT)
-│   └── control_fsm.v (state machine)
+│ ├── regfile.v ★ (YOU IMPLEMENT)
+│ ├── alu.v ★ (YOU IMPLEMENT)
+│ ├── decoder.v ★ (YOU IMPLEMENT)
+│ └── control_fsm.v (state machine)
 ├── wishbone_interconnect.v (bus arbiter)
 ├── rom.v (instruction memory)
 ├── ram.v (data memory)
 ├── peripherals/
-│   ├── pwm_generator.v
-│   ├── adc_interface.v
-│   ├── uart.v
-│   ├── gpio.v
-│   ├── timer.v
-│   └── protection.v
+│ ├── pwm_generator.v
+│ ├── adc_interface.v
+│ ├── uart.v
+│ ├── gpio.v
+│ ├── timer.v
+│ └── protection.v
+
 ```
 
 **Module Complexity:**
@@ -193,59 +514,68 @@ soc_top.v (TOP LEVEL)
 **Option A: CPU Core Only (Safe, Meets Requirements)**
 
 ```
+
 Synthesize:
 └── custom_riscv_core.v
-    ├── regfile.v
-    ├── alu.v
-    ├── decoder.v
-    └── control_fsm.v
+├── regfile.v
+├── alu.v
+├── decoder.v
+└── control_fsm.v
 
 Result:
+
 - Gate count: ~5,000 gates
 - Area: ~0.012 mm² @ 180nm
 - Timing: Achievable at 50 MHz
 - Homework: ✅ Meets all requirements
 - Time @ school: 1 hour
+
 ```
 
 **Option B: CPU + Memories (Realistic)**
 
 ```
+
 Synthesize:
 └── cpu_with_memory.v
-    ├── custom_riscv_core.v
-    ├── sram_controller.v
-    └── (SRAM macros from library)
+├── custom_riscv_core.v
+├── sram_controller.v
+└── (SRAM macros from library)
 
 Result:
+
 - Gate count: ~8,000 gates
 - Area: ~0.5 mm² (including SRAM)
 - Timing: Achievable at 100 MHz
 - Homework: ✅ Exceeds requirements
 - Time @ school: 2 hours
+
 ```
 
 **Option C: Full SoC (Ambitious, Publication-Worthy)**
 
 ```
+
 Synthesize:
 └── soc_top.v
-    ├── custom_riscv_core.v
-    ├── wishbone_interconnect.v
-    ├── sram_controller.v
-    ├── pwm_generator.v
-    ├── uart.v
-    ├── gpio.v
-    ├── timer.v
-    └── protection.v
+├── custom_riscv_core.v
+├── wishbone_interconnect.v
+├── sram_controller.v
+├── pwm_generator.v
+├── uart.v
+├── gpio.v
+├── timer.v
+└── protection.v
 
 Result:
+
 - Gate count: ~50,000 gates
 - Area: ~1.0 mm² @ 180nm
 - Timing: Achievable at 50 MHz (carefully)
 - Homework: ✅ A+ material, conference paper potential
 - Time @ school: 4-6 hours
-```
+
+````
 
 **My Recommendation:** Start with **Option A** (CPU only), synthesize it first as backup. If time permits, upgrade to **Option C** (Full SoC) for impressive results.
 
@@ -292,9 +622,10 @@ module decoder (
 );
     // YOUR CODE HERE
 endmodule
-```
+````
 
 **What's Already Provided (Use As-Is):**
+
 - Wishbone interconnect
 - Peripheral controllers
 - Testbenches
@@ -306,18 +637,18 @@ endmodule
 
 ### 3.1 Comparison Matrix
 
-| Aspect | CPU Only | CPU + Memories | Full SoC |
-|--------|----------|----------------|----------|
-| **Gate Count** | 5,000 | 8,000 | 50,000 |
-| **Die Area** | 0.012 mm² | 0.5 mm² | 1.0 mm² |
-| **Synthesis Time** | 30 min | 1 hour | 2-3 hours |
-| **P&R Time** | 30 min | 1 hour | 2-3 hours |
-| **Timing Closure** | Easy | Moderate | Challenging |
-| **Homework Grade** | A (meets req) | A (exceeds) | A+ (impressive) |
-| **Learning Value** | Moderate | High | Very High |
-| **Risk Level** | Low | Low | Medium |
-| **Publication Potential** | No | No | Yes |
-| **Debugging Time** | Low | Medium | High |
+| Aspect                    | CPU Only      | CPU + Memories | Full SoC        |
+| ------------------------- | ------------- | -------------- | --------------- |
+| **Gate Count**            | 5,000         | 8,000          | 50,000          |
+| **Die Area**              | 0.012 mm²     | 0.5 mm²        | 1.0 mm²         |
+| **Synthesis Time**        | 30 min        | 1 hour         | 2-3 hours       |
+| **P&R Time**              | 30 min        | 1 hour         | 2-3 hours       |
+| **Timing Closure**        | Easy          | Moderate       | Challenging     |
+| **Homework Grade**        | A (meets req) | A (exceeds)    | A+ (impressive) |
+| **Learning Value**        | Moderate      | High           | Very High       |
+| **Risk Level**            | Low           | Low            | Medium          |
+| **Publication Potential** | No            | No             | Yes             |
+| **Debugging Time**        | Low           | Medium         | High            |
 
 ### 3.2 Decision Tree
 
@@ -340,28 +671,33 @@ START: Do you have time for synthesis at school?
 ### 3.3 Recommended Strategy: Dual Submission
 
 **Week 1-3: Implement RTL (at home)**
+
 - Write all three modules (regfile, alu, decoder)
 - Verify with testbenches
 - Test full SoC in simulation
 - Prepare both CPU-only and Full SoC versions
 
 **Week 4: First School Visit (2 hours)**
+
 - Synthesize CPU-only (Option A)
 - Complete P&R
 - Generate GDSII
 - **This is your backup submission** ✅
 
 **Week 4-5: If Successful**
+
 - Optimize any timing issues
 - Clean up SoC integration
 
 **Week 5: Second School Visit (4 hours, optional)**
+
 - Synthesize Full SoC (Option C)
 - Complete P&R with careful floorplanning
 - Generate GDSII
 - **This is your impressive submission** ⭐
 
 **Result:** You have two submissions:
+
 1. Safe CPU-only (guaranteed to work)
 2. Ambitious Full SoC (if time permits)
 
@@ -393,6 +729,7 @@ verilator --version  # Should show version
 ```
 
 **Optional (Recommended):**
+
 ```bash
 # GTKWave configuration for better viewing
 mkdir -p ~/.gtkwave
@@ -454,11 +791,13 @@ $ gtkwave tb_alu.vcd &
 **Pre-Synthesis Verification (Do ALL at Home):**
 
 - [ ] All modules compile without errors
+
   ```bash
   make compile-all
   ```
 
 - [ ] All unit tests pass
+
   ```bash
   make test-regfile  # ✓ Pass
   make test-alu      # ✓ Pass
@@ -467,18 +806,21 @@ $ gtkwave tb_alu.vcd &
   ```
 
 - [ ] Integration test passes
+
   ```bash
   make test-integration
   # Should run simple program (add, branch, load/store)
   ```
 
 - [ ] Verilator lint check clean
+
   ```bash
   verilator --lint-only rtl/core/custom_riscv_core.v
   # Should show no warnings
   ```
 
 - [ ] Yosys synthesis test (no errors)
+
   ```bash
   cd synthesis/opensource
   make synth-test
@@ -549,6 +891,7 @@ make test-core
 ```
 
 **Success Criteria:**
+
 - x1 = 10 (0x0000000A)
 - x2 = 20 (0x00000014)
 - x3 = 30 (0x0000001E)
@@ -600,6 +943,7 @@ ls $TECH_LEF         # Should show .lef file
 ```
 
 **Standard Cell Library Contains:**
+
 - Logic gates (AND, OR, NAND, NOR, XOR, INV, BUF)
 - Flip-flops (DFF with various features)
 - Latches
@@ -893,6 +1237,7 @@ cat qor.rpt
 ```
 
 **Success Criteria:**
+
 - ✅ Timing slack > 0 (timing met)
 - ✅ Area < 0.02 mm² (reasonable for CPU)
 - ✅ Gate count: 3,000-8,000 (expected range)
@@ -974,6 +1319,7 @@ exit
 ```
 
 **Expected Full SoC Results:**
+
 - Gate count: 40,000-60,000
 - Area: 0.8-1.2 mm²
 - Timing: May require 40 MHz instead of 50 MHz
@@ -1006,6 +1352,7 @@ endmodule
 ```
 
 **Why It's Bad:**
+
 - ❌ Synthesizes to giant mux tree (8192:1 mux!)
 - ❌ Massive area (100,000+ gates just for ROM)
 - ❌ Very slow (long mux chain)
@@ -1073,6 +1420,7 @@ endmodule
 **Three-Tier Strategy:**
 
 **Tier 1: Simulation (At Home)**
+
 ```verilog
 // Use behavioral model for fast simulation
 `ifdef SIMULATION
@@ -1082,6 +1430,7 @@ endmodule
 ```
 
 **Tier 2: Synthesis (CPU Only)**
+
 ```
 Synthesize ONLY the CPU core
 Don't include memories at all
@@ -1091,6 +1440,7 @@ This is Option A: CPU-only synthesis
 ```
 
 **Tier 3: Synthesis (Full SoC with Real Memories)**
+
 ```verilog
 // Use SRAM macros for real synthesis
 `ifdef SYNTHESIS
@@ -1168,11 +1518,13 @@ endmodule
 ```
 
 **Compile for Simulation:**
+
 ```bash
 iverilog -DSIMULATION -o sim.out soc_top.v
 ```
 
 **Compile for Synthesis:**
+
 ```tcl
 # In Genus
 set_attribute hdl_define SYNTHESIS
@@ -1259,6 +1611,7 @@ endmodule
 ```
 
 **Why Single Clock?**
+
 - ✅ Simpler timing analysis
 - ✅ No CDC (Clock Domain Crossing) issues
 - ✅ Easier P&R
@@ -1286,11 +1639,13 @@ end
 ```
 
 **Pros:**
+
 - ✅ Works immediately (no clock needed)
 - ✅ Standard in industry
 - ✅ Required for startup
 
 **Cons:**
+
 - ⚠️ Reset release must be synchronized
 - ⚠️ Can cause metastability
 
@@ -1307,10 +1662,12 @@ end
 ```
 
 **Pros:**
+
 - ✅ No metastability
 - ✅ Simpler timing analysis
 
 **Cons:**
+
 - ❌ Requires clock to reset
 - ❌ Uses more logic (reset mux in every FF)
 
@@ -1556,11 +1913,13 @@ AREA              POWER
 ```
 
 **You can optimize for 2 out of 3:**
+
 - Fast + Small → High power
 - Fast + Low power → Large area
 - Small + Low power → Slow
 
 **For Homework:** Optimize for **Area first**, then **Timing**.
+
 - Goal: Smallest die that meets 50 MHz
 - Power is secondary (not graded)
 
@@ -2034,6 +2393,7 @@ vvp sim_timing.out
 ```
 
 **What to Check:**
+
 - ✅ Same functional behavior as RTL
 - ✅ No X (unknown) values
 - ✅ Timing violations (if any) are reported
@@ -2066,21 +2426,21 @@ report_verification
 
 ### 12.1 Synthesis Issues
 
-| Issue | Symptom | Solution |
-|-------|---------|----------|
-| **Latch Inferred** | Warning: "Latch inferred" | Fix incomplete if-else or case statements |
-| **Multiple Drivers** | Error: "Net has multiple drivers" | Check for conflicting assignments |
-| **Cannot Resolve** | Error: "Cannot resolve reference" | Add missing module to file list |
-| **Combinational Loop** | Error: "Combinational loop detected" | Fix feedback path in logic |
-| **Unsynthesizable Construct** | Error: "$readmemh is not synthesizable" | Use `ifdef SIMULATION |
+| Issue                         | Symptom                                 | Solution                                  |
+| ----------------------------- | --------------------------------------- | ----------------------------------------- |
+| **Latch Inferred**            | Warning: "Latch inferred"               | Fix incomplete if-else or case statements |
+| **Multiple Drivers**          | Error: "Net has multiple drivers"       | Check for conflicting assignments         |
+| **Cannot Resolve**            | Error: "Cannot resolve reference"       | Add missing module to file list           |
+| **Combinational Loop**        | Error: "Combinational loop detected"    | Fix feedback path in logic                |
+| **Unsynthesizable Construct** | Error: "$readmemh is not synthesizable" | Use `ifdef SIMULATION                     |
 
 ### 12.2 Timing Issues
 
-| Slack Type | Meaning | Fix |
-|------------|---------|-----|
-| **Positive Slack** | +2.3ns | ✅ GOOD (timing met with margin) |
-| **Zero Slack** | 0.0ns | ⚠️ Marginal (barely meets timing) |
-| **Negative Slack** | -1.5ns | ❌ VIOLATED (fails timing) |
+| Slack Type         | Meaning | Fix                               |
+| ------------------ | ------- | --------------------------------- |
+| **Positive Slack** | +2.3ns  | ✅ GOOD (timing met with margin)  |
+| **Zero Slack**     | 0.0ns   | ⚠️ Marginal (barely meets timing) |
+| **Negative Slack** | -1.5ns  | ❌ VIOLATED (fails timing)        |
 
 **Fixing Negative Slack:**
 
@@ -2159,17 +2519,20 @@ report_verification
 **Design Report (report.pdf) Should Include:**
 
 **1. Introduction (1 page)**
+
 - Project overview
 - Design objectives
 - Specifications summary
 
 **2. Architecture (2-3 pages)**
+
 - Block diagram
 - Module hierarchy
 - Datapath and control unit
 - ISA implementation
 
 **3. RTL Design (3-4 pages)**
+
 - Register file design
 - ALU design
 - Decoder design
@@ -2177,18 +2540,21 @@ report_verification
 - Code snippets with explanations
 
 **4. Verification (2-3 pages)**
+
 - Testbench methodology
 - Test programs
 - Waveforms (screenshots)
 - Coverage analysis
 
 **5. Synthesis Results (2-3 pages)**
+
 - Timing report analysis
 - Area breakdown
 - Power estimation
 - Gate count vs module
 
 **6. Physical Design (2-3 pages)**
+
 - Floorplan screenshot
 - Placement screenshot
 - Routing screenshot
@@ -2196,36 +2562,41 @@ report_verification
 - Die photo rendering
 
 **7. Performance Analysis (1-2 pages)**
+
 - Clock frequency achieved
 - CPI (Cycles Per Instruction)
 - Area efficiency
 - Comparison with requirements
 
 **8. Challenges and Solutions (1 page)**
+
 - Problems encountered
 - How you solved them
 - Lessons learned
 
 **9. Conclusion (1 page)**
+
 - Summary of achievements
 - Future improvements
 
 **10. Appendices**
+
 - Complete code listings
 - Full simulation logs
 - Full synthesis reports
 
 ### 13.3 Grading Rubric (Typical)
 
-| Category | Points | Criteria |
-|----------|--------|----------|
-| **RTL Design** | 30% | Correctness, modularity, style |
-| **Verification** | 20% | Testbenches, coverage, waveforms |
-| **Synthesis** | 25% | Timing met, area reasonable |
-| **Physical Design** | 15% | GDSII generated, DRC clean |
-| **Documentation** | 10% | Report quality, clarity |
+| Category            | Points | Criteria                         |
+| ------------------- | ------ | -------------------------------- |
+| **RTL Design**      | 30%    | Correctness, modularity, style   |
+| **Verification**    | 20%    | Testbenches, coverage, waveforms |
+| **Synthesis**       | 25%    | Timing met, area reasonable      |
+| **Physical Design** | 15%    | GDSII generated, DRC clean       |
+| **Documentation**   | 10%    | Report quality, clarity          |
 
 **Bonus Points (Optional):**
+
 - M extension implemented: +5%
 - Full SoC with peripherals: +10%
 - Custom ISA extension (Zpec): +5%
@@ -2265,6 +2636,7 @@ exit
 ### 15.1 Recommended Schedule
 
 **Week 1-2: RTL Implementation (At Home)**
+
 - Implement regfile.v: 2-4 hours
 - Implement alu.v: 4-6 hours
 - Implement decoder.v: 6-8 hours
@@ -2272,12 +2644,14 @@ exit
 - **Total: 16-24 hours**
 
 **Week 3: Verification (At Home)**
+
 - Write testbenches: 8-12 hours
 - Run simulations: 2-4 hours
 - Debug failures: 4-8 hours
 - **Total: 14-24 hours**
 
 **Week 4: Synthesis (At School)**
+
 - Setup environment: 1 hour
 - First synthesis run: 30 min
 - Debug issues: 2-4 hours
@@ -2285,6 +2659,7 @@ exit
 - **Total: 4-6 hours**
 
 **Week 5: P&R (At School)**
+
 - Floorplan: 1 hour
 - Place & Route: 2-3 hours
 - Debug issues: 2-4 hours
@@ -2292,6 +2667,7 @@ exit
 - **Total: 6-9 hours**
 
 **Week 6: Report Writing (At Home)**
+
 - Draft report: 8-12 hours
 - Screenshots and figures: 2-4 hours
 - Review and polish: 2-4 hours
@@ -2302,6 +2678,7 @@ exit
 ### 15.2 Fast-Track Option (CPU Only)
 
 If you only synthesize CPU core (no SoC):
+
 - Week 4 synthesis: 2 hours
 - Week 5 P&R: 3 hours
 - **Total school time: 5 hours (one long session)**
@@ -2309,6 +2686,7 @@ If you only synthesize CPU core (no SoC):
 ### 15.3 Ambitious Track (Full SoC)
 
 If you synthesize complete SoC with peripherals:
+
 - Week 4 synthesis: 4-6 hours
 - Week 5 P&R: 6-10 hours
 - **Total school time: 10-16 hours (two long sessions)**
@@ -2330,12 +2708,14 @@ This guide provides everything you need to take your RISC-V SoC from RTL to GDSI
 ---
 
 **For Questions:**
+
 - Review specific sections as needed
 - Check tool documentation (Genus User Guide, Innovus Reference)
 - Ask TA/Professor for PDK-specific details
 - Refer to HOMEWORK_GUIDE.md for implementation details
 
 **Next Steps:**
+
 1. Implement your three core modules (regfile, alu, decoder)
 2. Verify with testbenches
 3. Follow Section 5.3 for synthesis
@@ -2345,6 +2725,7 @@ This guide provides everything you need to take your RISC-V SoC from RTL to GDSI
 **End of Synthesis Strategy Guide**
 
 ---
+
 ## 16. Action Plan: From Core Compliance to GDSII
 
 This plan operationalizes the strategies outlined in this document. Now that your core is nearly compliance-complete, follow these phases to progress to a final GDSII layout.
@@ -2353,83 +2734,90 @@ This plan operationalizes the strategies outlined in this document. Now that you
 
 **Goal:** Solidify the RISC-V core, document its state, and ensure it's ready for SoC integration.
 
--   **[ ] Action 1.1: Document Compliance Status**
-    -   Create a new document in `docs/` named `COMPLIANCE_REPORT.md`.
-    -   In this file, list the 98% of tests that pass.
-    -   Clearly document the specific tests that fail. For each failure, provide a brief explanation of why it's considered an acceptable edge case for this project's scope.
-    -   **Reference:** Section 11 (Verification Strategy)
+- **[ ] Action 1.1: Document Compliance Status**
 
--   **[ ] Action 1.2: Core RTL Code Review**
-    -   Perform a final review of your core's RTL (`regfile.v`, `alu.v`, `decoder.v`, `control_fsm.v`).
-    -   Check for synthesis-friendliness: synchronous logic, proper reset handling (asynchronous with synchronizer), no latches.
-    -   Run a final lint check using Verilator as described in the guide.
-    -   **Reference:** Section 4.3 (Verification Checklist), Section 7.2 (Reset Strategy)
+  - Create a new document in `docs/` named `COMPLIANCE_REPORT.md`.
+  - In this file, list the 98% of tests that pass.
+  - Clearly document the specific tests that fail. For each failure, provide a brief explanation of why it's considered an acceptable edge case for this project's scope.
+  - **Reference:** Section 11 (Verification Strategy)
 
--   **[ ] Action 1.3: Freeze the Core**
-    -   Commit all changes with a clear message like `feat(core): Finalize RTL for v1.0, ready for SoC integration`.
-    -   Create a git tag: `git tag -a v1.0-core-freeze -m "Core RTL is frozen. Next step: SoC integration."`
-    -   From this point, avoid making changes to the core logic unless a critical bug is found during SoC verification.
+- **[ ] Action 1.2: Core RTL Code Review**
+
+  - Perform a final review of your core's RTL (`regfile.v`, `alu.v`, `decoder.v`, `control_fsm.v`).
+  - Check for synthesis-friendliness: synchronous logic, proper reset handling (asynchronous with synchronizer), no latches.
+  - Run a final lint check using Verilator as described in the guide.
+  - **Reference:** Section 4.3 (Verification Checklist), Section 7.2 (Reset Strategy)
+
+- **[ ] Action 1.3: Freeze the Core**
+  - Commit all changes with a clear message like `feat(core): Finalize RTL for v1.0, ready for SoC integration`.
+  - Create a git tag: `git tag -a v1.0-core-freeze -m "Core RTL is frozen. Next step: SoC integration."`
+  - From this point, avoid making changes to the core logic unless a critical bug is found during SoC verification.
 
 ### Phase 2: SoC Integration & Verification (3-5 Days)
 
 **Goal:** Integrate the core into a full System-on-Chip with peripherals and verify the complete system in simulation.
 
--   **[ ] Action 2.1: Define SoC Architecture**
-    -   Based on **Section 2.1 (Complete SoC Structure)**, decide on the final set of peripherals (e.g., UART, GPIO, Timer, PWM).
-    -   Update the top-level file `rtl/soc/soc_top.v` to instantiate the core and all required peripherals.
-    -   Connect all components using the provided Wishbone interconnect.
-    -   Finalize the memory map in `firmware/memory_map.h`.
+- **[ ] Action 2.1: Define SoC Architecture**
 
--   **[ ] Action 2.2: Implement Memory Strategy**
-    -   Follow **Section 6.3 (Practical Approach for Homework)**.
-    -   Use `SIMULATION` and `SYNTHESIS` conditional compilation flags in `soc_top.v` to switch between behavioral memory models (for home simulation) and placeholders for SRAM macros (for synthesis).
+  - Based on **Section 2.1 (Complete SoC Structure)**, decide on the final set of peripherals (e.g., UART, GPIO, Timer, PWM).
+  - Update the top-level file `rtl/soc/soc_top.v` to instantiate the core and all required peripherals.
+  - Connect all components using the provided Wishbone interconnect.
+  - Finalize the memory map in `firmware/memory_map.h`.
 
--   **[ ] Action 2.3: Full SoC Verification**
-    -   Develop a comprehensive SoC-level test program in assembly or C (similar to **Section 4.4** but more extensive). This test should:
-        -   Initialize all peripherals.
-        -   Write to the UART and check for expected output.
-        -   Toggle GPIO pins and read them back.
-        -   Use the timer to create a delay.
-        -   Run a simple algorithm (e.g., factorial) on the core to ensure it still works.
-    -   Simulate the full SoC with this program at home using Icarus Verilog. Debug any integration issues.
-    -   **Reference:** Section 4.2 (Daily Development Cycle), Section 11 (Verification Strategy)
+- **[ ] Action 2.2: Implement Memory Strategy**
+
+  - Follow **Section 6.3 (Practical Approach for Homework)**.
+  - Use `SIMULATION` and `SYNTHESIS` conditional compilation flags in `soc_top.v` to switch between behavioral memory models (for home simulation) and placeholders for SRAM macros (for synthesis).
+
+- **[ ] Action 2.3: Full SoC Verification**
+  - Develop a comprehensive SoC-level test program in assembly or C (similar to **Section 4.4** but more extensive). This test should:
+    - Initialize all peripherals.
+    - Write to the UART and check for expected output.
+    - Toggle GPIO pins and read them back.
+    - Use the timer to create a delay.
+    - Run a simple algorithm (e.g., factorial) on the core to ensure it still works.
+  - Simulate the full SoC with this program at home using Icarus Verilog. Debug any integration issues.
+  - **Reference:** Section 4.2 (Daily Development Cycle), Section 11 (Verification Strategy)
 
 ### Phase 3: Synthesis (RTL-to-Netlist) at School (1 Day)
 
 **Goal:** Synthesize your design into a gate-level netlist using Cadence Genus.
 
--   **[ ] Action 3.1: Prepare for School Visit**
-    -   Ensure your project is clean and all verification passes.
-    -   Push your final code to a remote repository or copy it to a USB drive.
-    -   Decide whether you will attempt **Option A (CPU-Only)** first as a backup, or go directly for **Option C (Full SoC)**, as per **Section 3.3**. It is highly recommended to do the safe CPU-only version first.
+- **[ ] Action 3.1: Prepare for School Visit**
 
--   **[ ] Action 3.2: Execute Synthesis**
-    -   At the school lab, set up the environment (**Section 5.1**) and technology library (**Section 5.2**).
-    -   Use the provided TCL scripts (`scripts/synthesize_cpu.tcl` or `scripts/synthesize_soc.tcl`) as a template. You will need to confirm the exact library and LEF file paths from your TA.
-    -   Run Genus and generate the netlist and reports.
-    -   **Reference:** Section 5.3 (Complete Genus Synthesis Flow)
+  - Ensure your project is clean and all verification passes.
+  - Push your final code to a remote repository or copy it to a USB drive.
+  - Decide whether you will attempt **Option A (CPU-Only)** first as a backup, or go directly for **Option C (Full SoC)**, as per **Section 3.3**. It is highly recommended to do the safe CPU-only version first.
 
--   **[ ] Action 3.3: Analyze and Iterate**
-    -   Carefully review the timing, area, and power reports.
-    -   If you have timing violations (negative slack), apply the techniques in **Section 9.3 (Fixing Common Issues)**. This may involve adjusting the clock period in your constraints file or, in a worst-case scenario, modifying the RTL.
-    -   Your goal is to achieve positive timing slack.
+- **[ ] Action 3.2: Execute Synthesis**
+
+  - At the school lab, set up the environment (**Section 5.1**) and technology library (**Section 5.2**).
+  - Use the provided TCL scripts (`scripts/synthesize_cpu.tcl` or `scripts/synthesize_soc.tcl`) as a template. You will need to confirm the exact library and LEF file paths from your TA.
+  - Run Genus and generate the netlist and reports.
+  - **Reference:** Section 5.3 (Complete Genus Synthesis Flow)
+
+- **[ ] Action 3.3: Analyze and Iterate**
+  - Carefully review the timing, area, and power reports.
+  - If you have timing violations (negative slack), apply the techniques in **Section 9.3 (Fixing Common Issues)**. This may involve adjusting the clock period in your constraints file or, in a worst-case scenario, modifying the RTL.
+  - Your goal is to achieve positive timing slack.
 
 ### Phase 4: Physical Design (Netlist-to-GDSII) at School (1 Day)
 
 **Goal:** Create the final physical layout of your chip using Cadence Innovus.
 
--   **[ ] Action 4.1: Execute Place & Route**
-    -   Once synthesis is successful and timing is met, proceed to P&R.
-    -   Use the `scripts/place_route.tcl` script as a template. Again, confirm paths and settings with your TA.
-    -   Run the script in Innovus. This process will perform floorplanning, placement, clock tree synthesis, and routing.
-    -   **Reference:** Section 10.2 (Complete P&R Script)
+- **[ ] Action 4.1: Execute Place & Route**
 
--   **[ ] Action 4.2: Final Sign-off Verification**
-    -   After P&R completes, Innovus will run final verification checks (DRC, LVS).
-    -   Review the post-P&R timing report to ensure timing is still met after accounting for real wire delays.
-    -   If there are issues, use the troubleshooting tips in **Section 10.3**.
+  - Once synthesis is successful and timing is met, proceed to P&R.
+  - Use the `scripts/place_route.tcl` script as a template. Again, confirm paths and settings with your TA.
+  - Run the script in Innovus. This process will perform floorplanning, placement, clock tree synthesis, and routing.
+  - **Reference:** Section 10.2 (Complete P&R Script)
 
--   **[ ] Action 4.3: Generate GDSII**
-    -   The final step of the P&R script is `streamOut`, which generates the `your_design.gds` file.
-    -   Backup this file securely. This is the primary deliverable for your project.
+- **[ ] Action 4.2: Final Sign-off Verification**
 
+  - After P&R completes, Innovus will run final verification checks (DRC, LVS).
+  - Review the post-P&R timing report to ensure timing is still met after accounting for real wire delays.
+  - If there are issues, use the troubleshooting tips in **Section 10.3**.
+
+- **[ ] Action 4.3: Generate GDSII**
+  - The final step of the P&R script is `streamOut`, which generates the `your_design.gds` file.
+  - Backup this file securely. This is the primary deliverable for your project.

@@ -4,9 +4,10 @@
 # Target: School technology library
 #===============================================================================
 
-# Note: Update paths for your school's setup
-set TECH_LIB_PATH "/path/to/school/technology/library"
-set RTL_PATH "../../rtl/core"
+# Paths relative to synthesis/cadence/ directory
+set TECH_LIB_PATH "../../pdk/sky130A/libs.ref"
+set RTL_PATH "../../rtl"
+set SRAM_LIB_PATH "$TECH_LIB_PATH/sky130_sram_macros"
 
 #===============================================================================
 # Setup
@@ -16,11 +17,12 @@ set RTL_PATH "../../rtl/core"
 set_db init_lib_search_path $TECH_LIB_PATH
 set_db init_hdl_search_path $RTL_PATH
 
-# Read technology library
-# Update this filename based on your school's library
-read_libs slow.lib
-# read_libs typical.lib  # Uncomment if using typical corner
-# read_libs fast.lib     # Uncomment if using fast corner
+# Read technology libraries
+read_libs $TECH_LIB_PATH/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_n40C_1v60.lib
+read_libs $TECH_LIB_PATH/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib  
+read_libs $TECH_LIB_PATH/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ff_100C_1v95.lib
+# Read SRAM macro library
+read_libs $SRAM_LIB_PATH/sky130_sram_macros.lib
 
 #===============================================================================
 # Read RTL
@@ -28,12 +30,30 @@ read_libs slow.lib
 
 puts "Reading RTL files..."
 
-read_hdl -sv {
-    custom_riscv_core.v
-    regfile.v
-    alu.v
-    decoder.v
-    custom_core_wrapper.v
+# Read SRAM macro models first
+read_hdl -v2001 $SRAM_LIB_PATH/sky130_sram_2kbyte_1rw1r_32x512_8.v
+
+# Read complete SoC design
+read_hdl -v2001 {
+    $RTL_PATH/core/riscv_defines.vh
+    $RTL_PATH/core/alu.v
+    $RTL_PATH/core/regfile.v  
+    $RTL_PATH/core/decoder.v
+    $RTL_PATH/core/mdu.v
+    $RTL_PATH/core/csr_unit.v
+    $RTL_PATH/core/exception_unit.v
+    $RTL_PATH/core/interrupt_controller.v
+    $RTL_PATH/core/custom_riscv_core.v
+    $RTL_PATH/memory/dual_rom.v
+    $RTL_PATH/memory/ram_64kb.v
+    $RTL_PATH/peripherals/uart_tx.v
+    $RTL_PATH/peripherals/uart_rx.v
+    $RTL_PATH/peripherals/uart_controller.v
+    $RTL_PATH/peripherals/pwm_generator.v
+    $RTL_PATH/peripherals/sigma_delta_adc.v
+    $RTL_PATH/peripherals/led_controller.v
+    $RTL_PATH/bus/wishbone_interconnect.v
+    $RTL_PATH/soc/soc_simple.v
 }
 
 # Or read the top level which includes others
@@ -44,7 +64,7 @@ read_hdl -sv {
 #===============================================================================
 
 puts "Elaborating design..."
-elaborate custom_core_wrapper
+elaborate soc_simple
 
 # Check design
 check_design -unresolved
