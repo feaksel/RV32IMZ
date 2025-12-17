@@ -1,0 +1,121 @@
+# Sky130 SRAM Macro LEF File
+# Physical layout information for sky130_sram_2kbyte_1rw1r_32x512_8
+
+VERSION 5.7 ;
+BUSBITCHARS "[]" ;
+DIVIDERCHAR "/" ;
+
+UNITS
+  DATABASE MICRONS 1000 ;
+END UNITS
+
+# SRAM Macro Definition
+MACRO sky130_sram_2kbyte_1rw1r_32x512_8
+  CLASS BLOCK ;
+  FOREIGN sky130_sram_2kbyte_1rw1r_32x512_8 0.0 0.0 ;
+  ORIGIN 0.0 0.0 ;
+  SIZE 115.0 BY 385.0 ;  # Estimated size in microns
+  SYMMETRY X Y ;
+  
+  # Power pins
+  PIN VDD
+    DIRECTION INOUT ;
+    USE POWER ;
+    SHAPE ABUTMENT ;
+    PORT
+      LAYER met1 ;
+        RECT 0.0 380.0 115.0 385.0 ;
+    END
+  END VDD
+  
+  PIN VSS
+    DIRECTION INOUT ;
+    USE GROUND ;
+    SHAPE ABUTMENT ;
+    PORT
+      LAYER met1 ;
+        RECT 0.0 0.0 115.0 5.0 ;
+    END
+  END VSS
+  
+  # Signal pins (simplified placement)
+  PIN clk0
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 0.0 190.0 5.0 195.0 ;
+    END
+  END clk0
+  
+  PIN csb0
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 0.0 185.0 5.0 190.0 ;
+    END
+  END csb0
+  
+  PIN web0
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 0.0 180.0 5.0 185.0 ;
+    END
+  END web0
+  
+  # Address bus pins (simplified)
+  PIN addr0[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 5.0 370.0 10.0 375.0 ;
+    END
+  END addr0[0]
+  
+  PIN addr0[1]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 10.0 370.0 15.0 375.0 ;
+    END
+  END addr0[1]
+  
+  # ... (additional address pins would be defined similarly)
+  
+  # Data pins (simplified representation)
+  PIN din0[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 100.0 370.0 105.0 375.0 ;
+    END
+  END din0[0]
+  
+  PIN dout0[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 110.0 370.0 115.0 375.0 ;
+    END
+  END dout0[0]
+  
+  # ... (additional data pins would be defined similarly)
+  
+  # Blockage for routing (core area)
+  OBS
+    LAYER met1 ;
+      RECT 10.0 10.0 105.0 375.0 ;
+    LAYER met2 ;
+      RECT 15.0 15.0 100.0 370.0 ;
+  END
+  
+END sky130_sram_2kbyte_1rw1r_32x512_8
+
+END LIBRARY

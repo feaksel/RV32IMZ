@@ -1,0 +1,63 @@
+# Sky130 Standard Cell GDS Layer Map
+# This file maps GDS layers to their purposes for streamOut
+# Based on Sky130 PDK layer definitions
+
+LAYER MAP
+1  diff        DIFF
+2  tap         TAP  
+3  nwell       NWELL
+4  dnwell      DNWELL
+5  pwbm        PWBM
+6  pwdem       PWDEM
+7  nf          NF
+8  diff_resist DIFF_RESIST
+9  tunm        TUNM
+10 rpm         RPM
+11 urpm        URPM
+12 ldntm       LDNTM
+13 hvntm       HVNTM
+14 sonos       SONOS
+15 nsdm        NSDM
+16 psdm        PSDM
+17 rpm2        RPM2
+18 urpm2       URPM2
+19 hvtp        HVTP
+20 lvtn        LVTN
+21 vhvi        VHVI
+22 thkox       THKOX
+23 tunp        TUNP
+24 photo       PHOTO
+25 hvtr        HVTR
+66 npc         NPC
+67 li1         LI1
+68 mcon        MCON
+69 met1        MET1
+70 via1        VIA1
+71 met2        MET2
+72 via2        VIA2
+73 met3        MET3
+74 via3        VIA3
+75 met4        MET4
+76 via4        VIA4
+77 met5        MET5
+78 pad         PAD
+79 nsm         NSM
+80 capm        CAPM
+81 cap2m       CAP2M
+82 vpp         VPP
+83 uhvi        UHVI
+84 npn         NPN
+85 pnp         PNP
+86 hvntm2      HVNTM2
+87 inductor    INDUCTOR
+88 lvs         LVS
+
+# Text layers  
+68:5  mcon.label
+69:5  met1.label  
+71:5  met2.label
+73:5  met3.label
+75:5  met4.label
+77:5  met5.label
+
+END

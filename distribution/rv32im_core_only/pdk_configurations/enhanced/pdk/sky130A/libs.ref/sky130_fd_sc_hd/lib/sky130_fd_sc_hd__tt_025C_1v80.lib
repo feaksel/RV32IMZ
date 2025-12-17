@@ -1,0 +1,521 @@
+/*
+ * SKY130 High Density Standard Cell Library
+ * Timing Model: Typical Corner (tt_025C_1v80)
+ * 
+ * Technology: 130nm
+ * Supply Voltage: 1.8V
+ * Temperature: 25°C
+ * Process: Typical
+ *
+ * Academic/Educational Version for RV32IM Core Homework
+ */
+
+library (sky130_fd_sc_hd__tt_025C_1v80) {
+  technology (cmos);
+  delay_model : table_lookup;
+  revision : "1.0";
+  date : "2024-01-01";
+  comment : "Minimal SKY130 library for academic use";
+  
+  time_unit : "1ns";
+  voltage_unit : "1V";
+  current_unit : "1mA";
+  pulling_resistance_unit : "1kohm";
+  capacitive_load_unit (1,pf);
+  
+  /* Operating conditions */
+  nom_process : 1.0;
+  nom_voltage : 1.8;
+  nom_temperature : 25.0;
+  
+  /* Default attributes */
+  default_cell_leakage_power : 0.001;
+  default_fanout_load : 1.0;
+  default_inout_pin_cap : 0.005;
+  default_input_pin_cap : 0.005;
+  default_output_pin_cap : 0.0;
+  default_max_transition : 0.75;
+  
+  /* Wire load models */
+  wire_load("Small") {
+    resistance : 1.0;
+    capacitance : 1.0;
+    area : 0.1;
+    slope : 0.5;
+  }
+  
+  /* Essential cells for academic ASIC design */
+  
+  /* Inverter */
+  cell (sky130_fd_sc_hd__inv_1) {
+    area : 1.0;
+    cell_leakage_power : 0.001;
+    
+    pin(A) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(Y) {
+      direction : output;
+      function : "!A";
+      
+      timing() {
+        related_pin : "A";
+        timing_sense : negative_unate;
+        cell_rise(scalar) { values("0.1"); }
+        cell_fall(scalar) { values("0.1"); }
+        rise_transition(scalar) { values("0.05"); }
+        fall_transition(scalar) { values("0.05"); }
+      }
+    }
+  }
+  
+  /* Buffer */
+  cell (sky130_fd_sc_hd__buf_1) {
+    area : 2.0;
+    cell_leakage_power : 0.002;
+    
+    pin(A) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(X) {
+      direction : output;
+      function : "A";
+      
+      timing() {
+        related_pin : "A";
+        timing_sense : positive_unate;
+        cell_rise(scalar) { values("0.12"); }
+        cell_fall(scalar) { values("0.12"); }
+        rise_transition(scalar) { values("0.06"); }
+        fall_transition(scalar) { values("0.06"); }
+      }
+    }
+  }
+  
+  /* 2-input NAND */
+  cell (sky130_fd_sc_hd__nand2_1) {
+    area : 2.0;
+    cell_leakage_power : 0.002;
+    
+    pin(A) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(B) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(Y) {
+      direction : output;
+      function : "!(A & B)";
+      
+      timing() {
+        related_pin : "A";
+        timing_sense : negative_unate;
+        cell_rise(scalar) { values("0.15"); }
+        cell_fall(scalar) { values("0.10"); }
+        rise_transition(scalar) { values("0.08"); }
+        fall_transition(scalar) { values("0.06"); }
+      }
+      
+      timing() {
+        related_pin : "B";
+        timing_sense : negative_unate;
+        cell_rise(scalar) { values("0.15"); }
+        cell_fall(scalar) { values("0.10"); }
+        rise_transition(scalar) { values("0.08"); }
+        fall_transition(scalar) { values("0.06"); }
+      }
+    }
+  }
+  
+  /* 2-input NOR */
+  cell (sky130_fd_sc_hd__nor2_1) {
+    area : 2.0;
+    cell_leakage_power : 0.002;
+    
+    pin(A) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(B) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(Y) {
+      direction : output;
+      function : "!(A | B)";
+      
+      timing() {
+        related_pin : "A";
+        timing_sense : negative_unate;
+        cell_rise(scalar) { values("0.18"); }
+        cell_fall(scalar) { values("0.12"); }
+        rise_transition(scalar) { values("0.10"); }
+        fall_transition(scalar) { values("0.08"); }
+      }
+      
+      timing() {
+        related_pin : "B";
+        timing_sense : negative_unate;
+        cell_rise(scalar) { values("0.18"); }
+        cell_fall(scalar) { values("0.12"); }
+        rise_transition(scalar) { values("0.10"); }
+        fall_transition(scalar) { values("0.08"); }
+      }
+    }
+  }
+  
+  /* D Flip-Flop */
+  cell (sky130_fd_sc_hd__dfxtp_1) {
+    area : 6.0;
+    cell_leakage_power : 0.005;
+    
+    ff(IQ, IQN) {
+      clocked_on : "CLK";
+      next_state : "D";
+    }
+    
+    pin(CLK) {
+      direction : input;
+      capacitance : 0.008;
+      clock : true;
+    }
+    
+    pin(D) {
+      direction : input;
+      capacitance : 0.005;
+      
+      timing() {
+        related_pin : "CLK";
+        timing_type : setup_rising;
+        rise_constraint(scalar) { values("0.2"); }
+        fall_constraint(scalar) { values("0.2"); }
+      }
+      
+      timing() {
+        related_pin : "CLK";
+        timing_type : hold_rising;
+        rise_constraint(scalar) { values("0.05"); }
+        fall_constraint(scalar) { values("0.05"); }
+      }
+    }
+    
+    pin(Q) {
+      direction : output;
+      function : "IQ";
+      
+      timing() {
+        related_pin : "CLK";
+        timing_type : rising_edge;
+        timing_sense : non_unate;
+        cell_rise(scalar) { values("0.25"); }
+        cell_fall(scalar) { values("0.25"); }
+        rise_transition(scalar) { values("0.10"); }
+        fall_transition(scalar) { values("0.10"); }
+      }
+    }
+  }
+  
+  /* 2-to-1 Multiplexer */
+  cell (sky130_fd_sc_hd__mux2_1) {
+    area : 4.0;
+    cell_leakage_power : 0.003;
+    
+    pin(A0) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(A1) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(S) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(X) {
+      direction : output;
+      function : "S ? A1 : A0";
+      
+      timing() {
+        related_pin : "A0";
+        timing_sense : positive_unate;
+        cell_rise(scalar) { values("0.20"); }
+        cell_fall(scalar) { values("0.18"); }
+        rise_transition(scalar) { values("0.10"); }
+        fall_transition(scalar) { values("0.08"); }
+      }
+      
+      timing() {
+        related_pin : "A1";
+        timing_sense : positive_unate;
+        cell_rise(scalar) { values("0.20"); }
+        cell_fall(scalar) { values("0.18"); }
+        rise_transition(scalar) { values("0.10"); }
+        fall_transition(scalar) { values("0.08"); }
+      }
+      
+      timing() {
+        related_pin : "S";
+        timing_sense : non_unate;
+        cell_rise(scalar) { values("0.25"); }
+        cell_fall(scalar) { values("0.22"); }
+        rise_transition(scalar) { values("0.12"); }
+        fall_transition(scalar) { values("0.10"); }
+      }
+    }
+  }
+  
+  /* Full Adder */
+  cell (sky130_fd_sc_hd__fa_1) {
+    area : 8.0;
+    cell_leakage_power : 0.006;
+    
+    pin(A) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(B) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(CIN) {
+      direction : input;
+      capacitance : 0.005;
+    }
+    
+    pin(SUM) {
+      direction : output;
+      function : "A ^ B ^ CIN";
+      
+      timing() {
+        related_pin : "A";
+        timing_sense : non_unate;
+        cell_rise(scalar) { values("0.30"); }
+        cell_fall(scalar) { values("0.28"); }
+        rise_transition(scalar) { values("0.15"); }
+        fall_transition(scalar) { values("0.12"); }
+      }
+    }
+    
+    pin(COUT) {
+      direction : output;
+      function : "(A & B) | (A & CIN) | (B & CIN)";
+      
+      timing() {
+        related_pin : "A";
+        timing_sense : positive_unate;
+        cell_rise(scalar) { values("0.25"); }
+        cell_fall(scalar) { values("0.20"); }
+        rise_transition(scalar) { values("0.12"); }
+        fall_transition(scalar) { values("0.10"); }
+      }
+    }
+  }
+
+  /* Enhanced PDK - Comprehensive cell library for academic use */
+  
+  /* Clock Buffer Family - Essential for CTS */
+  cell (sky130_fd_sc_hd__clkbuf_1) {
+    area : 1.5 ; cell_leakage_power : 0.01 ;
+    pin(A) { capacitance : 0.01 ; direction : input ; }
+    pin(X) { direction : output ; function : "A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.1"); } cell_fall(scalar) { values("0.1"); }
+        rise_transition(scalar) { values("0.05"); } fall_transition(scalar) { values("0.05"); } } }
+  }
+  
+  cell (sky130_fd_sc_hd__clkbuf_2) {
+    area : 2.5 ; cell_leakage_power : 0.02 ;
+    pin(A) { capacitance : 0.02 ; direction : input ; }
+    pin(X) { direction : output ; function : "A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.08"); } cell_fall(scalar) { values("0.08"); }
+        rise_transition(scalar) { values("0.04"); } fall_transition(scalar) { values("0.04"); } } }
+  }
+
+  cell (sky130_fd_sc_hd__clkbuf_4) {
+    area : 4.0 ; cell_leakage_power : 0.04 ;
+    pin(A) { capacitance : 0.04 ; direction : input ; }
+    pin(X) { direction : output ; function : "A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.06"); } cell_fall(scalar) { values("0.06"); }
+        rise_transition(scalar) { values("0.03"); } fall_transition(scalar) { values("0.03"); } } }
+  }
+
+  cell (sky130_fd_sc_hd__clkbuf_8) {
+    area : 7.0 ; cell_leakage_power : 0.08 ;
+    pin(A) { capacitance : 0.08 ; direction : input ; }
+    pin(X) { direction : output ; function : "A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.05"); } cell_fall(scalar) { values("0.05"); }
+        rise_transition(scalar) { values("0.025"); } fall_transition(scalar) { values("0.025"); } } }
+  }
+
+  /* Clock Inverter Family */
+  cell (sky130_fd_sc_hd__clkinv_1) {
+    area : 1.5 ; cell_leakage_power : 0.01 ;
+    pin(A) { capacitance : 0.01 ; direction : input ; }
+    pin(Y) { direction : output ; function : "!A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.1"); } cell_fall(scalar) { values("0.1"); }
+        rise_transition(scalar) { values("0.05"); } fall_transition(scalar) { values("0.05"); } } }
+  }
+
+  cell (sky130_fd_sc_hd__clkinv_2) {
+    area : 2.5 ; cell_leakage_power : 0.02 ;
+    pin(A) { capacitance : 0.02 ; direction : input ; }
+    pin(Y) { direction : output ; function : "!A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.08"); } cell_fall(scalar) { values("0.08"); }
+        rise_transition(scalar) { values("0.04"); } fall_transition(scalar) { values("0.04"); } } }
+  }
+
+  cell (sky130_fd_sc_hd__clkinv_4) {
+    area : 4.0 ; cell_leakage_power : 0.04 ;
+    pin(A) { capacitance : 0.04 ; direction : input ; }
+    pin(Y) { direction : output ; function : "!A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.06"); } cell_fall(scalar) { values("0.06"); }
+        rise_transition(scalar) { values("0.03"); } fall_transition(scalar) { values("0.03"); } } }
+  }
+
+  /* Buffer Family - Various drive strengths */
+  cell (sky130_fd_sc_hd__buf_2) {
+    area : 2.5 ; cell_leakage_power : 0.02 ;
+    pin(A) { capacitance : 0.02 ; direction : input ; }
+    pin(X) { direction : output ; function : "A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.08"); } cell_fall(scalar) { values("0.08"); }
+        rise_transition(scalar) { values("0.04"); } fall_transition(scalar) { values("0.04"); } } }
+  }
+
+  cell (sky130_fd_sc_hd__buf_4) {
+    area : 4.0 ; cell_leakage_power : 0.04 ;
+    pin(A) { capacitance : 0.04 ; direction : input ; }
+    pin(X) { direction : output ; function : "A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.06"); } cell_fall(scalar) { values("0.06"); }
+        rise_transition(scalar) { values("0.03"); } fall_transition(scalar) { values("0.03"); } } }
+  }
+
+  /* Inverter Family */
+  cell (sky130_fd_sc_hd__inv_2) {
+    area : 2.0 ; cell_leakage_power : 0.015 ;
+    pin(A) { capacitance : 0.015 ; direction : input ; }
+    pin(Y) { direction : output ; function : "!A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.09"); } cell_fall(scalar) { values("0.09"); }
+        rise_transition(scalar) { values("0.045"); } fall_transition(scalar) { values("0.045"); } } }
+  }
+
+  cell (sky130_fd_sc_hd__inv_4) {
+    area : 3.5 ; cell_leakage_power : 0.03 ;
+    pin(A) { capacitance : 0.03 ; direction : input ; }
+    pin(Y) { direction : output ; function : "!A" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.07"); } cell_fall(scalar) { values("0.07"); }
+        rise_transition(scalar) { values("0.035"); } fall_transition(scalar) { values("0.035"); } } }
+  }
+
+  /* AND Gates */
+  cell (sky130_fd_sc_hd__and2_1) {
+    area : 3.0 ; cell_leakage_power : 0.02 ;
+    pin(A) { capacitance : 0.01 ; direction : input ; }
+    pin(B) { capacitance : 0.01 ; direction : input ; }
+    pin(X) { direction : output ; function : "(A & B)" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.15"); } cell_fall(scalar) { values("0.12"); }
+        rise_transition(scalar) { values("0.06"); } fall_transition(scalar) { values("0.05"); } }
+      timing() { related_pin : "B" ; cell_rise(scalar) { values("0.15"); } cell_fall(scalar) { values("0.12"); }
+        rise_transition(scalar) { values("0.06"); } fall_transition(scalar) { values("0.05"); } } }
+  }
+
+  cell (sky130_fd_sc_hd__and3_1) {
+    area : 4.0 ; cell_leakage_power : 0.025 ;
+    pin(A) { capacitance : 0.01 ; direction : input ; }
+    pin(B) { capacitance : 0.01 ; direction : input ; }
+    pin(C) { capacitance : 0.01 ; direction : input ; }
+    pin(X) { direction : output ; function : "(A & B & C)" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.18"); } cell_fall(scalar) { values("0.14"); } }
+      timing() { related_pin : "B" ; cell_rise(scalar) { values("0.18"); } cell_fall(scalar) { values("0.14"); } }
+      timing() { related_pin : "C" ; cell_rise(scalar) { values("0.18"); } cell_fall(scalar) { values("0.14"); } } }
+  }
+
+  /* OR Gates */
+  cell (sky130_fd_sc_hd__or2_1) {
+    area : 3.0 ; cell_leakage_power : 0.02 ;
+    pin(A) { capacitance : 0.01 ; direction : input ; }
+    pin(B) { capacitance : 0.01 ; direction : input ; }
+    pin(X) { direction : output ; function : "(A | B)" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.12"); } cell_fall(scalar) { values("0.15"); } }
+      timing() { related_pin : "B" ; cell_rise(scalar) { values("0.12"); } cell_fall(scalar) { values("0.15"); } } }
+  }
+
+  /* NAND Gates */
+  cell (sky130_fd_sc_hd__nand2_2) {
+    area : 3.5 ; cell_leakage_power : 0.025 ;
+    pin(A) { capacitance : 0.015 ; direction : input ; }
+    pin(B) { capacitance : 0.015 ; direction : input ; }
+    pin(Y) { direction : output ; function : "!(A & B)" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.08"); } cell_fall(scalar) { values("0.1"); } }
+      timing() { related_pin : "B" ; cell_rise(scalar) { values("0.08"); } cell_fall(scalar) { values("0.1"); } } }
+  }
+
+  cell (sky130_fd_sc_hd__nand3_1) {
+    area : 4.0 ; cell_leakage_power : 0.025 ;
+    pin(A) { capacitance : 0.01 ; direction : input ; }
+    pin(B) { capacitance : 0.01 ; direction : input ; }
+    pin(C) { capacitance : 0.01 ; direction : input ; }
+    pin(Y) { direction : output ; function : "!(A & B & C)" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.09"); } cell_fall(scalar) { values("0.12"); } }
+      timing() { related_pin : "B" ; cell_rise(scalar) { values("0.09"); } cell_fall(scalar) { values("0.12"); } }
+      timing() { related_pin : "C" ; cell_rise(scalar) { values("0.09"); } cell_fall(scalar) { values("0.12"); } } }
+  }
+
+  /* NOR Gates */
+  cell (sky130_fd_sc_hd__nor2_1) {
+    area : 3.0 ; cell_leakage_power : 0.02 ;
+    pin(A) { capacitance : 0.01 ; direction : input ; }
+    pin(B) { capacitance : 0.01 ; direction : input ; }
+    pin(Y) { direction : output ; function : "!(A | B)" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.1"); } cell_fall(scalar) { values("0.08"); } }
+      timing() { related_pin : "B" ; cell_rise(scalar) { values("0.1"); } cell_fall(scalar) { values("0.08"); } } }
+  }
+
+  /* XOR Gates */
+  cell (sky130_fd_sc_hd__xor2_1) {
+    area : 5.0 ; cell_leakage_power : 0.03 ;
+    pin(A) { capacitance : 0.015 ; direction : input ; }
+    pin(B) { capacitance : 0.015 ; direction : input ; }
+    pin(X) { direction : output ; function : "(A ^ B)" ;
+      timing() { related_pin : "A" ; cell_rise(scalar) { values("0.2"); } cell_fall(scalar) { values("0.18"); } }
+      timing() { related_pin : "B" ; cell_rise(scalar) { values("0.2"); } cell_fall(scalar) { values("0.18"); } } }
+  }
+
+  /* Multiplexers */
+  cell (sky130_fd_sc_hd__mux2_1) {
+    area : 6.0 ; cell_leakage_power : 0.035 ;
+    pin(A0) { capacitance : 0.015 ; direction : input ; }
+    pin(A1) { capacitance : 0.015 ; direction : input ; }
+    pin(S) { capacitance : 0.015 ; direction : input ; }
+    pin(X) { direction : output ; function : "(S ? A1 : A0)" ;
+      timing() { related_pin : "A0" ; cell_rise(scalar) { values("0.16"); } cell_fall(scalar) { values("0.14"); } }
+      timing() { related_pin : "A1" ; cell_rise(scalar) { values("0.16"); } cell_fall(scalar) { values("0.14"); } }
+      timing() { related_pin : "S" ; cell_rise(scalar) { values("0.18"); } cell_fall(scalar) { values("0.16"); } } }
+  }
+
+  /* Additional DFF variants for better optimization */
+  cell (sky130_fd_sc_hd__dfxtp_2) {
+    area : 8.0 ; cell_leakage_power : 0.05 ;
+    pin(CLK) { capacitance : 0.02 ; direction : input ; clock : true ; }
+    pin(D) { capacitance : 0.015 ; direction : input ; }
+    pin(Q) { direction : output ; function : "IQ" ;
+      timing() { related_pin : "CLK" ; timing_type : rising_edge ;
+        cell_rise(scalar) { values("0.15"); } cell_fall(scalar) { values("0.12"); } } }
+    ff(IQ,IQN) { clocked_on : "CLK" ; next_state : "D" ; }
+  }
+
+}

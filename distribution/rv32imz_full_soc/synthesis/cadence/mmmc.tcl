@@ -1,92 +1,157 @@
 #===============================================================================
 # Multi-Mode Multi-Corner Analysis Configuration
 # For RV32IM Core with Sky130 PDK
-# Innovus 21.1+ Compatible Syntax
+# Research-Based MMMC Setup (avoids read_libs conflicts)
 #===============================================================================
 
-set TECH_LIB_PATH "../../pdk/sky130A/libs.ref"
-set CONSTRAINT_PATH "../../constraints"
+set TECH_LIB_PATH "../pdk/sky130A/libs.ref"
 set SRAM_LIB_PATH "$TECH_LIB_PATH/sky130_sram_macros"
 
-#===============================================================================
-# Step 1: Create Library Sets
-#===============================================================================
+# ============================================================================
+# AUTOMATIC PDK-AWARE MMMC SETUP
+# ============================================================================
 
-# Slow corner (SS - slow-slow, worst setup)
-create_library_set -name SS_LIB \
-    -timing [list \
-        $TECH_LIB_PATH/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_n40C_1v60.lib \
-        $SRAM_LIB_PATH/sky130_sram_macros.lib]
+proc setup_mmmc_for_pdk {lib_path} {
+    puts "🔧 Setting up MMMC for current PDK configuration..."
+    
+    # Discover available libraries
+    set available_libs [glob -nocomplain "${lib_path}/sky130_fd_sc_hd/lib/*.lib"]
+    set num_libs [llength $available_libs]
+    
+    puts "📚 Found $num_libs library files"
+    foreach lib $available_libs {
+        puts "  - [file tail $lib] ([expr [file size $lib]/1024]KB)"
+    }
+    
+    if {$num_libs == 0} {
+        error "❌ No liberty files found in $lib_path"
+    }
+    
+    # Categorize libraries by operating conditions
+    set tt_lib ""
+    set ss_lib ""  
+    set ff_lib ""
+    
+    foreach lib $available_libs {
+        set filename [file tail $lib]
+        if {[string match "*tt_025C_1v80*" $filename]} {
+            set tt_lib $lib
+        } elseif {[string match "*ss_*" $filename]} {
+            set ss_lib $lib
+        } elseif {[string match "*ff_*" $filename]} {
+            set ff_lib $lib
+        }
+    }
+    
+    # Determine MMMC strategy based on available libraries
+    if {$tt_lib != "" && $ss_lib != "" && $ff_lib != ""} {
+        puts "🚀 Multi-corner MMMC (Enhanced PDK)"
+        setup_multicorner_mmmc $tt_lib $ss_lib $ff_lib
+    } elseif {$tt_lib != "" && $ss_lib != ""} {
+        puts "⚡ Dual-corner MMMC (Basic CTS PDK)"
+        setup_dualcorner_mmmc $tt_lib $ss_lib
+    } else {
+        puts "📦 Single-corner MMMC (Minimal PDK)"
+        set single_lib [expr {$tt_lib != "" ? $tt_lib : [lindex $available_libs 0]}]
+        setup_singlecorner_mmmc $single_lib
+    }
+}
 
-# Typical corner (TT - typical-typical)
-create_library_set -name TT_LIB \
-    -timing [list \
-        $TECH_LIB_PATH/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib \
-        $SRAM_LIB_PATH/sky130_sram_macros.lib]
+proc setup_multicorner_mmmc {tt_lib ss_lib ff_lib} {
+    puts "Setting up 3-corner MMMC..."
+    
+    # Library sets
+    create_library_set -name TT_LIB -timing [list $tt_lib]
+    create_library_set -name SS_LIB -timing [list $ss_lib] 
+    create_library_set -name FF_LIB -timing [list $ff_lib]
+    
+    # Delay corners
+    create_delay_corner -name TT_CORNER -library_set TT_LIB
+    create_delay_corner -name SS_CORNER -library_set SS_LIB
+    create_delay_corner -name FF_CORNER -library_set FF_LIB
+    
+    # Constraint mode
+    if {[file exists "../constraints/basic_timing.sdc"]} {
+        create_constraint_mode -name FUNC_MODE -sdc_files [list ../constraints/basic_timing.sdc]
+    } else {
+        create_constraint_mode -name FUNC_MODE
+        puts "⚠️  Warning: No SDC file found, using default constraints"
+    }
+    
+    # Analysis views
+    create_analysis_view -name TT_VIEW -constraint_mode FUNC_MODE -delay_corner TT_CORNER
+    create_analysis_view -name SS_VIEW -constraint_mode FUNC_MODE -delay_corner SS_CORNER
+    create_analysis_view -name FF_VIEW -constraint_mode FUNC_MODE -delay_corner FF_CORNER
+    
+    # Setup: SS (worst setup), Hold: FF (worst hold)
+    set_analysis_view -setup {SS_VIEW} -hold {FF_VIEW}
+    puts "✅ 3-corner MMMC setup complete"
+}
 
-# Fast corner (FF - fast-fast, worst hold)
-create_library_set -name FF_LIB \
-    -timing [list \
-        $TECH_LIB_PATH/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ff_100C_1v95.lib \
-        $SRAM_LIB_PATH/sky130_sram_macros.lib]
+proc setup_dualcorner_mmmc {tt_lib ss_lib} {
+    puts "Setting up 2-corner MMMC..."
+    
+    # Library sets
+    create_library_set -name TT_LIB -timing [list $tt_lib]
+    create_library_set -name SS_LIB -timing [list $ss_lib]
+    
+    # Delay corners
+    create_delay_corner -name TT_CORNER -library_set TT_LIB
+    create_delay_corner -name SS_CORNER -library_set SS_LIB
+    
+    # Constraint mode
+    if {[file exists "../constraints/basic_timing.sdc"]} {
+        create_constraint_mode -name FUNC_MODE -sdc_files [list ../constraints/basic_timing.sdc]
+    } else {
+        create_constraint_mode -name FUNC_MODE
+    }
+    
+    # Analysis views
+    create_analysis_view -name TT_VIEW -constraint_mode FUNC_MODE -delay_corner TT_CORNER
+    create_analysis_view -name SS_VIEW -constraint_mode FUNC_MODE -delay_corner SS_CORNER
+    
+    # Setup: SS (worst), Hold: TT (typical)
+    set_analysis_view -setup {SS_VIEW} -hold {TT_VIEW}
+    puts "✅ 2-corner MMMC setup complete"
+}
 
-#===============================================================================
-# Step 2: Create RC Corners (optional - using default for simplicity)
-#===============================================================================
+proc setup_singlecorner_mmmc {lib_file} {
+    puts "Setting up 1-corner MMMC..."
+    
+    # Single library set
+    create_library_set -name SINGLE_LIB -timing [list $lib_file]
+    
+    # Single delay corner
+    create_delay_corner -name SINGLE_CORNER -library_set SINGLE_LIB
+    
+    # Constraint mode
+    if {[file exists "../constraints/basic_timing.sdc"]} {
+        create_constraint_mode -name FUNC_MODE -sdc_files [list ../constraints/basic_timing.sdc]
+    } else {
+        create_constraint_mode -name FUNC_MODE
+    }
+    
+    # Single analysis view
+    create_analysis_view -name SINGLE_VIEW -constraint_mode FUNC_MODE -delay_corner SINGLE_CORNER
+    
+    # Use same for both setup and hold
+    set_analysis_view -setup {SINGLE_VIEW} -hold {SINGLE_VIEW}
+    puts "✅ 1-corner MMMC setup complete"
+}
 
-# For academic project, we can use default RC or skip this step
-# create_rc_corner -name RC_WORST -temperature 125
-# create_rc_corner -name RC_BEST -temperature -40
-
-#===============================================================================
-# Step 3: Create Delay Corners
-#===============================================================================
-
-# Slow corner for setup analysis
-create_delay_corner -name SS_CORNER \
-    -library_set SS_LIB
-
-# Typical corner
-create_delay_corner -name TT_CORNER \
-    -library_set TT_LIB
-
-# Fast corner for hold analysis
-create_delay_corner -name FF_CORNER \
-    -library_set FF_LIB
-
-#===============================================================================
-# Step 4: Create Constraint Modes
-#===============================================================================
-
-# Functional mode with timing constraints
-create_constraint_mode -name FUNC_MODE \
-    -sdc_files [list $CONSTRAINT_PATH/basic_timing.sdc]
-
-#===============================================================================
-# Step 5: Create Analysis Views
-#===============================================================================
-
-# Setup analysis views (slow corners)
-create_analysis_view -name SS_VIEW \
-    -constraint_mode FUNC_MODE \
-    -delay_corner SS_CORNER
-
-create_analysis_view -name TT_VIEW \
-    -constraint_mode FUNC_MODE \
-    -delay_corner TT_CORNER
-
-# Hold analysis view (fast corner)
-create_analysis_view -name FF_VIEW \
-    -constraint_mode FUNC_MODE \
-    -delay_corner FF_CORNER
-
-#===============================================================================
-# Step 6: Set Analysis Views for Optimization
-#===============================================================================
-
-# Use SS and TT for setup checks, FF and TT for hold checks
-set_analysis_view -setup {SS_VIEW TT_VIEW} \
-                  -hold {FF_VIEW TT_VIEW}
+# Execute the PDK-aware MMMC setup
+if {[catch {setup_mmmc_for_pdk $TECH_LIB_PATH} err]} {
+    puts "❌ MMMC setup failed: $err"
+    puts "🆘 Falling back to simple single-corner setup..."
+    
+    # Emergency fallback
+    create_library_set -name FALLBACK_LIB -timing [list $TECH_LIB_PATH/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib]
+    create_delay_corner -name FALLBACK_CORNER -library_set FALLBACK_LIB
+    create_constraint_mode -name FUNC_MODE
+    create_analysis_view -name FALLBACK_VIEW -constraint_mode FUNC_MODE -delay_corner FALLBACK_CORNER
+    set_analysis_view -setup {FALLBACK_VIEW} -hold {FALLBACK_VIEW}
+    puts "✅ Fallback MMMC setup complete"
+}
 
 puts "MMMC setup complete:"
 puts "  Setup analysis: SS_VIEW, TT_VIEW"
