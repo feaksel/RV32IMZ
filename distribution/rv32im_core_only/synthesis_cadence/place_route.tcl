@@ -129,27 +129,29 @@ optDesign -preCTS
 # Clock Tree Synthesis
 #===============================================================================
 
-puts "Synthesizing clock tree..."
+puts "Skipping CTS (minimal PDK - using simple clock routing)..."
+
+# For academic project with minimal PDK, skip complex CTS
+# The clock will be routed as a regular net
+# Note: This may result in clock skew, but design will complete
 
 # Create clock tree spec
-create_ccopt_clock_tree_spec -file ccopt.spec
+# create_ccopt_clock_tree_spec -file ccopt.spec
 
 # Set CTS mode (use default settings for academic flow)
 # set_ccopt_mode -integration true  # Deprecated in Innovus 21.1+
 
 # Run CTS
-ccopt_design
+# ccopt_design
 
 #===============================================================================
-# Post-CTS Optimization
+# Post-CTS Optimization (Skipped - no CTS)
 #===============================================================================
 
-puts "Post-CTS optimization..."
+puts "Skipping post-CTS optimization (no CTS performed)..."
 
-optDesign -postCTS
-
-# Hold time fixing
-optDesign -postCTS -hold
+# optDesign -postCTS
+# optDesign -postCTS -hold
 
 #===============================================================================
 # Routing
