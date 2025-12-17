@@ -41,10 +41,10 @@ puts "Creating floorplan..."
 # Utilization: 0.7 = 70% (leave 30% for routing)
 # Aspect ratio: 1.0 = square chip
 # Core to IO spacing: 10 microns
-floorPlan -site core -r 0.7 1.0 10 10 10 10
+floorPlan -site unithd -r 0.7 1.0 10 10 10 10
 
 # Or specify absolute size (if you know it)
-# floorPlan -site core -s 200 200 10 10 10 10  # 200x200 microns
+# floorPlan -site unithd -s 200 200 10 10 10 10  # 200x200 microns
 
 # View floorplan
 # gui_show
