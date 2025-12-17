@@ -102,6 +102,21 @@ vivado -mode batch -source vivado_synth.tcl
 quartus_sh --flow compile rv32im
 ```
 
+#### Option 4: Cadence Academic Flow (GDS Output)
+
+```bash
+# Navigate to Cadence synthesis directory
+cd synthesis_cadence
+
+# Run complete RTL-to-GDSII flow
+./run_cadence_flow.sh
+
+# Outputs:
+# - outputs/core_final.gds (GDS layout)
+# - outputs/core_netlist.v (gate-level netlist) 
+# - reports/ (timing, area, power)
+```
+
 ### Core Resource Usage
 
 ```
