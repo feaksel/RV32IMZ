@@ -156,28 +156,63 @@ setOptMode -fixCap true -fixTran true -fixFanoutLoad true
 optDesign -preCTS
 
 #===============================================================================
-# Clock Tree Synthesis (SKIPPED for minimal PDK)
+# Clock Tree Synthesis (PDK-Aware)
 #===============================================================================
 
-puts "Skipping CTS (minimal PDK - using simple clock routing)..."
+puts "🕐 Clock Tree Synthesis Phase..."
 
-# For academic project with minimal PDK, skip complex CTS
-# The clock will be routed as a regular net
-# Note: This may result in clock skew, but design will complete
+# Detect PDK capabilities by checking for clock buffer cells
+proc check_cts_capability {} {
+    set clock_cells [get_lib_cells -quiet "*clkbuf*"]
+    if {[llength $clock_cells] > 0} {
+        puts "✓ Clock buffer cells detected: [llength $clock_cells] cells"
+        return 1
+    } else {
+        puts "⚠️  No clock buffer cells found - minimal PDK detected"
+        return 0
+    }
+}
 
-# Skip CTS entirely - causes issues with minimal Sky130 PDK
-# create_ccopt_clock_tree_spec -file ccopt.spec
-# ccopt_design
+set cts_capable [check_cts_capability]
 
-puts "Clock will be routed as regular net (acceptable for academic demo)"
+if {$cts_capable} {
+    puts "🚀 Running Clock Tree Synthesis..."
+    
+    # Create clock tree specification
+    if {[catch {
+        create_ccopt_clock_tree_spec -file ccopt.spec
+        puts "✓ Clock tree specification created"
+        
+        # Run CTS
+        ccopt_design
+        puts "✓ Clock tree synthesis completed"
+        
+        # Report clock tree quality
+        report_ccopt_clock_trees -file reports/clock_tree.rpt
+        puts "✓ Clock tree report generated"
+        
+    } err]} {
+        puts "⚠️  CTS failed, falling back to simple clock routing: $err"
+        puts "   Clock will be routed as regular net"
+    }
+    
+} else {
+    puts "📦 Minimal PDK: Skipping CTS, using simple clock routing..."
+    puts "   Clock will be routed as regular net (acceptable for academic demo)"
+    puts "   Note: This may result in clock skew, but design will complete"
+}
 
 #===============================================================================
-# Post-CTS Optimization (Skipped - no CTS)
+# Post-CTS Optimization (PDK-Aware)
 #===============================================================================
 
-puts "Skipping post-CTS optimization (no CTS performed)..."
-
-# optDesign -postCTS
+if {$cts_capable && ![catch {get_ccopt_clock_trees}]} {
+    puts "🔧 Running post-CTS optimization..."
+    optDesign -postCTS
+    puts "✓ Post-CTS optimization completed"
+} else {
+    puts "📦 Skipping post-CTS optimization (no CTS performed)"
+}
 # optDesign -postCTS -hold
 
 #===============================================================================
