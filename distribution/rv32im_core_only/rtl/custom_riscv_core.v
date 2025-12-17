@@ -307,7 +307,7 @@ module custom_riscv_core #(
 
 
     // Initialize PC on reset
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk) begin
         if (!rst_n) begin
             pc <= RESET_VECTOR;
             state <= STATE_FETCH;

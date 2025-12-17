@@ -4,9 +4,9 @@
 # Target: School technology library
 #===============================================================================
 
-# Paths relative to synthesis/cadence/ directory
-set TECH_LIB_PATH "../../pdk/sky130A/libs.ref"
-set RTL_PATH "../../rtl"
+# Paths relative to synthesis_cadence/ directory
+set TECH_LIB_PATH "../pdk/sky130A/libs.ref"
+set RTL_PATH "../rtl"
 set SRAM_LIB_PATH "$TECH_LIB_PATH/sky130_sram_macros"
 
 #===============================================================================

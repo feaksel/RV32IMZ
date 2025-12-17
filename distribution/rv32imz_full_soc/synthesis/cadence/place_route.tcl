@@ -41,10 +41,10 @@ puts "Creating floorplan..."
 # Utilization: 0.7 = 70% (leave 30% for routing)
 # Aspect ratio: 1.0 = square chip
 # Core to IO spacing: 10 microns
-floorPlan -site core -r 0.7 1.0 10 10 10 10
+floorPlan -site unithd -r 0.7 1.0 10 10 10 10
 
 # Or specify absolute size (if you know it)
-# floorPlan -site core -s 200 200 10 10 10 10  # 200x200 microns
+# floorPlan -site unithd -s 200 200 10 10 10 10  # 200x200 microns
 
 # View floorplan
 # gui_show
@@ -134,8 +134,8 @@ puts "Synthesizing clock tree..."
 # Create clock tree spec
 create_ccopt_clock_tree_spec -file ccopt.spec
 
-# Set CTS mode
-set_ccopt_mode -integration true
+# Set CTS mode (use default settings for academic flow)
+# set_ccopt_mode -integration true  # Deprecated in Innovus 21.1+
 
 # Run CTS
 ccopt_design
