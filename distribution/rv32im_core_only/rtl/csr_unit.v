@@ -90,7 +90,7 @@ module csr_unit (
     //==========================================================================
 
     // Update mip based on external interrupt lines
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk) begin
         if (!rst_n) begin
             mip <= 32'h0;
         end else begin
@@ -221,7 +221,7 @@ module csr_unit (
         endcase
     end
 
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk) begin
         if (!rst_n) begin
             // Reset values
             mstatus   <= 32'h0;          // MIE=0 (interrupts disabled)

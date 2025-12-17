@@ -56,7 +56,7 @@ module mdu (
                            (op_latched == `FUNCT3_DIVU) ? 2'b01 :
                            (op_latched == `FUNCT3_REM)  ? 2'b10 : 2'b11;
 
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk) begin
         if (!rst_n) begin
             state <= IDLE;
             busy <= 1'b0;
