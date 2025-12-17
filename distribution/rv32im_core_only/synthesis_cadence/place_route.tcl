@@ -134,8 +134,8 @@ puts "Synthesizing clock tree..."
 # Create clock tree spec
 create_ccopt_clock_tree_spec -file ccopt.spec
 
-# Set CTS mode
-set_ccopt_mode -integration true
+# Set CTS mode (use default settings for academic flow)
+# set_ccopt_mode -integration true  # Deprecated in Innovus 21.1+
 
 # Run CTS
 ccopt_design
