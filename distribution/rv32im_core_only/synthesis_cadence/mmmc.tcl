@@ -4,8 +4,8 @@
 # Innovus 21.1+ Compatible Syntax
 #===============================================================================
 
-set TECH_LIB_PATH "../../pdk/sky130A/libs.ref"
-set CONSTRAINT_PATH "../../constraints"
+set TECH_LIB_PATH "../pdk/sky130A/libs.ref"
+set CONSTRAINT_PATH "../constraints"
 set SRAM_LIB_PATH "$TECH_LIB_PATH/sky130_sram_macros"
 
 #===============================================================================
