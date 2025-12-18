@@ -26,7 +26,7 @@ set init_pwr_net VDD
 set init_gnd_net VSS
 
 # Technology file (improved MMMC handling based on research)
-puts "🔧 Setting up MMMC configuration..."
+puts "==> Setting up MMMC configuration..."
 
 # CRITICAL: Never load libraries after MMMC! 
 # Libraries must be defined within MMMC configuration files
@@ -36,15 +36,15 @@ proc setup_innovus_mmmc {} {
     # Try enhanced MMMC first
     if {[file exists "mmmc.tcl"]} {
         if {[catch {
-            puts "📖 Attempting enhanced MMMC setup..."
+            puts "==> Attempting enhanced MMMC setup..."
             set init_mmmc_file mmmc.tcl
         } err]} {
-            puts "⚠️  Enhanced MMMC failed: $err"
+            puts "WARNING:  Enhanced MMMC failed: $err"
             return "mmmc_simple.tcl"
         }
         return "mmmc.tcl"
     } else {
-        puts "📖 Using simple MMMC fallback..."
+        puts "==> Using simple MMMC fallback..."
         return "mmmc_simple.tcl"
     }
 }
@@ -168,7 +168,7 @@ proc check_cts_capability {} {
         puts "✓ Clock buffer cells detected: [llength $clock_cells] cells"
         return 1
     } else {
-        puts "⚠️  No clock buffer cells found - minimal PDK detected"
+        puts "WARNING:  No clock buffer cells found - minimal PDK detected"
         return 0
     }
 }
@@ -176,7 +176,7 @@ proc check_cts_capability {} {
 set cts_capable [check_cts_capability]
 
 if {$cts_capable} {
-    puts "🚀 Running Clock Tree Synthesis..."
+    puts "==> Running Clock Tree Synthesis..."
     
     # Create clock tree specification
     if {[catch {
@@ -192,12 +192,12 @@ if {$cts_capable} {
         puts "✓ Clock tree report generated"
         
     } err]} {
-        puts "⚠️  CTS failed, falling back to simple clock routing: $err"
+        puts "WARNING:  CTS failed, falling back to simple clock routing: $err"
         puts "   Clock will be routed as regular net"
     }
     
 } else {
-    puts "📦 Minimal PDK: Skipping CTS, using simple clock routing..."
+    puts "==> Minimal PDK: Skipping CTS, using simple clock routing..."
     puts "   Clock will be routed as regular net (acceptable for academic demo)"
     puts "   Note: This may result in clock skew, but design will complete"
 }
@@ -207,11 +207,11 @@ if {$cts_capable} {
 #===============================================================================
 
 if {$cts_capable && ![catch {get_ccopt_clock_trees}]} {
-    puts "🔧 Running post-CTS optimization..."
+    puts "==> Running post-CTS optimization..."
     optDesign -postCTS
     puts "✓ Post-CTS optimization completed"
 } else {
-    puts "📦 Skipping post-CTS optimization (no CTS performed)"
+    puts "==> Skipping post-CTS optimization (no CTS performed)"
 }
 # optDesign -postCTS -hold
 

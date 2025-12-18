@@ -22,7 +22,7 @@ set_db init_hdl_search_path $RTL_PATH
 # Based on research of Cadence best practices and academic PDK limitations
 # ============================================================================
 
-puts "🔧 Setting up library loading..."
+puts "==> Setting up library loading..."
 
 # Environment and debug setup
 set_db information_level 7
@@ -51,7 +51,7 @@ proc detect_pdk_configuration {} {
 }
 
 set pdk_config [detect_pdk_configuration]
-puts "🎯 Auto-detected PDK: $pdk_config"
+puts "==> Auto-detected PDK: $pdk_config"
 
 # Robust library loading with multiple fallback methods
 proc load_libraries_safe {pdk_type} {
@@ -64,14 +64,14 @@ proc load_libraries_safe {pdk_type} {
     
     # Check what's actually available
     set available_libs [glob -nocomplain "${lib_path}/*.lib"]
-    puts "📚 Available libraries: [llength $available_libs] files"
+    puts "==> Available libraries: [llength $available_libs] files"
     
     foreach lib $available_libs {
         puts "  - [file tail $lib] ([expr [file size $lib]/1024]KB)"
     }
     
     if {[llength $available_libs] == 0} {
-        puts "❌ ERROR: No liberty files found in $lib_path"
+        puts "ERROR: ERROR: No liberty files found in $lib_path"
         return -1
     }
     
@@ -109,21 +109,21 @@ proc load_libraries_safe {pdk_type} {
         }
     }
     
-    puts "🎯 Attempting to load: [llength $primary_libs] libraries"
+    puts "==> Attempting to load: [llength $primary_libs] libraries"
     
     # METHOD 1: Modern read_libs (RECOMMENDED)
     if {[catch {
-        puts "📖 Method 1: Modern read_libs approach"
+        puts "==> Method 1: Modern read_libs approach"
         read_libs -liberty $primary_libs
-        puts "✅ SUCCESS: read_libs method worked"
+        puts "SUCCESS: SUCCESS: read_libs method worked"
         return 0
     } err]} {
-        puts "⚠️  Method 1 failed: $err"
+        puts "WARNING:  Method 1 failed: $err"
     }
     
     # METHOD 2: Sequential library loading
     if {[catch {
-        puts "📖 Method 2: Sequential loading"
+        puts "==> Method 2: Sequential loading"
         reset_db -library
         set first_lib true
         foreach lib $primary_libs {
@@ -134,45 +134,45 @@ proc load_libraries_safe {pdk_type} {
                 read_libs -liberty $lib -add
             }
         }
-        puts "✅ SUCCESS: Sequential method worked"
+        puts "SUCCESS: SUCCESS: Sequential method worked"
         return 0
     } err]} {
-        puts "⚠️  Method 2 failed: $err"
+        puts "WARNING:  Method 2 failed: $err"
     }
     
     # METHOD 3: Database attribute setting  
     if {[catch {
-        puts "📖 Method 3: Database attribute method"
+        puts "==> Method 3: Database attribute method"
         reset_db -library
         set_db library $primary_libs
-        puts "✅ SUCCESS: Database attribute method worked"
+        puts "SUCCESS: SUCCESS: Database attribute method worked"
         return 0
     } err]} {
-        puts "⚠️  Method 3 failed: $err"
+        puts "WARNING:  Method 3 failed: $err"
     }
     
     # METHOD 4: Legacy read_lib approach
     if {[catch {
-        puts "📖 Method 4: Legacy read_lib approach"
+        puts "==> Method 4: Legacy read_lib approach"
         reset_db -library
         foreach lib $primary_libs {
             read_lib -liberty $lib
         }
-        puts "✅ SUCCESS: Legacy method worked"
+        puts "SUCCESS: SUCCESS: Legacy method worked"
         return 0
     } err]} {
-        puts "⚠️  Method 4 failed: $err"
+        puts "WARNING:  Method 4 failed: $err"
     }
     
     # FALLBACK: Single library minimal mode
     if {[catch {
-        puts "🆘 FALLBACK: Single library mode"
+        puts "CRITICAL: FALLBACK: Single library mode"
         reset_db -library
         read_libs -liberty $fallback_libs
-        puts "✅ FALLBACK SUCCESS: Using minimal library set"
+        puts "SUCCESS: FALLBACK SUCCESS: Using minimal library set"
         return 1
     } err]} {
-        puts "❌ CRITICAL: All library loading methods failed: $err"
+        puts "ERROR: CRITICAL: All library loading methods failed: $err"
         return -1
     }
 }
@@ -180,17 +180,17 @@ proc load_libraries_safe {pdk_type} {
 # Attempt library loading
 set lib_result [load_libraries_safe $pdk_config]
 if {$lib_result == -1} {
-    puts "💀 FATAL: Cannot load any libraries"
+    puts "FATAL: FATAL: Cannot load any libraries"
     exit 1
 } elseif {$lib_result == 1} {
-    puts "⚠️  WARNING: Using fallback single-library mode"
+    puts "WARNING:  WARNING: Using fallback single-library mode"
     set pdk_config "minimal"  # force minimal mode
 }
 
 # Configure synthesis based on successful library loading
 switch $pdk_config {
     "enhanced" {
-        puts "🚀 Enhanced PDK mode: Multi-corner optimization enabled"
+        puts "==> Enhanced PDK mode: Multi-corner optimization enabled"
         set_db library_setup_apply_slow_timing_libs_to_optimize true
         set_db library_setup_apply_fast_timing_libs_to_optimize true
         set_db syn_generic_effort high
@@ -198,13 +198,13 @@ switch $pdk_config {
         set_db syn_opt_effort high
     }
     "basic_cts" {
-        puts "⚡ Basic CTS PDK mode: Dual-corner with CTS support"  
+        puts "==> Basic CTS PDK mode: Dual-corner with CTS support"  
         set_db syn_generic_effort medium
         set_db syn_map_effort high
         set_db syn_opt_effort medium
     }
     default {
-        puts "📦 Minimal PDK mode: Single-corner fast synthesis"
+        puts "==> Minimal PDK mode: Single-corner fast synthesis"
         set_db syn_generic_effort low
         set_db syn_map_effort medium
         set_db syn_opt_effort low
@@ -213,12 +213,12 @@ switch $pdk_config {
 
 # Validate library loading
 if {[catch {get_db [get_libs] .name} lib_list]} {
-    puts "❌ ERROR: No libraries loaded successfully"
+    puts "ERROR: ERROR: No libraries loaded successfully"
     exit 1
 } else {
-    puts "✅ Library validation passed"
+    puts "SUCCESS: Library validation passed"
     foreach lib $lib_list {
-        puts "  📚 Loaded: $lib"
+        puts "  ==> Loaded: $lib"
     }
 }
 
