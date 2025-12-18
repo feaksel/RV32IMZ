@@ -17,25 +17,26 @@ set_clock_transition 0.1 [get_clocks clk]
 # Input/Output Timing Constraints
 #==============================================================================
 
-# ROM Wishbone interface constraints
-set_input_delay 2.0 -clock clk [get_ports wb_rom_adr_i]
-set_input_delay 1.0 -clock clk [get_ports wb_rom_sel_i]
-set_input_delay 1.0 -clock clk [get_ports wb_rom_stb_i]
-set_input_delay 1.0 -clock clk [get_ports wb_rom_cyc_i]
+# ROM Wishbone interface constraints (Instruction bus)
+set_input_delay 2.0 -clock clk [get_ports iwb_adr_i]
+set_input_delay 1.0 -clock clk [get_ports iwb_sel_i]
+set_input_delay 1.0 -clock clk [get_ports iwb_stb_i]
+set_input_delay 1.0 -clock clk [get_ports iwb_cyc_i]
+set_input_delay 1.0 -clock clk [get_ports iwb_we_i]
 
-set_output_delay 2.0 -clock clk [get_ports wb_rom_dat_o]
-set_output_delay 1.0 -clock clk [get_ports wb_rom_ack_o]
+set_output_delay 2.0 -clock clk [get_ports iwb_dat_o]
+set_output_delay 1.0 -clock clk [get_ports iwb_ack_o]
 
-# RAM Wishbone interface constraints
-set_input_delay 2.0 -clock clk [get_ports wb_ram_adr_i]
-set_input_delay 2.0 -clock clk [get_ports wb_ram_dat_i]
-set_input_delay 1.0 -clock clk [get_ports wb_ram_we_i]
-set_input_delay 1.0 -clock clk [get_ports wb_ram_sel_i]
-set_input_delay 1.0 -clock clk [get_ports wb_ram_stb_i]
-set_input_delay 1.0 -clock clk [get_ports wb_ram_cyc_i]
+# RAM Wishbone interface constraints (Data bus)
+set_input_delay 2.0 -clock clk [get_ports dwb_adr_i]
+set_input_delay 2.0 -clock clk [get_ports dwb_dat_i]
+set_input_delay 1.0 -clock clk [get_ports dwb_we_i]
+set_input_delay 1.0 -clock clk [get_ports dwb_sel_i]
+set_input_delay 1.0 -clock clk [get_ports dwb_stb_i]
+set_input_delay 1.0 -clock clk [get_ports dwb_cyc_i]
 
-set_output_delay 2.0 -clock clk [get_ports wb_ram_dat_o]
-set_output_delay 1.0 -clock clk [get_ports wb_ram_ack_o]
+set_output_delay 2.0 -clock clk [get_ports dwb_dat_o]
+set_output_delay 1.0 -clock clk [get_ports dwb_ack_o]
 
 #==============================================================================
 # False Paths and Multicycle + SRAM Constraints

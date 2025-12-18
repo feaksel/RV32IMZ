@@ -24,8 +24,8 @@ module mdu_macro (
     input  wire        start,
     input  wire        ack,
     input  wire [2:0]  funct3,
-    input  wire [31:0] a,
-    input  wire [31:0] b,
+    input  wire [31:0] operand_a,
+    input  wire [31:0] operand_b,
     
     // MDU Output Interface
     output wire        busy,
@@ -45,8 +45,8 @@ module mdu_macro (
         .start(start),
         .ack(ack),
         .funct3(funct3),
-        .a(a),
-        .b(b),
+        .a(operand_a),
+        .b(operand_b),
         .busy(busy),
         .done(done),
         .product(product),
