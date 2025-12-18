@@ -20,11 +20,13 @@ This distribution contains a complete RISC-V core (RV32IM) ready for ASIC synthe
 ## Quick Start
 
 ```bash
-# 1. Verify setup
-./verify_setup.sh
+# 1. Install Sky130 PDK (REQUIRED - First time only)
+./install_pdk.sh
+# This downloads and installs the full Sky130 PDK (1.1GB)
+# Takes 5-10 minutes depending on internet speed
 
-# 2. Choose PDK configuration (optional - minimal is default)
-./switch_pdk.sh
+# 2. Verify setup
+./verify_setup.sh
 
 # 3. Run complete synthesis flow
 ./run_complete_flow.sh
@@ -34,6 +36,22 @@ This distribution contains a complete RISC-V core (RV32IM) ready for ASIC synthe
 # 4. View results
 ls -la synthesis_cadence/outputs/
 ```
+
+### First-Time Setup
+
+**IMPORTANT**: The PDK (Process Design Kit) is NOT included in the git repository due to its size (1.1GB). You must install it first:
+
+```bash
+./install_pdk.sh
+```
+
+This script will:
+- Install `volare` PDK manager (if not already installed)
+- Download the full Sky130 PDK (version: c6d73a35)
+- Create a symlink from `pdk/sky130A` to the installed PDK
+- Takes 5-10 minutes on typical internet connection
+
+**After PDK installation**, you're ready to run the synthesis flow.
 
 ## PDK Configuration System
 
