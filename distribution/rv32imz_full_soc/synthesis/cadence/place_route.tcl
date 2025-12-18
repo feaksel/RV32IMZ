@@ -15,8 +15,8 @@ set SRAM_LIB_PATH "$TECH_LIB_PATH/sky130_sram_macros"
 
 puts "Initializing Innovus..."
 
-# Set paths
-set init_lef_file "$TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef $TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef $SRAM_LIB_PATH/sky130_sram_macros.lef"
+# Set paths - Load tech LEF (layers) first, then cell LEF (cells)
+set init_lef_file "$TECH_LIB_PATH/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef $TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef"
 set init_verilog "$DESIGN_PATH/core_netlist.v"
 set init_design_netlist "$DESIGN_PATH/core_netlist.v"
 set init_top_cell custom_riscv_core
@@ -26,7 +26,7 @@ set init_pwr_net VDD
 set init_gnd_net VSS
 
 # Technology file (improved MMMC handling based on research)
-puts "🔧 Setting up MMMC configuration..."
+puts "==> Setting up MMMC configuration..."
 
 # CRITICAL: Never load libraries after MMMC! 
 # Libraries must be defined within MMMC configuration files
@@ -36,15 +36,15 @@ proc setup_innovus_mmmc {} {
     # Try enhanced MMMC first
     if {[file exists "mmmc.tcl"]} {
         if {[catch {
-            puts "📖 Attempting enhanced MMMC setup..."
+            puts "==> Attempting enhanced MMMC setup..."
             set init_mmmc_file mmmc.tcl
         } err]} {
-            puts "⚠️  Enhanced MMMC failed: $err"
+            puts "WARNING:  Enhanced MMMC failed: $err"
             return "mmmc_simple.tcl"
         }
         return "mmmc.tcl"
     } else {
-        puts "📖 Using simple MMMC fallback..."
+        puts "==> Using simple MMMC fallback..."
         return "mmmc_simple.tcl"
     }
 }
@@ -68,10 +68,10 @@ if {[catch {init_design} err]} {
 puts "Creating floorplan..."
 
 # Create floorplan (smaller for core only)
-# Utilization: 0.7 = 70% (leave 30% for routing)
+# Utilization: 0.3 = 30% (leave 70% for routing) - REDUCED to fix density issues
 # Aspect ratio: 1.0 = square chip
-# Core to IO spacing: 5 microns (smaller core)
-floorPlan -site unithd -r 0.7 1.0 5 5 5 5
+# Core to IO spacing: 10 microns
+floorPlan -site unithd -r 0.3 1.0 10 10 10 10
 
 # Or specify absolute size for core (much smaller than SoC)
 # floorPlan -site unithd -s 100 100 5 5 5 5  # 100x100 microns
@@ -149,6 +149,10 @@ checkPlace
 
 puts "Pre-CTS optimization..."
 
+# Disable signal integrity optimization (requires OCV timing which we don't have)
+setDelayCalMode -siAware false
+setExtractRCMode -effortLevel low
+
 # Set optimization mode
 setOptMode -fixCap true -fixTran true -fixFanoutLoad true
 
@@ -159,16 +163,16 @@ optDesign -preCTS
 # Clock Tree Synthesis (PDK-Aware)
 #===============================================================================
 
-puts "🕐 Clock Tree Synthesis Phase..."
+puts "==> Clock Tree Synthesis Phase..."
 
 # Detect PDK capabilities by checking for clock buffer cells
 proc check_cts_capability {} {
     set clock_cells [get_lib_cells -quiet "*clkbuf*"]
     if {[llength $clock_cells] > 0} {
-        puts "✓ Clock buffer cells detected: [llength $clock_cells] cells"
+        puts "SUCCESS: Clock buffer cells detected: [llength $clock_cells] cells"
         return 1
     } else {
-        puts "⚠️  No clock buffer cells found - minimal PDK detected"
+        puts "WARNING:  No clock buffer cells found - minimal PDK detected"
         return 0
     }
 }
@@ -176,28 +180,28 @@ proc check_cts_capability {} {
 set cts_capable [check_cts_capability]
 
 if {$cts_capable} {
-    puts "🚀 Running Clock Tree Synthesis..."
+    puts "==> Running Clock Tree Synthesis..."
     
     # Create clock tree specification
     if {[catch {
         create_ccopt_clock_tree_spec -file ccopt.spec
-        puts "✓ Clock tree specification created"
+        puts "SUCCESS: Clock tree specification created"
         
         # Run CTS
         ccopt_design
-        puts "✓ Clock tree synthesis completed"
+        puts "SUCCESS: Clock tree synthesis completed"
         
         # Report clock tree quality
         report_ccopt_clock_trees -file reports/clock_tree.rpt
-        puts "✓ Clock tree report generated"
+        puts "SUCCESS: Clock tree report generated"
         
     } err]} {
-        puts "⚠️  CTS failed, falling back to simple clock routing: $err"
+        puts "WARNING:  CTS failed, falling back to simple clock routing: $err"
         puts "   Clock will be routed as regular net"
     }
     
 } else {
-    puts "📦 Minimal PDK: Skipping CTS, using simple clock routing..."
+    puts "==> Minimal PDK: Skipping CTS, using simple clock routing..."
     puts "   Clock will be routed as regular net (acceptable for academic demo)"
     puts "   Note: This may result in clock skew, but design will complete"
 }
@@ -207,11 +211,11 @@ if {$cts_capable} {
 #===============================================================================
 
 if {$cts_capable && ![catch {get_ccopt_clock_trees}]} {
-    puts "🔧 Running post-CTS optimization..."
+    puts "==> Running post-CTS optimization..."
     optDesign -postCTS
-    puts "✓ Post-CTS optimization completed"
+    puts "SUCCESS: Post-CTS optimization completed"
 } else {
-    puts "📦 Skipping post-CTS optimization (no CTS performed)"
+    puts "==> Skipping post-CTS optimization (no CTS performed)"
 }
 # optDesign -postCTS -hold
 

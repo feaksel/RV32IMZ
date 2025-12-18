@@ -15,8 +15,8 @@ set SRAM_LIB_PATH "$TECH_LIB_PATH/sky130_sram_macros"
 
 puts "Initializing Innovus..."
 
-# Set paths
-set init_lef_file "$TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef $TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef $SRAM_LIB_PATH/sky130_sram_macros.lef"
+# Set paths - Load tech LEF (layers) first, then cell LEF (cells)
+set init_lef_file "$TECH_LIB_PATH/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef $TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef"
 set init_verilog "$DESIGN_PATH/core_netlist.v"
 set init_design_netlist "$DESIGN_PATH/core_netlist.v"
 set init_top_cell custom_riscv_core
@@ -62,16 +62,35 @@ if {[catch {init_design} err]} {
 }
 
 #===============================================================================
+# Override Clock Constraint (relax from synthesis to P&R)
+#===============================================================================
+
+puts "==> Overriding clock constraint for place & route..."
+puts "    Synthesis used: 500 MHz (2ns) for aggressive optimization"
+puts "    P&R target:     100 MHz (10ns) for reliable timing closure"
+
+# Delete existing clock constraint from synthesis
+if {[get_clocks -quiet sys_clk] != ""} {
+    delete_clocks sys_clk
+}
+
+# Create new clock constraint for place & route
+create_clock -name sys_clk -period 10.0 [get_ports clk]
+set_clock_uncertainty 0.5 [get_clocks sys_clk]
+
+puts "==> Clock constraint updated to 100 MHz (10ns)"
+
+#===============================================================================
 # Floorplan
 #===============================================================================
 
 puts "Creating floorplan..."
 
 # Create floorplan (smaller for core only)
-# Utilization: 0.4 = 40% (leave 60% for routing) - REDUCED to fix 100% density error
+# Utilization: 0.3 = 30% (leave 70% for routing) - REDUCED to fix density issues
 # Aspect ratio: 1.0 = square chip
 # Core to IO spacing: 10 microns
-floorPlan -site unithd -r 0.4 1.0 10 10 10 10
+floorPlan -site unithd -r 0.3 1.0 10 10 10 10
 
 # Or specify absolute size for core (much smaller than SoC)
 # floorPlan -site unithd -s 100 100 5 5 5 5  # 100x100 microns
@@ -149,6 +168,10 @@ checkPlace
 
 puts "Pre-CTS optimization..."
 
+# Disable signal integrity optimization (requires OCV timing which we don't have)
+setDelayCalMode -siAware false
+setExtractRCMode -effortLevel low
+
 # Set optimization mode
 setOptMode -fixCap true -fixTran true -fixFanoutLoad true
 
@@ -159,7 +182,7 @@ optDesign -preCTS
 # Clock Tree Synthesis (PDK-Aware)
 #===============================================================================
 
-puts "🕐 Clock Tree Synthesis Phase..."
+puts "==> Clock Tree Synthesis Phase..."
 
 # Detect PDK capabilities by checking for clock buffer cells
 proc check_cts_capability {} {
@@ -176,7 +199,7 @@ proc check_cts_capability {} {
 set cts_capable [check_cts_capability]
 
 if {$cts_capable} {
-    puts "🚀 Running Clock Tree Synthesis..."
+    puts "==> Running Clock Tree Synthesis..."
     
     # Create clock tree specification
     if {[catch {
