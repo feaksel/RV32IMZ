@@ -1,0 +1,12 @@
+MacroModel pin instruction_reg[21]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[23]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[20]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[24]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[22]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[16]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[18]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[6]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[15]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[19]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[14]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW
+MacroModel pin instruction_reg[17]/CLK  300.00ps 300.00ps 300.00ps 300.00ps 0pf SINGLE_VIEW

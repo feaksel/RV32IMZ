@@ -6,3 +6,7 @@ pdk/sky130A/
 
 # EXCEPT the split archive parts (these are small enough for git)
 !pdk_archive/*.tar.gz
+
+synthesis_cadence/final_design.enc.dat/
+synthesis_cadence/outputs/final_design.enc.dat/
+synthesis_cadence/timingReports

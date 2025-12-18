@@ -1,0 +1,124 @@
+[12/18 12:05:27      0s] 
+[12/18 12:05:27      0s] Cadence Innovus(TM) Implementation System.
+[12/18 12:05:27      0s] Copyright 2021 Cadence Design Systems, Inc. All rights reserved worldwide.
+[12/18 12:05:27      0s] 
+[12/18 12:05:27      0s] Version:	v21.35-s114_1, built Thu Oct 13 12:11:47 PDT 2022
+[12/18 12:05:27      0s] Options:	-file place_route.tcl 
+[12/18 12:05:27      0s] Date:		Thu Dec 18 12:05:27 2025
+[12/18 12:05:27      0s] Host:		pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB)
+[12/18 12:05:27      0s] OS:		CentOS Linux release 7.9.2009 (Core)
+[12/18 12:05:27      0s] 
+[12/18 12:05:27      0s] License:
+[12/18 12:05:27      0s] 		[12:05:27.377225] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+[12/18 12:05:27      0s] 		invs	Innovus Implementation System	21.1	checkout succeeded
+[12/18 12:05:27      0s] 		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+[12/18 12:05:37      9s] Reset Parastics called with the command setExtractRCMode -reset@(#)CDS: Innovus v21.35-s114_1 (64bit) 10/13/2022 12:11 (Linux 3.10.0-693.el7.x86_64)
+[12/18 12:05:39     11s] @(#)CDS: NanoRoute 21.35-s114_1 NR220912-2004/21_15-UB (database version 18.20.592_1) {superthreading v2.17}
+[12/18 12:05:39     11s] @(#)CDS: AAE 21.15-s039 (64bit) 10/13/2022 (Linux 3.10.0-693.el7.x86_64)
+[12/18 12:05:39     11s] @(#)CDS: CTE 21.15-s038_1 () Sep 20 2022 11:42:13 ( )
+[12/18 12:05:39     11s] @(#)CDS: SYNTECH 21.15-s012_1 () Sep  5 2022 10:25:51 ( )
+[12/18 12:05:39     11s] @(#)CDS: CPE v21.15-s076
+[12/18 12:05:39     11s] @(#)CDS: IQuantus/TQuantus 21.1.1-s867 (64bit) Sun Jun 26 22:12:54 PDT 2022 (Linux 3.10.0-693.el7.x86_64)
+[12/18 12:05:39     11s] @(#)CDS: OA 22.60-p076 Wed May 18 13:45:29 2022
+[12/18 12:05:39     11s] @(#)CDS: SGN 20.10-d001 (01-Jun-2020) (64 bit executable, Qt5.9.0)
+[12/18 12:05:39     11s] @(#)CDS: RCDB 11.15.0
+[12/18 12:05:39     11s] @(#)CDS: STYLUS 21.12-s013_1 (08/15/2022 08:25 PDT)
+[12/18 12:05:39     11s] @(#)CDS: SystemPlanner-21.15Rel-8720 (21.15) (2022-08-22 18:31:54+0800)
+[12/18 12:05:39     11s] Create and set the environment variable TMPDIR to /tmp/innovus_temp_16478_pc231.ee.hacettepe.edu.tr_Student3_uBM75C.
+
+[12/18 12:05:39     11s] Change the soft stacksize limit to 0.2%RAM (63 mbytes). Set global soft_stack_size_limit to change the value.
+[12/18 12:05:40     13s] 
+[12/18 12:05:40     13s] **INFO:  MMMC transition support version v31-84 
+[12/18 12:05:40     13s] 
+[12/18 12:05:40     13s] <CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+[12/18 12:05:40     13s] <CMD> suppressMessage ENCEXT-2799
+[12/18 12:05:40     13s] <CMD> getVersion
+[12/18 12:05:40     13s] [INFO] Loading PVS 23.10 fill procedures
+[12/18 12:05:41     13s] Sourcing file "place_route.tcl" ...
+[12/18 12:05:41     13s] <CMD> set init_lef_file {../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef ../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef ../pdk/sky130A/libs.ref/sky130_sram_macros/sky130_sram_macros.lef}
+[12/18 12:05:41     13s] <CMD> set init_verilog outputs/core_netlist.v
+[12/18 12:05:41     13s] <CMD> set init_top_cell custom_riscv_core
+[12/18 12:05:41     13s] <CMD> set init_pwr_net VDD
+[12/18 12:05:41     13s] <CMD> set init_gnd_net VSS
+[12/18 12:05:41     13s] <CMD> set init_mmmc_file mmmc.tcl
+[12/18 12:05:41     13s] <CMD> init_design
+[12/18 12:05:41     13s] #% Begin Load MMMC data ... (date=12/18 12:05:41, mem=799.5M)
+[12/18 12:05:41     13s] <CMD> set init_mmmc_file mmmc_simple.tcl
+[12/18 12:05:41     13s] <CMD> init_design
+[12/18 12:05:41     13s] report_message: '-start_cmd/-end_cmd' can not be nested. Interior calls do nothing. Ignore.
+[12/18 12:05:41     13s] % Begin Load MMMC data ... (date=12/18 12:05:41, mem=799.5M)
+[12/18 12:05:41     13s] % End Load MMMC data ... (date=12/18 12:05:41, total cpu=0:00:00.0, real=0:00:00.0, peak res=800.5M, current mem=800.5M)
+[12/18 12:05:41     13s] **ERROR: (IMPSYT-16038):	The specified file '../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef' could not be found. Check your file system, correct the file name.
+[12/18 12:05:41     13s] **ERROR: (IMPSYT-16038):	The specified file '../pdk/sky130A/libs.ref/sky130_sram_macros/sky130_sram_macros.lef' could not be found. Check your file system, correct the file name.
+[12/18 12:05:41     13s] 
+[12/18 12:05:41     13s] Loading LEF file ../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef ...
+[12/18 12:05:41     13s] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+[12/18 12:05:41     13s] The NOWIREEXTENSIONATPIN statement will be ignored. See file ../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef at line 2.
+[12/18 12:05:41     13s] **ERROR: (IMPLF-53):	The layer 'li1' referenced in pin 'A1_N' in macro 'sky130_fd_sc_hd__a2bb2o_1' is not found in the database. A layer must be defined in the LEF technology LAYER section before it can be referenced from a macro. Review the LEF files specified in the init_lef_file variable to see if the layer does not exist or is specified after the one that defines the macro.
+Type 'man IMPLF-53' for more detail.
+[12/18 12:05:41     13s] **ERROR: (IMPLF-3):	Error found when processing LEF file '../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef'. The subsequent file content is ignored. Refer to error messages above for details. Fix the errors, and restart 'Innovus'.
+Type 'man IMPLF-3' for more detail.
+[12/18 12:05:41     13s] **ERROR: (IMPLF-26):	No technology information is defined in the first LEF file.
+Please rearrange the LEF file order and make sure the technology LEF file is the
+first one, exit and restart Innovus.
+**ERROR: (IMPLF-26):	No technology information is defined in the first LEF file.
+Please rearrange the LEF file order and make sure the technology LEF file is the
+first one, exit and restart Innovus.
+**ERROR: (IMPSYT-16013):	Loading LEF file(s) failed, and has aborted. Refer to error messages above for details. Please exit the tools and fix the errors first, then re-load design again.
+[12/18 12:05:41     13s] **ERROR: (IMPSYT-6692):	Invalid return code while executing 'place_route.tcl' was returned and script processing was stopped. Review the following error in 'place_route.tcl' then restart.
+[12/18 12:05:41     13s] Error info: place_route.tcl: 
+[12/18 12:05:41     13s]     while executing
+[12/18 12:05:41     13s] "error $msg"
+[12/18 12:05:41     13s]     (procedure "apply_design" line 34)
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "apply_design $loadViewDefinition"
+[12/18 12:05:41     13s]     (procedure "init_design" line 405)
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "init_design"
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "if {[catch {init_design} err]} {
+[12/18 12:05:41     13s]     puts "Error with main MMMC: $err"
+[12/18 12:05:41     13s]     puts "Trying simple MMMC..."
+[12/18 12:05:41     13s]     set init_mmmc_file mmmc_simple.tcl
+[12/18 12:05:41     13s]     ini..."
+[12/18 12:05:41     13s]     (file "place_route.tcl" line 57)
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "::se_source_orig place_route.tcl"
+[12/18 12:05:41     13s]     ("uplevel" body line 1)
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "uplevel [concat ::se_source_orig $args]"
+[12/18 12:05:41     13s]     (procedure "source" line 188)
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "source place_route.tcl"
+[12/18 12:05:41     13s]     ("uplevel" body line 1)
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "uplevel #0 source place_route.tcl"
+[12/18 12:05:41     13s]     ("eval" body line 1)
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "eval {uplevel #0 source place_route.tcl}"
+[12/18 12:05:41     13s]     (in namespace inscope "::" script line 1)
+[12/18 12:05:41     13s]     invoked from within
+[12/18 12:05:41     13s] "namespace inscope :: eval "uplevel #0 source $fileName"".
+[12/18 12:05:41     13s] <CMD> win
+[12/18 12:08:59     58s] 
+--------------------------------------------------------------------------------
+Exiting Innovus on Thu Dec 18 12:08:59 2025
+  Total CPU time:     0:00:58
+  Total real time:    0:03:33
+  Peak memory (main): 821.11MB
+
+[12/18 12:08:59     58s] 
+[12/18 12:08:59     58s] *** Memory Usage v#1 (Current mem = 1010.297M, initial mem = 484.027M) ***
+[12/18 12:08:59     58s] 
+[12/18 12:08:59     58s] *** Summary of all messages that are not suppressed in this session:
+[12/18 12:08:59     58s] Severity  ID               Count  Summary                                  
+[12/18 12:08:59     58s] ERROR     IMPLF-3              1  Error found when processing LEF file '%s...
+[12/18 12:08:59     58s] ERROR     IMPLF-26             2  No technology information is defined in ...
+[12/18 12:08:59     58s] ERROR     IMPLF-53             1  The layer '%s' referenced %s is not foun...
+[12/18 12:08:59     58s] ERROR     IMPSYT-6692          1  Invalid return code while executing '%s'...
+[12/18 12:08:59     58s] ERROR     IMPSYT-16013         1  Loading LEF file(s) failed, and has abor...
+[12/18 12:08:59     58s] ERROR     IMPSYT-16038         2  The specified file '%s' could not be fou...
+[12/18 12:08:59     58s] *** Message Summary: 0 warning(s), 8 error(s)
+[12/18 12:08:59     58s] 
+[12/18 12:08:59     58s] --- Ending "Innovus" (totcpu=0:00:58.1, real=0:03:32, mem=1010.3M) ---

@@ -1,0 +1,28 @@
+#######################################################
+#                                                     
+#  Innovus Command Logging File                     
+#  Created on Thu Dec 18 12:05:39 2025                
+#                                                     
+#######################################################
+
+#@(#)CDS: Innovus v21.35-s114_1 (64bit) 10/13/2022 12:11 (Linux 3.10.0-693.el7.x86_64)
+#@(#)CDS: NanoRoute 21.35-s114_1 NR220912-2004/21_15-UB (database version 18.20.592_1) {superthreading v2.17}
+#@(#)CDS: AAE 21.15-s039 (64bit) 10/13/2022 (Linux 3.10.0-693.el7.x86_64)
+#@(#)CDS: CTE 21.15-s038_1 () Sep 20 2022 11:42:13 ( )
+#@(#)CDS: SYNTECH 21.15-s012_1 () Sep  5 2022 10:25:51 ( )
+#@(#)CDS: CPE v21.15-s076
+#@(#)CDS: IQuantus/TQuantus 21.1.1-s867 (64bit) Sun Jun 26 22:12:54 PDT 2022 (Linux 3.10.0-693.el7.x86_64)
+
+set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+suppressMessage ENCEXT-2799
+getVersion
+set init_lef_file {../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef ../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef ../pdk/sky130A/libs.ref/sky130_sram_macros/sky130_sram_macros.lef}
+set init_verilog outputs/core_netlist.v
+set init_top_cell custom_riscv_core
+set init_pwr_net VDD
+set init_gnd_net VSS
+set init_mmmc_file mmmc.tcl
+init_design
+set init_mmmc_file mmmc_simple.tcl
+init_design
+win

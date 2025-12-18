@@ -62,25 +62,6 @@ if {[catch {init_design} err]} {
 }
 
 #===============================================================================
-# Override Clock Constraint (relax from synthesis to P&R)
-#===============================================================================
-
-puts "==> Overriding clock constraint for place & route..."
-puts "    Synthesis used: 500 MHz (2ns) for aggressive optimization"
-puts "    P&R target:     100 MHz (10ns) for reliable timing closure"
-
-# Delete existing clock constraint from synthesis
-if {[get_clocks -quiet sys_clk] != ""} {
-    delete_clocks sys_clk
-}
-
-# Create new clock constraint for place & route
-create_clock -name sys_clk -period 10.0 [get_ports clk]
-set_clock_uncertainty 0.5 [get_clocks sys_clk]
-
-puts "==> Clock constraint updated to 100 MHz (10ns)"
-
-#===============================================================================
 # Floorplan
 #===============================================================================
 
