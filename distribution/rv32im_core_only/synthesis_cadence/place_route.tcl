@@ -26,7 +26,7 @@ set init_pwr_net VDD
 set init_gnd_net VSS
 
 # Technology file (improved MMMC handling based on research)
-puts "🔧 Setting up MMMC configuration..."
+puts "==> Setting up MMMC configuration..."
 
 # CRITICAL: Never load libraries after MMMC! 
 # Libraries must be defined within MMMC configuration files
@@ -36,15 +36,15 @@ proc setup_innovus_mmmc {} {
     # Try enhanced MMMC first
     if {[file exists "mmmc.tcl"]} {
         if {[catch {
-            puts "📖 Attempting enhanced MMMC setup..."
+            puts "==> Attempting enhanced MMMC setup..."
             set init_mmmc_file mmmc.tcl
         } err]} {
-            puts "⚠️  Enhanced MMMC failed: $err"
+            puts "WARNING: Enhanced MMMC failed: $err"
             return "mmmc_simple.tcl"
         }
         return "mmmc.tcl"
     } else {
-        puts "📖 Using simple MMMC fallback..."
+        puts "==> Using simple MMMC fallback..."
         return "mmmc_simple.tcl"
     }
 }
@@ -68,10 +68,10 @@ if {[catch {init_design} err]} {
 puts "Creating floorplan..."
 
 # Create floorplan (smaller for core only)
-# Utilization: 0.7 = 70% (leave 30% for routing)
+# Utilization: 0.4 = 40% (leave 60% for routing) - REDUCED to fix 100% density error
 # Aspect ratio: 1.0 = square chip
-# Core to IO spacing: 5 microns (smaller core)
-floorPlan -site unithd -r 0.7 1.0 5 5 5 5
+# Core to IO spacing: 10 microns
+floorPlan -site unithd -r 0.4 1.0 10 10 10 10
 
 # Or specify absolute size for core (much smaller than SoC)
 # floorPlan -site unithd -s 100 100 5 5 5 5  # 100x100 microns
@@ -165,10 +165,10 @@ puts "🕐 Clock Tree Synthesis Phase..."
 proc check_cts_capability {} {
     set clock_cells [get_lib_cells -quiet "*clkbuf*"]
     if {[llength $clock_cells] > 0} {
-        puts "✓ Clock buffer cells detected: [llength $clock_cells] cells"
+        puts "==> Clock buffer cells detected: [llength $clock_cells] cells"
         return 1
     } else {
-        puts "⚠️  No clock buffer cells found - minimal PDK detected"
+        puts "WARNING: No clock buffer cells found - minimal PDK detected"
         return 0
     }
 }
@@ -181,23 +181,23 @@ if {$cts_capable} {
     # Create clock tree specification
     if {[catch {
         create_ccopt_clock_tree_spec -file ccopt.spec
-        puts "✓ Clock tree specification created"
+        puts "==> Clock tree specification created"
         
         # Run CTS
         ccopt_design
-        puts "✓ Clock tree synthesis completed"
+        puts "==> Clock tree synthesis completed"
         
         # Report clock tree quality
         report_ccopt_clock_trees -file reports/clock_tree.rpt
-        puts "✓ Clock tree report generated"
+        puts "==> Clock tree report generated"
         
     } err]} {
-        puts "⚠️  CTS failed, falling back to simple clock routing: $err"
+        puts "WARNING: CTS failed, falling back to simple clock routing: $err"
         puts "   Clock will be routed as regular net"
     }
     
 } else {
-    puts "📦 Minimal PDK: Skipping CTS, using simple clock routing..."
+    puts "==> Minimal PDK: Skipping CTS, using simple clock routing..."
     puts "   Clock will be routed as regular net (acceptable for academic demo)"
     puts "   Note: This may result in clock skew, but design will complete"
 }
@@ -207,11 +207,11 @@ if {$cts_capable} {
 #===============================================================================
 
 if {$cts_capable && ![catch {get_ccopt_clock_trees}]} {
-    puts "🔧 Running post-CTS optimization..."
+    puts "==> Running post-CTS optimization..."
     optDesign -postCTS
-    puts "✓ Post-CTS optimization completed"
+    puts "==> Post-CTS optimization completed"
 } else {
-    puts "📦 Skipping post-CTS optimization (no CTS performed)"
+    puts "==> Skipping post-CTS optimization (no CTS performed)"
 }
 # optDesign -postCTS -hold
 
@@ -349,31 +349,31 @@ puts "Generating GDSII file..."
 if {[catch {
     # Try with complete GDS map file path
     if {[file exists $TECH_LIB_PATH/sky130_fd_sc_hd/gds/sky130_fd_sc_hd.map]} {
-        streamOut outputs/core_final.gds \
+        streamOut outputs/custom_riscv_core_final.gds \
                   -mapFile $TECH_LIB_PATH/sky130_fd_sc_hd/gds/sky130_fd_sc_hd.map \
                   -stripes 1 \
                   -units 1000 \
                   -mode ALL
     } else {
         # Fallback: generate without map file if missing
-        puts "Warning: GDS map file not found, generating without it"
-        streamOut outputs/core_final.gds \
+        puts "WARNING: GDS map file not found, generating without it"
+        streamOut outputs/custom_riscv_core_final.gds \
                   -stripes 1 \
                   -units 1000 \
                   -mode ALL
     }
 } err]} {
-    puts "Error generating GDS with streamOut: $err"
+    puts "WARNING: GDS generation with streamOut failed: $err"
     puts "Trying alternative GDS generation method..."
-    
+
     # Alternative method: save as DEF and generate basic GDS
     if {[catch {
-        defOut -floorplan -netlist -routing outputs/core_final.def
-        puts "DEF file generated successfully"
+        defOut -floorplan -netlist -routing outputs/custom_riscv_core_final.def
+        puts "==> DEF file generated successfully"
         
         # Try basic GDS generation
-        streamOut outputs/core_final.gds -units 1000 -mode ALL
-        puts "Basic GDS file generated successfully"
+        streamOut outputs/custom_riscv_core_final.gds -units 1000 -mode ALL
+        puts "==> Basic GDS file generated successfully"
     } err2]} {
         puts "ERROR: Both GDS generation methods failed:"
         puts "Method 1 error: $err"
@@ -391,8 +391,8 @@ if {[catch {saveNetlist outputs/core_post_route_netlist.v} err]} {
 }
 
 # DEF file (always try to generate)
-if {[catch {defOut -floorplan -netlist -routing outputs/core_final.def} err]} {
-    puts "Warning: DEF generation failed: $err"
+if {[catch {defOut -floorplan -netlist -routing outputs/custom_riscv_core_final.def} err]} {
+    puts "WARNING: DEF generation failed: $err"
 }
 
 # SDF timing file

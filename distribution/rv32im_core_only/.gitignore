@@ -1,0 +1,8 @@
+pdk/sky130A_stubs_backup/
+pdk/sky130A/
+
+# Tarball archives (too large for git)
+*.tar.gz
+
+# EXCEPT the split archive parts (these are small enough for git)
+!pdk_archive/*.tar.gz
