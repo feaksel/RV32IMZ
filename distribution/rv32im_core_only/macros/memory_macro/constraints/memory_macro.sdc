@@ -38,10 +38,22 @@ set_output_delay 2.0 -clock clk [get_ports wb_ram_dat_o]
 set_output_delay 1.0 -clock clk [get_ports wb_ram_ack_o]
 
 #==============================================================================
-# False Paths and Multicycle
+# False Paths and Multicycle + SRAM Constraints
 #==============================================================================
 
-# No false paths in memory macro
+# SRAM macros have fixed timing - don't optimize through them
+set_dont_touch [get_cells -hier *sram_rom*]
+set_dont_touch [get_cells -hier *sram_ram*]
+
+# SRAM access timing (based on macro specs)
+# ROM access: 1-cycle read latency
+set_input_delay 1.0 -clock clk [get_pins *sram_rom*/dout0] -add_delay
+set_output_delay 0.5 -clock clk [get_pins *sram_rom*/addr0] -add_delay
+
+# RAM access: 1-cycle read/write latency  
+set_input_delay 1.0 -clock clk [get_pins *sram_ram*/dout0] -add_delay
+set_output_delay 0.5 -clock clk [get_pins *sram_ram*/addr0] -add_delay
+set_output_delay 0.5 -clock clk [get_pins *sram_ram*/din0] -add_delay
 
 #==============================================================================
 # Load and Drive Constraints

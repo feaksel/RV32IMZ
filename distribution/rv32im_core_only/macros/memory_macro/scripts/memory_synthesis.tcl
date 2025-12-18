@@ -30,10 +30,15 @@ read_libs ${lib_path}/sky130_fd_sc_hd__tt_025C_1v80.lib
 puts "==> Library loaded successfully"
 
 #===============================================================================
-# Read RTL - Memory Macro Dependencies
+# Read RTL - Memory Macro Dependencies + SRAM Macros
 #===============================================================================
 
 puts "Reading RTL files..."
+
+# Read SRAM macro library first (behavioral model for synthesis)
+read_hdl -v2001 {
+    ../../../../pdk/sky130A/libs.ref/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
+}
 
 # Read memory macro RTL
 read_hdl -v2001 {
@@ -67,7 +72,7 @@ if {[file exists "../constraints/memory_macro.sdc"]} {
 }
 
 #===============================================================================
-# Synthesis Settings - Same as Working Script
+# Synthesis Settings - Same as Working Script + SRAM Handling
 #===============================================================================
 
 puts "Setting synthesis options..."
@@ -76,6 +81,14 @@ puts "Setting synthesis options..."
 set_db syn_generic_effort high
 set_db syn_map_effort high
 set_db syn_opt_effort high
+
+# SRAM macro handling - treat as black boxes during synthesis
+set_db hdl_track_filename_row_col true
+set_dont_touch [get_cells -hier *sram_rom*]
+set_dont_touch [get_cells -hier *sram_ram*]
+
+# Don't optimize through SRAM boundaries
+set_dont_use [get_lib_cells */sky130_sram_2kbyte_1rw1r_32x512_8]
 
 #===============================================================================
 # Synthesize - Same Commands as Working Script

@@ -93,10 +93,14 @@ catch {
 }
 
 #===============================================================================
-# Placement - Same as Working Script
+# Placement - Same as Working Script + SRAM Handling
 #===============================================================================
 
 puts "Running placement..."
+
+# Set SRAM macros as fixed blocks (don't place/optimize them)
+set_dont_touch [get_cells -hier *sram_rom*]
+set_dont_touch [get_cells -hier *sram_ram*]
 
 # Global placement
 place_design
