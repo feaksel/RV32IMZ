@@ -1,4 +1,5 @@
 # Testing Hierarchical Macro-Based Design
+
 ## Pre-Synthesis and Post-Synthesis Verification Guide
 
 ---
@@ -18,6 +19,7 @@ Let's explore how each works with your macro structure.
 ## ✅ PRE-SYNTHESIS TESTING (YES, STILL WORKS!)
 
 ### **Can You Still Test Pre-Synthesis?**
+
 **YES!** The macro structure is just organizational wrappers. All the actual RTL logic is still there and fully simulatable.
 
 ### **How It Works:**
@@ -25,6 +27,7 @@ Let's explore how each works with your macro structure.
 Your macro `.v` files are just thin wrappers that instantiate the real RTL modules:
 
 **Example - `mdu_macro.v`:**
+
 ```verilog
 module mdu_macro (
     // Macro interface ports
@@ -36,6 +39,7 @@ endmodule
 ```
 
 **Example - `memory_macro.v`:**
+
 ```verilog
 module memory_macro (
     // Macro interface ports
@@ -51,6 +55,7 @@ endmodule
 ### **Testing Hierarchy Levels:**
 
 #### **Level 1: Individual Macro Testing**
+
 Test each macro independently:
 
 ```bash
@@ -64,6 +69,7 @@ vvp build/tb_pwm_macro.vvp
 ```
 
 #### **Level 2: Hierarchical Core Testing**
+
 Test the 2-macro core (MDU + Core):
 
 ```bash
@@ -79,6 +85,7 @@ vvp build/tb_hierarchical_core.vvp
 ```
 
 #### **Level 3: Full SoC Testing**
+
 Test complete 6-macro SoC:
 
 ```bash
@@ -107,7 +114,7 @@ module tb_hierarchical_core;
 
     reg clk;
     reg rst_n;
-    
+
     // Instruction Wishbone
     wire [31:0] iwb_adr;
     wire [31:0] iwb_dat_out;
@@ -117,7 +124,7 @@ module tb_hierarchical_core;
     wire        iwb_cyc;
     wire        iwb_stb;
     reg         iwb_ack;
-    
+
     // Data Wishbone
     wire [31:0] dwb_adr;
     wire [31:0] dwb_dat_out;
@@ -127,7 +134,7 @@ module tb_hierarchical_core;
     wire        dwb_cyc;
     wire        dwb_stb;
     reg         dwb_ack;
-    
+
     reg [15:0] interrupts;
 
     // DUT - Hierarchical Core (MDU + Core macros)
@@ -164,7 +171,7 @@ module tb_hierarchical_core;
     // Simple memory model
     reg [31:0] imem [0:1023];
     reg [31:0] dmem [0:1023];
-    
+
     initial begin
         $readmemh("firmware/test_program.hex", imem);
     end
@@ -173,10 +180,10 @@ module tb_hierarchical_core;
     always @(posedge clk) begin
         iwb_ack <= iwb_cyc && iwb_stb;
         dwb_ack <= dwb_cyc && dwb_stb;
-        
+
         if (iwb_cyc && iwb_stb)
             iwb_dat_in <= imem[iwb_adr[11:2]];
-            
+
         if (dwb_cyc && dwb_stb && !dwb_we)
             dwb_dat_in <= dmem[dwb_adr[11:2]];
         else if (dwb_cyc && dwb_stb && dwb_we)
@@ -187,17 +194,17 @@ module tb_hierarchical_core;
     initial begin
         $dumpfile("tb_hierarchical_core.vcd");
         $dumpvars(0, tb_hierarchical_core);
-        
+
         rst_n = 0;
         interrupts = 0;
         iwb_dat_in = 0;
         dwb_dat_in = 0;
         iwb_ack = 0;
         dwb_ack = 0;
-        
+
         #100;
         rst_n = 1;
-        
+
         #10000;
         $display("Test completed");
         $finish;
@@ -227,6 +234,7 @@ memory_macro/outputs/
 ### **Post-Synthesis Simulation Setup:**
 
 **Option 1: Full Gate-Level Simulation**
+
 ```bash
 cd /home/furka/RV32IMZ/sim
 
@@ -251,20 +259,21 @@ This is useful when debugging - simulate some macros as RTL, some as gates:
 // In testbench - use RTL for peripherals, gates for core
 module tb_mixed;
     // ... testbench code
-    
+
     // Core macro - use gate-level netlist
     core_macro dut_core (
         // ... connections
     );
-    
+
     // Peripherals - use RTL for easier debugging
     pwm_accelerator_macro pwm (
-        // ... connections  
+        // ... connections
     );
 endmodule
 ```
 
 Compile command:
+
 ```bash
 iverilog -g2012 \
     ../distribution/rv32im_core_only/macros/core_macro/outputs/core_macro_netlist.v \
@@ -301,6 +310,7 @@ vvp build/tb_post_synth.vvp \
 ### **Timing Violations Check:**
 
 In your testbench, add timing checks:
+
 ```verilog
 // Setup/Hold checking
 initial begin
@@ -402,6 +412,7 @@ wave:
 ```
 
 Usage:
+
 ```bash
 cd /home/furka/RV32IMZ/sim
 
@@ -420,20 +431,26 @@ make -f Makefile.hierarchical post_pr_sim
 ## 🧪 TESTING STRATEGY RECOMMENDATIONS
 
 ### **Development Phase (Pre-Synthesis):**
+
 ✅ Use RTL simulation exclusively
+
 - Fast compilation
 - Easy debugging with waveforms
 - Full signal visibility
 - No timing issues to deal with
 
 ### **After Synthesis (Gate-Level):**
+
 ✅ Mixed RTL/Gate simulation
+
 - Critical path macros as gates (e.g., core, MDU)
 - Peripherals still in RTL (easier debug)
 - Sanity check for synthesis correctness
 
 ### **Before Tape-Out (Post-P&R):**
+
 ✅ Full gate-level with timing
+
 - All macros as gates
 - SDF timing annotation
 - Check for setup/hold violations
@@ -443,11 +460,11 @@ make -f Makefile.hierarchical post_pr_sim
 
 ## 📊 SIMULATION PERFORMANCE COMPARISON
 
-| Method | Compile Time | Run Time | Debug Ease | Accuracy |
-|--------|--------------|----------|------------|----------|
-| **RTL** | Fast (seconds) | Fast | ★★★★★ Easy | Functional only |
-| **Post-Synth** | Slow (minutes) | Medium | ★★★☆☆ Harder | Gate-level functional |
-| **Post-P&R** | Slow (minutes) | Slow | ★★☆☆☆ Hard | Near-silicon |
+| Method         | Compile Time   | Run Time | Debug Ease   | Accuracy              |
+| -------------- | -------------- | -------- | ------------ | --------------------- |
+| **RTL**        | Fast (seconds) | Fast     | ★★★★★ Easy   | Functional only       |
+| **Post-Synth** | Slow (minutes) | Medium   | ★★★☆☆ Harder | Gate-level functional |
+| **Post-P&R**   | Slow (minutes) | Slow     | ★★☆☆☆ Hard   | Near-silicon          |
 
 **Recommendation:** Use RTL for 95% of testing, gate-level for final verification.
 
@@ -456,30 +473,35 @@ make -f Makefile.hierarchical post_pr_sim
 ## ✅ SUMMARY
 
 ### **Pre-Synthesis (RTL):**
+
 - ✅ **YES, still works!** Macros are just organizational wrappers
 - ✅ Compile all `.v` files together like before
 - ✅ Test individual macros, hierarchical core, or full SoC
 - ✅ Fast, easy debugging with full visibility
 
 ### **Post-Synthesis (Gates):**
+
 - ✅ Use gate-level netlists from `outputs/` directories
 - ✅ Need SKY130 standard cell library for primitives
 - ✅ Add SDF for timing annotation
 - ✅ Mixed RTL/gate simulation recommended for debug
 
 ### **Post-P&R (Final):**
+
 - ✅ Use final netlists with parasitics
 - ✅ Full timing verification
 - ✅ Slower but most accurate
 
 ### **Key Insight:**
+
 Your macro structure doesn't change the testing flow - it's just better organized! The macros are transparent wrappers that make physical design easier while keeping RTL simulation simple.
 
 ---
 
 **Next Steps:**
+
 1. Continue using your existing sim/ testbenches
-2. Create `tb_hierarchical_core.v` for 2-macro testing  
+2. Create `tb_hierarchical_core.v` for 2-macro testing
 3. Create `tb_soc_complete.v` for full 6-macro testing
 4. After synthesis, try post-synth simulation with gates
 

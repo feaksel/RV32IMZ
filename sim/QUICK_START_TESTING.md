@@ -21,12 +21,14 @@ make -f Makefile.hierarchical wave
 ```
 
 **What it tests:**
+
 - ✅ MDU macro (multiply/divide operations)
 - ✅ Core macro (pipeline, register file, ALU)
 - ✅ Inter-macro communication
 - ✅ Simple test program: ADD, MUL, DIV, LOAD, STORE
 
 **Expected output:**
+
 ```
 ========================================
 Hierarchical Core Test Starting
@@ -79,6 +81,7 @@ make -f Makefile.hierarchical post_synth_sim
 ```
 
 **What it tests:**
+
 - ✅ Synthesized gate-level netlists (actual standard cells)
 - ✅ Functional correctness after synthesis
 - ✅ Catches synthesis-introduced bugs
@@ -96,6 +99,7 @@ make -f Makefile.hierarchical post_pr_sim
 ```
 
 **What it tests:**
+
 - ✅ Final gate-level netlist with routing
 - ✅ Real interconnect delays (from SDF file)
 - ✅ Setup/hold timing violations
@@ -105,11 +109,11 @@ make -f Makefile.hierarchical post_pr_sim
 
 ## 📊 WHAT EACH TEST LEVEL GIVES YOU
 
-| Test Level | Speed | Accuracy | When to Use |
-|------------|-------|----------|-------------|
-| **RTL** | ⚡ Fast | Functional | Development, debugging (use 95% of time) |
-| **Post-Synth** | 🐢 Slow | Gate-level | After synthesis, sanity check |
-| **Post-P&R** | 🐌 Very Slow | Near-silicon | Before tape-out, final verification |
+| Test Level     | Speed        | Accuracy     | When to Use                              |
+| -------------- | ------------ | ------------ | ---------------------------------------- |
+| **RTL**        | ⚡ Fast      | Functional   | Development, debugging (use 95% of time) |
+| **Post-Synth** | 🐢 Slow      | Gate-level   | After synthesis, sanity check            |
+| **Post-P&R**   | 🐌 Very Slow | Near-silicon | Before tape-out, final verification      |
 
 ---
 
@@ -136,6 +140,7 @@ make -f Makefile.soc_top all
 ## 🎯 RECOMMENDED WORKFLOW
 
 ### During Development:
+
 1. ✅ **Use RTL simulation exclusively**
    - Fast compile/run times
    - Easy debugging with waveforms
@@ -146,6 +151,7 @@ make -f Makefile.soc_top all
    ```
 
 ### After Synthesis:
+
 2. ✅ **Quick gate-level check**
    - Verify synthesis didn't break functionality
    - 1-2 test runs, not exhaustive
@@ -154,6 +160,7 @@ make -f Makefile.soc_top all
    ```
 
 ### Before Tape-Out:
+
 3. ✅ **Full timing verification**
    - Run complete test suite with SDF timing
    - Check for timing violations
@@ -191,11 +198,11 @@ You have **full visibility** into macro internals in RTL simulation!
 // In tb_hierarchical_core.v, add:
 always @(posedge clk) begin
     if (dut.u_mdu_macro.mdu_inst.busy) begin
-        $display("[MDU] Operation in progress: funct3=%b", 
+        $display("[MDU] Operation in progress: funct3=%b",
                  dut.u_mdu_macro.mdu_inst.funct3);
     end
     if (dut.u_mdu_macro.mdu_inst.done) begin
-        $display("[MDU] Result: product=%h quotient=%h", 
+        $display("[MDU] Result: product=%h quotient=%h",
                  dut.u_mdu_macro.mdu_inst.product,
                  dut.u_mdu_macro.mdu_inst.quotient);
     end
@@ -215,22 +222,26 @@ end
 ## 🎓 KEY TAKEAWAYS
 
 ### **Pre-Synthesis:**
+
 - ✅ **Works exactly like before** - macros are transparent
 - ✅ Compile all `.v` files together
 - ✅ Fast simulation, easy debugging
 - ✅ **Use this for 95% of your testing**
 
 ### **Post-Synthesis:**
+
 - ✅ Use gate-level netlists from `outputs/` directories
 - ✅ Need SKY130 standard cell models
 - ✅ Slower but verifies synthesis correctness
 
 ### **Post-P&R:**
+
 - ✅ Includes real interconnect delays
 - ✅ Most accurate (near-silicon)
 - ✅ Use for final verification
 
 ### **The Magic:**
+
 Your macros are just organizational wrappers - they make physical design easier **without complicating simulation!** 🎉
 
 ---
