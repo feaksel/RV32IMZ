@@ -1,11 +1,11 @@
 # RV32IMZ Core Timing Constraints (SDC format)
 # For synthesis tools supporting Synopsys Design Constraints
 
-# Main system clock - 100 MHz (10ns period) for conservative timing closure
-create_clock -name sys_clk -period 10.0 [get_ports clk]
+# Main system clock - 50 MHz (20ns period) for reliable timing closure
+create_clock -name sys_clk -period 20.0 [get_ports clk]
 
 # Clock uncertainty for synthesis (allows for clock jitter/skew)
-set_clock_uncertainty 0.5 [get_clocks sys_clk]
+set_clock_uncertainty 1.0 [get_clocks sys_clk]
 
 # Input/Output delays relative to clock
 set_input_delay -clock sys_clk 2.0 [get_ports rst_n]
