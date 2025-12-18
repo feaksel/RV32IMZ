@@ -15,8 +15,8 @@ set SRAM_LIB_PATH "$TECH_LIB_PATH/sky130_sram_macros"
 
 puts "Initializing Innovus..."
 
-# Set paths
-set init_lef_file "$TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef $TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef $SRAM_LIB_PATH/sky130_sram_macros.lef"
+# Set paths - using only LEF files that actually exist
+set init_lef_file "$TECH_LIB_PATH/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef"
 set init_verilog "$DESIGN_PATH/core_netlist.v"
 set init_design_netlist "$DESIGN_PATH/core_netlist.v"
 set init_top_cell custom_riscv_core
