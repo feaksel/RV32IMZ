@@ -68,10 +68,10 @@ if {[catch {init_design} err]} {
 puts "Creating floorplan..."
 
 # Create floorplan (smaller for core only)
-# Utilization: 0.7 = 70% (leave 30% for routing)
+# Utilization: 0.3 = 30% (leave 70% for routing) - REDUCED to fix density issues
 # Aspect ratio: 1.0 = square chip
-# Core to IO spacing: 5 microns (smaller core)
-floorPlan -site unithd -r 0.7 1.0 5 5 5 5
+# Core to IO spacing: 10 microns
+floorPlan -site unithd -r 0.3 1.0 10 10 10 10
 
 # Or specify absolute size for core (much smaller than SoC)
 # floorPlan -site unithd -s 100 100 5 5 5 5  # 100x100 microns
@@ -149,8 +149,8 @@ checkPlace
 
 puts "Pre-CTS optimization..."
 
-# Set optimization mode (disable AAF-SI since we don't have OCV timing)
-setOptMode -fixCap true -fixTran true -fixFanoutLoad true -aafAAFOpt false
+# Set optimization mode
+setOptMode -fixCap true -fixTran true -fixFanoutLoad true
 
 # Optimize
 optDesign -preCTS
