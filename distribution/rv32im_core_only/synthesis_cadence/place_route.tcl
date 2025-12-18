@@ -149,6 +149,10 @@ checkPlace
 
 puts "Pre-CTS optimization..."
 
+# Disable signal integrity optimization (requires OCV timing which we don't have)
+setDelayCalMode -siAware false
+setExtractRCMode -effortLevel low
+
 # Set optimization mode
 setOptMode -fixCap true -fixTran true -fixFanoutLoad true
 
