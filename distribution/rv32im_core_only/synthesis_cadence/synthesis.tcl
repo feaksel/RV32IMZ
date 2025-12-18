@@ -26,36 +26,14 @@ puts "==> Loading technology libraries..."
 # Environment and debug setup
 set_db information_level 7
 set_db hdl_max_loop_limit 10000
-set_db library_setup_isj_for_simple_flops true
+# Note: library_setup_isj_for_simple_flops causes errors with stub libraries
 
-# Read technology libraries directly
+# Read single technology library (typical corner only)
 set lib_path "$TECH_LIB_PATH/sky130_fd_sc_hd/lib"
 
-# Try to load all three corner libraries
-puts "==> Attempting to load sky130 libraries..."
-if {[catch {
-    read_libs ${lib_path}/sky130_fd_sc_hd__tt_025C_1v80.lib
-    read_libs ${lib_path}/sky130_fd_sc_hd__ss_n40C_1v60.lib
-    read_libs ${lib_path}/sky130_fd_sc_hd__ff_100C_1v95.lib
-    puts "==> Successfully loaded all three corner libraries"
-} err]} {
-    puts "WARNING: Multi-corner loading failed, trying single library: $err"
-    # Fallback to just typical corner
-    if {[catch {
-        read_libs ${lib_path}/sky130_fd_sc_hd__tt_025C_1v80.lib
-        puts "==> Successfully loaded typical corner library"
-    } err2]} {
-        puts "ERROR: Failed to load any libraries: $err2"
-        exit 1
-    }
-}
-
-# Verify libraries loaded
-set loaded_libs [get_db [get_libs] .name]
-puts "==> Loaded libraries:"
-foreach lib $loaded_libs {
-    puts "    - $lib"
-}
+puts "==> Loading single typical corner library..."
+read_libs ${lib_path}/sky130_fd_sc_hd__tt_025C_1v80.lib
+puts "==> Library loaded successfully"
 
 
 
