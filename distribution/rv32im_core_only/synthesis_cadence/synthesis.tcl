@@ -18,208 +18,43 @@ set_db init_lib_search_path $TECH_LIB_PATH
 set_db init_hdl_search_path $RTL_PATH
 
 # ============================================================================
-# LIBRARY READING - BULLETPROOF CADENCE GENUS LIBRARY LOADING
-# Based on research of Cadence best practices and academic PDK limitations
+# LIBRARY READING - SIMPLE AND DIRECT
 # ============================================================================
 
-puts "==> Setting up library loading..."
+puts "==> Loading technology libraries..."
 
 # Environment and debug setup
 set_db information_level 7
 set_db hdl_max_loop_limit 10000
 set_db library_setup_isj_for_simple_flops true
 
-# Detect PDK configuration automatically
-proc detect_pdk_configuration {} {
-    # Check which config files exist and their sizes
-    set configs [glob -nocomplain config_*.tcl]
-    set active_pdk "minimal"  # default
-    
-    if {[file exists "../pdk/sky130A"]} {
-        # Check library file sizes to determine PDK type
-        set lib_files [glob -nocomplain "../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/*.lib"]
-        if {[llength $lib_files] > 0} {
-            set lib_size [file size [lindex $lib_files 0]]
-            if {$lib_size > 15000} {
-                set active_pdk "enhanced"
-            } elseif {$lib_size > 10000} {
-                set active_pdk "basic_cts"  
-            }
-        }
-    }
-    return $active_pdk
-}
+# Read technology libraries directly
+set lib_path "$TECH_LIB_PATH/sky130_fd_sc_hd/lib"
 
-set pdk_config [detect_pdk_configuration]
-puts "==> Auto-detected PDK: $pdk_config"
-
-# Robust library loading with multiple fallback methods
-proc load_libraries_safe {pdk_type} {
-    global TECH_LIB_PATH SRAM_LIB_PATH
-    
-    # Define library files based on PDK type
-    set lib_path "$TECH_LIB_PATH/sky130_fd_sc_hd/lib"
-    set primary_libs {}
-    set fallback_libs {}
-    
-    # Check what's actually available
-    set available_libs [glob -nocomplain "${lib_path}/*.lib"]
-    puts "==> Available libraries: [llength $available_libs] files"
-    
-    foreach lib $available_libs {
-        puts "  - [file tail $lib] ([expr [file size $lib]/1024]KB)"
-    }
-    
-    if {[llength $available_libs] == 0} {
-        puts "ERROR: No liberty files found in $lib_path"
-        return -1
-    }
-    
-    # Build library list based on PDK configuration
-    switch $pdk_type {
-        "enhanced" {
-            # Try multi-corner for enhanced PDK
-            set typical_lib [lsearch -inline $available_libs "*tt_025C_1v80.lib"]
-            set slow_lib [lsearch -inline $available_libs "*ss_100C_1v60.lib"] 
-            set fast_lib [lsearch -inline $available_libs "*ff_n40C_1v95.lib"]
-            
-            if {$typical_lib != "" && $slow_lib != "" && $fast_lib != ""} {
-                set primary_libs [list $typical_lib $slow_lib $fast_lib]
-            } else {
-                set primary_libs $available_libs
-            }
-            set fallback_libs [lindex $available_libs 0]
-        }
-        "basic_cts" {
-            # Try dual-corner for CTS
-            set typical_lib [lsearch -inline $available_libs "*tt_025C_1v80.lib"]
-            set slow_lib [lsearch -inline $available_libs "*ss_100C_1v60.lib"]
-            
-            if {$typical_lib != "" && $slow_lib != ""} {
-                set primary_libs [list $typical_lib $slow_lib]
-            } else {
-                set primary_libs $available_libs
-            }
-            set fallback_libs [lindex $available_libs 0]
-        }
-        default {
-            # Minimal: single corner
-            set primary_libs [lindex $available_libs 0]
-            set fallback_libs $primary_libs
-        }
-    }
-    
-    puts "==> Attempting to load: [llength $primary_libs] libraries"
-    
-    # METHOD 1: Modern read_libs (RECOMMENDED)
+# Try to load all three corner libraries
+puts "==> Attempting to load sky130 libraries..."
+if {[catch {
+    read_libs ${lib_path}/sky130_fd_sc_hd__tt_025C_1v80.lib
+    read_libs ${lib_path}/sky130_fd_sc_hd__ss_n40C_1v60.lib
+    read_libs ${lib_path}/sky130_fd_sc_hd__ff_100C_1v95.lib
+    puts "==> Successfully loaded all three corner libraries"
+} err]} {
+    puts "WARNING: Multi-corner loading failed, trying single library: $err"
+    # Fallback to just typical corner
     if {[catch {
-        puts "==> Method 1: Modern read_libs approach"
-        read_libs -liberty $primary_libs
-        puts "SUCCESS: read_libs method worked"
-        return 0
-    } err]} {
-        puts "WARNING: Method 1 failed: $err"
-    }
-    
-    # METHOD 2: Sequential library loading
-    if {[catch {
-        puts "==> Method 2: Sequential loading"
-        reset_db -library
-        set first_lib true
-        foreach lib $primary_libs {
-            if {$first_lib} {
-                read_libs -liberty $lib
-                set first_lib false
-            } else {
-                read_libs -liberty $lib -add
-            }
-        }
-        puts "SUCCESS: Sequential method worked"
-        return 0
-    } err]} {
-        puts "WARNING: Method 2 failed: $err"
-    }
-    
-    # METHOD 3: Database attribute setting
-    if {[catch {
-        puts "==> Method 3: Database attribute method"
-        reset_db -library
-        set_db library $primary_libs
-        puts "SUCCESS: Database attribute method worked"
-        return 0
-    } err]} {
-        puts "WARNING: Method 3 failed: $err"
-    }
-    
-    # METHOD 4: Legacy read_lib approach
-    if {[catch {
-        puts "==> Method 4: Legacy read_lib approach"
-        reset_db -library
-        foreach lib $primary_libs {
-            read_lib -liberty $lib
-        }
-        puts "SUCCESS: Legacy method worked"
-        return 0
-    } err]} {
-        puts "WARNING: Method 4 failed: $err"
-    }
-    
-    # FALLBACK: Single library minimal mode
-    if {[catch {
-        puts "FALLBACK: Single library mode"
-        reset_db -library
-        read_libs -liberty $fallback_libs
-        puts "FALLBACK SUCCESS: Using minimal library set"
-        return 1
-    } err]} {
-        puts "CRITICAL: All library loading methods failed: $err"
-        return -1
+        read_libs ${lib_path}/sky130_fd_sc_hd__tt_025C_1v80.lib
+        puts "==> Successfully loaded typical corner library"
+    } err2]} {
+        puts "ERROR: Failed to load any libraries: $err2"
+        exit 1
     }
 }
 
-# Attempt library loading
-set lib_result [load_libraries_safe $pdk_config]
-if {$lib_result == -1} {
-    puts "FATAL: Cannot load any libraries"
-    exit 1
-} elseif {$lib_result == 1} {
-    puts "WARNING: Using fallback single-library mode"
-    set pdk_config "minimal"  # force minimal mode
-}
-
-# Configure synthesis based on successful library loading
-switch $pdk_config {
-    "enhanced" {
-        puts "==> Enhanced PDK mode: Multi-corner optimization enabled"
-        set_db library_setup_apply_slow_timing_libs_to_optimize true
-        set_db library_setup_apply_fast_timing_libs_to_optimize true
-        set_db syn_generic_effort high
-        set_db syn_map_effort high
-        set_db syn_opt_effort high
-    }
-    "basic_cts" {
-        puts "==> Basic CTS PDK mode: Dual-corner with CTS support"
-        set_db syn_generic_effort medium
-        set_db syn_map_effort high
-        set_db syn_opt_effort medium
-    }
-    default {
-        puts "==> Minimal PDK mode: Single-corner fast synthesis"
-        set_db syn_generic_effort low
-        set_db syn_map_effort medium
-        set_db syn_opt_effort low
-    }
-}
-
-# Validate library loading
-if {[catch {get_db [get_libs] .name} lib_list]} {
-    puts "ERROR: No libraries loaded successfully"
-    exit 1
-} else {
-    puts "==> Library validation passed"
-    foreach lib $lib_list {
-        puts "  Loaded: $lib"
-    }
+# Verify libraries loaded
+set loaded_libs [get_db [get_libs] .name]
+puts "==> Loaded libraries:"
+foreach lib $loaded_libs {
+    puts "    - $lib"
 }
 
 
