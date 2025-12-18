@@ -349,31 +349,31 @@ puts "Generating GDSII file..."
 if {[catch {
     # Try with complete GDS map file path
     if {[file exists $TECH_LIB_PATH/sky130_fd_sc_hd/gds/sky130_fd_sc_hd.map]} {
-        streamOut outputs/core_final.gds \
+        streamOut outputs/custom_riscv_core_final.gds \
                   -mapFile $TECH_LIB_PATH/sky130_fd_sc_hd/gds/sky130_fd_sc_hd.map \
                   -stripes 1 \
                   -units 1000 \
                   -mode ALL
     } else {
         # Fallback: generate without map file if missing
-        puts "Warning: GDS map file not found, generating without it"
-        streamOut outputs/core_final.gds \
+        puts "WARNING: GDS map file not found, generating without it"
+        streamOut outputs/custom_riscv_core_final.gds \
                   -stripes 1 \
                   -units 1000 \
                   -mode ALL
     }
 } err]} {
-    puts "Error generating GDS with streamOut: $err"
+    puts "WARNING: GDS generation with streamOut failed: $err"
     puts "Trying alternative GDS generation method..."
-    
+
     # Alternative method: save as DEF and generate basic GDS
     if {[catch {
-        defOut -floorplan -netlist -routing outputs/core_final.def
-        puts "DEF file generated successfully"
+        defOut -floorplan -netlist -routing outputs/custom_riscv_core_final.def
+        puts "==> DEF file generated successfully"
         
         # Try basic GDS generation
-        streamOut outputs/core_final.gds -units 1000 -mode ALL
-        puts "Basic GDS file generated successfully"
+        streamOut outputs/custom_riscv_core_final.gds -units 1000 -mode ALL
+        puts "==> Basic GDS file generated successfully"
     } err2]} {
         puts "ERROR: Both GDS generation methods failed:"
         puts "Method 1 error: $err"
@@ -391,8 +391,8 @@ if {[catch {saveNetlist outputs/core_post_route_netlist.v} err]} {
 }
 
 # DEF file (always try to generate)
-if {[catch {defOut -floorplan -netlist -routing outputs/core_final.def} err]} {
-    puts "Warning: DEF generation failed: $err"
+if {[catch {defOut -floorplan -netlist -routing outputs/custom_riscv_core_final.def} err]} {
+    puts "WARNING: DEF generation failed: $err"
 }
 
 # SDF timing file

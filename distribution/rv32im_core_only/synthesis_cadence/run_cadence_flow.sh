@@ -1,5 +1,5 @@
 #!/bin/bash
-# Complete Cadence Academic Synthesis Flow 
+# Complete Cadence Academic Synthesis Flow
 # Runs Genus (synthesis) followed by Innovus (place & route)
 
 set -e  # Exit on any error
@@ -7,31 +7,42 @@ set -e  # Exit on any error
 echo "================================================================================"
 echo "Cadence Academic Synthesis Flow for RV32IM Core Only"
 echo "Date: $(date)"
+echo "Using Full Sky130 PDK (1.1GB)"
 echo "================================================================================"
 
 # Check if we're in the right directory
 if [ ! -f "synthesis.tcl" ]; then
-    echo "Error: Must run from synthesis/cadence directory"
-    echo "Usage: cd synthesis/cadence && ./run_cadence_flow.sh"
+    echo "ERROR: Must run from synthesis_cadence directory"
+    echo "Usage: cd synthesis_cadence && ./run_cadence_flow.sh"
     exit 1
 fi
 
-# Create outputs directory
-mkdir -p outputs
+# Clean previous run
+echo "==> Cleaning previous run..."
+rm -rf outputs/ reports/ genus.log* innovus.log* *.log.* 2>/dev/null || true
+
+# Create output directories
+mkdir -p outputs reports
 
 echo
 echo "Step 1: Running Genus Synthesis..."
 echo "====================================="
 
 # Run Genus synthesis
-genus -f synthesis.tcl -log outputs/synthesis.log
+genus -f synthesis.tcl -log outputs/synthesis.log 2>&1 | tee synthesis_run.log
 
-if [ $? -eq 0 ]; then
-    echo "✓ Synthesis completed successfully"
+if [ ${PIPESTATUS[0]} -eq 0 ]; then
+    echo "==> Synthesis completed successfully"
     echo "  - Netlist: outputs/core_netlist.v"
     echo "  - Reports: reports/"
+
+    # Check if netlist was actually generated
+    if [ ! -f "outputs/core_netlist.v" ]; then
+        echo "ERROR: Netlist not generated!"
+        exit 1
+    fi
 else
-    echo "✗ Synthesis failed - see outputs/synthesis.log"
+    echo "ERROR: Synthesis failed - see outputs/synthesis.log"
     exit 1
 fi
 
@@ -40,15 +51,16 @@ echo "Step 2: Running Innovus Place & Route..."
 echo "========================================"
 
 # Run Innovus place and route
-innovus -f place_route.tcl -log outputs/place_route.log
+innovus -f place_route.tcl -log outputs/place_route.log 2>&1 | tee place_route_run.log
 
-if [ $? -eq 0 ]; then
-    echo "✓ Place & Route completed successfully" 
-    echo "  - Final GDS: outputs/soc_simple_final.gds"
-    echo "  - DEF: outputs/soc_simple_final.def"
-    echo "  - Reports: outputs/place_route_reports/"
+if [ ${PIPESTATUS[0]} -eq 0 ]; then
+    echo "==> Place & Route completed successfully"
+    echo "  - Final GDS: outputs/custom_riscv_core_final.gds"
+    echo "  - DEF: outputs/custom_riscv_core_final.def"
+    echo "  - Reports: reports/"
 else
-    echo "✗ Place & Route failed - see outputs/place_route.log"
+    echo "ERROR: Place & Route failed - see outputs/place_route.log"
+    echo "Check place_route_run.log for details"
     exit 1
 fi
 
@@ -61,40 +73,50 @@ cat > outputs/cadence_flow_summary.txt << EOF
 Cadence Academic Flow Summary - $(date)
 =========================================
 
-SYNTHESIS RESULTS (Genus):
-$(grep -A10 "Final Report" outputs/synthesis.log | head -10)
+Design: custom_riscv_core (RV32IM)
+PDK: Sky130 (Full PDK - 1.1GB)
+Clock Target: See constraints file
 
-PLACE & ROUTE RESULTS (Innovus):
-$(grep -A15 "Final Statistics" outputs/place_route.log | head -15)
+SYNTHESIS RESULTS:
+$(grep -i "slack\|timing\|area" reports/qor.rpt 2>/dev/null | head -20 || echo "See reports/qor.rpt for details")
 
-TIMING SUMMARY:
-$(grep -A5 "Timing Summary" outputs/place_route.log | head -5)
-
-AREA SUMMARY:
-$(grep -A5 "Area Report" outputs/place_route.log | head -5)
+PLACE & ROUTE RESULTS:
+$(grep -i "slack\|timing\|area\|density" outputs/place_route.log 2>/dev/null | head -20 || echo "See outputs/place_route.log")
 
 FILES GENERATED:
-- Netlist: outputs/core_netlist.v
-- Layout: outputs/core_final.gds  
-- DEF: outputs/core_final.def
-- Timing: outputs/timing_report.txt
-- Area: outputs/area_report.txt
+- Gate-level netlist: outputs/core_netlist.v
+- Final layout (GDS): outputs/custom_riscv_core_final.gds
+- DEF file: outputs/custom_riscv_core_final.def
+- Synthesis reports: reports/*.rpt
+- P&R reports: outputs/*.rpt
 
-NOTES:
-- Verify timing closure in timing_report.txt
-- Check DRC violations in drc_report.txt
-- Review LVS results in lvs_report.txt
+KEY REPORTS TO REVIEW:
+1. reports/timing.rpt - Synthesis timing analysis
+2. reports/area.rpt - Area breakdown
+3. reports/power.rpt - Power analysis
+4. reports/qor.rpt - Quality of Results summary
+
+NEXT STEPS:
+1. Check timing closure (slack should be positive)
+2. Review area and power consumption
+3. View layout: klayout outputs/custom_riscv_core_final.gds
+4. Run post-layout verification if needed
 EOF
 
-echo "✓ Flow completed successfully!"
-echo 
-echo "Final Results:"
-echo "  - Complete flow summary: outputs/cadence_flow_summary.txt"
-echo "  - GDSII layout: outputs/core_final.gds"
-echo "  - Gate-level netlist: outputs/core_netlist.v"
 echo
-echo "Next Steps:"
-echo "  1. Review timing closure in outputs/timing_report.txt"
-echo "  2. Check layout in Virtuoso or other GDS viewer" 
-echo "  3. Run post-layout simulation if needed"
-echo "  4. Generate final fabrication files"
+echo "==========================================="
+echo "==> COMPLETE FLOW FINISHED SUCCESSFULLY"
+echo "==========================================="
+echo
+echo "Output Files:"
+echo "  - Netlist:  outputs/core_netlist.v"
+echo "  - Layout:   outputs/custom_riscv_core_final.gds"
+echo "  - Summary:  outputs/cadence_flow_summary.txt"
+echo
+echo "View the summary:"
+echo "  cat outputs/cadence_flow_summary.txt"
+echo
+echo "View layout (if klayout installed):"
+echo "  klayout outputs/custom_riscv_core_final.gds"
+echo
+echo "==========================================="
