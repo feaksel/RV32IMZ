@@ -379,7 +379,7 @@ module core_macro #(
 
                 STATE_MULDIV: begin
                     // Wait for external MDU to complete
-                    if (mdu_done_int) begin
+                    if (mdu_done_int && mdu_pending == 2'd0) begin
                         mdu_ack_int <= 1'b1;
                         mdu_pending <= 2'd1;
                         
@@ -395,8 +395,7 @@ module core_macro #(
                             `FUNCT3_REMU:   mdu_selected_temp = mdu_remainder_int;
                             default:        mdu_selected_temp = 32'hDEADBEEF;
                         endcase
-                        
-                        state <= STATE_WRITEBACK;
+                        // Stay in STATE_MULDIV to capture result next cycle
                     end else if (mdu_pending == 2'd1) begin
                         // Capture result on next cycle
                         mdu_result_reg <= mdu_selected_temp;

@@ -177,25 +177,35 @@ assign internal_interrupts[15:8] = ext_interrupts; // External interrupts
 assign combined_interrupts = internal_interrupts;
 
 //==============================================================================
-// CPU Core Macro (RV32IM + MDU)
+// CPU Core Macro (RV32IM + MDU) - Hierarchical 2-Macro Design
 //==============================================================================
 
-cpu_core_macro u_cpu_core (
+// Note: Instruction bus outputs only (read-only fetch)
+assign iwb_dat_mosi = 32'h0;  // Not used for instruction fetch
+assign iwb_we = 1'b0;          // Never write to instruction memory
+assign iwb_sel = 4'hF;         // Word access
+
+// Stub debug and performance outputs if not provided by hierarchical top
+// (These would need to be added to rv32im_hierarchical_top if required)
+assign debug_pc = 32'h0;
+assign debug_instruction = 32'h0;
+assign debug_valid = 1'b0;
+assign cycle_count = 32'h0;
+assign instr_count = 32'h0;
+
+rv32im_hierarchical_top u_cpu_core (
     .clk                (clk),
     .rst_n              (rst_n && !system_reset), // Include protection reset
     
-    // Instruction Wishbone Bus
+    // Instruction Wishbone Bus (read-only)
     .iwb_adr_o          (iwb_adr),
-    .iwb_dat_o          (iwb_dat_mosi),
     .iwb_dat_i          (iwb_dat_miso),
-    .iwb_we_o           (iwb_we),
-    .iwb_sel_o          (iwb_sel),
     .iwb_cyc_o          (iwb_cyc),
     .iwb_stb_o          (iwb_stb),
     .iwb_ack_i          (iwb_ack),
     .iwb_err_i          (iwb_err),
     
-    // Data Wishbone Bus
+    // Data Wishbone Bus (full read/write)
     .dwb_adr_o          (dwb_adr),
     .dwb_dat_o          (dwb_dat_mosi),
     .dwb_dat_i          (dwb_dat_miso),
@@ -206,17 +216,8 @@ cpu_core_macro u_cpu_core (
     .dwb_ack_i          (dwb_ack),
     .dwb_err_i          (dwb_err),
     
-    // Interrupts
-    .interrupts         (combined_interrupts),
-    
-    // Debug interface
-    .debug_pc           (debug_pc),
-    .debug_instruction  (debug_instruction),
-    .debug_valid        (debug_valid),
-    
-    // Performance counters
-    .cycle_count        (cycle_count),
-    .instr_count        (instr_count)
+    // Interrupts (truncate to 16-bit)
+    .interrupts         (combined_interrupts[15:0])
 );
 
 //==============================================================================

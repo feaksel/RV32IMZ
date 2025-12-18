@@ -242,14 +242,17 @@ assign irq = |(int_status & int_enable);
 // Status Register
 //==============================================================================
 
+// Combine data_ready signals into a vector
+wire [3:0] data_ready_vec = data_ready;
+
 assign adc_status = {
     16'h0000,           // [31:16] Reserved
     4'h0,               // [15:12] Reserved
-    data_ready,         // [11:8] Data ready flags
+    data_ready_vec,     // [11:8] Data ready flags
     2'b00,              // [7:6] Reserved
     current_channel,    // [5:4] Current channel
     2'b00,              // [3:2] Reserved  
-    decimation_rate,    // [1:0] Decimation rate
+    decimation_rate     // [1:0] Decimation rate
 };
 
 endmodule

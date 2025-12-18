@@ -5,12 +5,9 @@ module rv32im_hierarchical_top (
     input  wire clk,
     input  wire rst_n,
     
-    // Instruction Wishbone Bus
+    // Instruction Wishbone Bus (read-only for instruction fetch)
     output wire [31:0] iwb_adr_o,
-    output wire [31:0] iwb_dat_o,
     input  wire [31:0] iwb_dat_i,
-    output wire        iwb_we_o,
-    output wire [3:0]  iwb_sel_o,
     output wire        iwb_cyc_o,
     output wire        iwb_stb_o,
     input  wire        iwb_ack_i,
@@ -80,16 +77,12 @@ core_macro u_core_macro (
     .clk            (clk),
     .rst_n          (rst_n),
     
-    // Instruction Wishbone Bus
+    // Instruction Wishbone Bus (read-only - no dat_o, we_o, sel_o, err_i)
     .iwb_adr_o      (iwb_adr_o),
-    .iwb_dat_o      (iwb_dat_o),
     .iwb_dat_i      (iwb_dat_i),
-    .iwb_we_o       (iwb_we_o),
-    .iwb_sel_o      (iwb_sel_o),
     .iwb_cyc_o      (iwb_cyc_o),
     .iwb_stb_o      (iwb_stb_o),
     .iwb_ack_i      (iwb_ack_i),
-    .iwb_err_i      (iwb_err_i),
     
     // Data Wishbone Bus
     .dwb_adr_o      (dwb_adr_o),
@@ -115,8 +108,8 @@ core_macro u_core_macro (
     .mdu_quotient   (mdu_quotient),
     .mdu_remainder  (mdu_remainder),
     
-    // Interrupts
-    .interrupts     (interrupts)
+    // Interrupts (pad to 32-bit)
+    .interrupts     ({16'h0, interrupts})
 );
 
 endmodule
