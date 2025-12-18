@@ -149,8 +149,8 @@ checkPlace
 
 puts "Pre-CTS optimization..."
 
-# Set optimization mode
-setOptMode -fixCap true -fixTran true -fixFanoutLoad true
+# Set optimization mode (disable AAF-SI since we don't have OCV timing)
+setOptMode -fixCap true -fixTran true -fixFanoutLoad true -aafAAFOpt false
 
 # Optimize
 optDesign -preCTS
@@ -159,7 +159,7 @@ optDesign -preCTS
 # Clock Tree Synthesis (PDK-Aware)
 #===============================================================================
 
-puts "🕐 Clock Tree Synthesis Phase..."
+puts "==> Clock Tree Synthesis Phase..."
 
 # Detect PDK capabilities by checking for clock buffer cells
 proc check_cts_capability {} {
@@ -176,7 +176,7 @@ proc check_cts_capability {} {
 set cts_capable [check_cts_capability]
 
 if {$cts_capable} {
-    puts "🚀 Running Clock Tree Synthesis..."
+    puts "==> Running Clock Tree Synthesis..."
     
     # Create clock tree specification
     if {[catch {

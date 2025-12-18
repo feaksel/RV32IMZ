@@ -149,8 +149,8 @@ checkPlace
 
 puts "Pre-CTS optimization..."
 
-# Set optimization mode
-setOptMode -fixCap true -fixTran true -fixFanoutLoad true
+# Set optimization mode (disable AAF-SI since we don't have OCV timing)
+setOptMode -fixCap true -fixTran true -fixFanoutLoad true -aafAAFOpt false
 
 # Optimize
 optDesign -preCTS
@@ -159,13 +159,13 @@ optDesign -preCTS
 # Clock Tree Synthesis (PDK-Aware)
 #===============================================================================
 
-puts "🕐 Clock Tree Synthesis Phase..."
+puts "==> Clock Tree Synthesis Phase..."
 
 # Detect PDK capabilities by checking for clock buffer cells
 proc check_cts_capability {} {
     set clock_cells [get_lib_cells -quiet "*clkbuf*"]
     if {[llength $clock_cells] > 0} {
-        puts "✓ Clock buffer cells detected: [llength $clock_cells] cells"
+        puts "SUCCESS: Clock buffer cells detected: [llength $clock_cells] cells"
         return 1
     } else {
         puts "WARNING:  No clock buffer cells found - minimal PDK detected"
@@ -181,15 +181,15 @@ if {$cts_capable} {
     # Create clock tree specification
     if {[catch {
         create_ccopt_clock_tree_spec -file ccopt.spec
-        puts "✓ Clock tree specification created"
+        puts "SUCCESS: Clock tree specification created"
         
         # Run CTS
         ccopt_design
-        puts "✓ Clock tree synthesis completed"
+        puts "SUCCESS: Clock tree synthesis completed"
         
         # Report clock tree quality
         report_ccopt_clock_trees -file reports/clock_tree.rpt
-        puts "✓ Clock tree report generated"
+        puts "SUCCESS: Clock tree report generated"
         
     } err]} {
         puts "WARNING:  CTS failed, falling back to simple clock routing: $err"
@@ -209,7 +209,7 @@ if {$cts_capable} {
 if {$cts_capable && ![catch {get_ccopt_clock_trees}]} {
     puts "==> Running post-CTS optimization..."
     optDesign -postCTS
-    puts "✓ Post-CTS optimization completed"
+    puts "SUCCESS: Post-CTS optimization completed"
 } else {
     puts "==> Skipping post-CTS optimization (no CTS performed)"
 }
