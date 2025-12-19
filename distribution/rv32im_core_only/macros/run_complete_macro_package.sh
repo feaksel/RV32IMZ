@@ -114,8 +114,8 @@ cat > scripts/synth_\${MACRO_NAME}.tcl << 'EOFSYNTH'
 # Synthesis script for $macro_name
 
 set DESIGN_NAME "$macro_name"
-set LIB_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib"
-set TECH_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
+set LIB_DIR "\$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib"
+set TECH_DIR "\$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
 
 # Read libraries
 set_db init_lib_search_path [list \$LIB_DIR]
@@ -187,7 +187,7 @@ cat > scripts/pr_${MACRO_NAME}.tcl << 'EOFPR'
 # Place & Route script for $macro_name
 
 set DESIGN_NAME "$macro_name"
-set TECH_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
+set TECH_DIR "\$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
 
 init_design
 read_physical -lef [list "$TECH_DIR/sky130_fd_sc_hd.tlef" "$TECH_DIR/sky130_fd_sc_hd.lef"]
@@ -268,8 +268,8 @@ cat > scripts/soc_synthesis.tcl << 'EOF'
 # Complete SoC Synthesis Script
 
 set DESIGN_NAME "rv32im_macro_soc_complete"
-set LIB_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib"
-set TECH_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
+set LIB_DIR "\$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib"
+set TECH_DIR "\$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
 
 # Read libraries
 set_db init_lib_search_path [list $LIB_DIR]
@@ -342,7 +342,7 @@ cat > scripts/soc_place_route.tcl << 'EOF'
 # Complete SoC Place & Route
 
 set DESIGN_NAME "rv32im_macro_soc_complete"
-set TECH_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
+set TECH_DIR "\$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
 
 init_design
 read_physical -lef [list "$TECH_DIR/sky130_fd_sc_hd.tlef" "$TECH_DIR/sky130_fd_sc_hd.lef"]

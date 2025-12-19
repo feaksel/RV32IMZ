@@ -142,8 +142,8 @@ cat > scripts/soc_synthesis.tcl << 'EOF'
 # Complete RV32IM SoC with hierarchical core + peripherals
 
 set DESIGN_NAME "rv32im_soc_complete"
-set LIB_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib"
-set TECH_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
+set LIB_DIR "\$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib"
+set TECH_DIR "\$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
 
 # Read libraries
 set_db init_lib_search_path [list $LIB_DIR]
@@ -242,17 +242,17 @@ cat > scripts/soc_mmmc.tcl << 'EOF'
 
 create_rc_corner -name typical \
     -temperature 25 \
-    -cap_table "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/sky130_fd_sc_hd.tlef" \
-    -qrc_tech "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/qrc/qx/sky130_fd_sc_hd_qx.tch"
+    -cap_table "\$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd/sky130_fd_sc_hd.tlef" \
+    -qrc_tech "\$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd/qrc/qx/sky130_fd_sc_hd_qx.tch"
 
 create_library_set -name typical_libs \
-    -timing [list "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib"]
+    -timing [list "\$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib"]
 
 create_library_set -name slow_libs \
-    -timing [list "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_100C_1v60.lib"]
+    -timing [list "\$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_100C_1v60.lib"]
 
 create_library_set -name fast_libs \
-    -timing [list "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ff_n40C_1v95.lib"]
+    -timing [list "\$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ff_n40C_1v95.lib"]
 
 create_constraint_mode -name soc_func -sdc_files [list "soc_complete.sdc"]
 
@@ -273,7 +273,7 @@ cat > scripts/soc_place_route.tcl << 'EOF'
 # SoC Place and Route Script
 
 set DESIGN_NAME "rv32im_soc_complete"
-set TECH_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
+set TECH_DIR "\$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
 
 # Initialize design
 init_design

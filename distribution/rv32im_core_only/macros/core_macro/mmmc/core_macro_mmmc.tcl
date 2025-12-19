@@ -7,31 +7,31 @@
 
 create_rc_corner -name typical \
     -temperature 25 \
-    -cap_table "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/sky130_fd_sc_hd.tlef" \
-    -qrc_tech "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/qrc/qx/sky130_fd_sc_hd_qx.tch"
+    -cap_table "$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd/sky130_fd_sc_hd.tlef" \
+    -qrc_tech "$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd/qrc/qx/sky130_fd_sc_hd_qx.tch"
 
 create_rc_corner -name worst \
     -temperature 125 \
-    -cap_table "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/sky130_fd_sc_hd.tlef" \
-    -qrc_tech "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/qrc/qx/sky130_fd_sc_hd_qx.tch"
+    -cap_table "$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd/sky130_fd_sc_hd.tlef" \
+    -qrc_tech "$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd/qrc/qx/sky130_fd_sc_hd_qx.tch"
 
 create_rc_corner -name best \
     -temperature -40 \
-    -cap_table "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/sky130_fd_sc_hd.tlef" \
-    -qrc_tech "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/qrc/qx/sky130_fd_sc_hd_qx.tch"
+    -cap_table "$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd/sky130_fd_sc_hd.tlef" \
+    -qrc_tech "$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd/qrc/qx/sky130_fd_sc_hd_qx.tch"
 
 #==============================================================================
 # Define Library Sets
 #==============================================================================
 
 create_library_set -name typical_libs \
-    -timing [list "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib"]
+    -timing [list "$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib"]
 
 create_library_set -name slow_libs \
-    -timing [list "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_100C_1v60.lib"]
+    -timing [list "$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_100C_1v60.lib"]
 
 create_library_set -name fast_libs \
-    -timing [list "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ff_n40C_1v95.lib"]
+    -timing [list "$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ff_n40C_1v95.lib"]
 
 #==============================================================================
 # Define Constraint Modes  

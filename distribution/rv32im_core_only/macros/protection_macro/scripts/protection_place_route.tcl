@@ -46,8 +46,8 @@ puts "Setting up design import..."
 
 # Set library and LEF paths
 set init_lef_file {
-    /home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
-    /home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
+    $env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+    $env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef
 }
 
 # Set verilog file
@@ -173,7 +173,7 @@ catch {report_timing -nworst 10 > reports/timing.rpt}
 catch {report_power > reports/power.rpt}
 
 # Write output files
-catch {streamOut outputs/protection_macro.gds -mapFile /home/furka/RV32IMZ/pdk/sky130A/libs.tech/klayout/sky130A.gds.map}
+catch {streamOut outputs/protection_macro.gds -mapFile $env(PDK_ROOT)/sky130A/libs.tech/klayout/sky130A.gds.map}
 catch {write_lef_abstract outputs/protection_macro.lef}
 catch {defOut outputs/protection_macro.def}
 

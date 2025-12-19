@@ -8,8 +8,8 @@
 
 # Set variables
 set DESIGN_NAME "core_macro"
-set LIB_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib"
-set TECH_DIR "/home/furka/RV32IMZ/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
+set LIB_DIR "$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib"
+set TECH_DIR "$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
 
 # Initialize Innovus
 init_design

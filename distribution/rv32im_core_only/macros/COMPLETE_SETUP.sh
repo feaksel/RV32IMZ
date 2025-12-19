@@ -11,7 +11,7 @@ echo "RV32IM Pre-Session Critical Fixes"
 echo "=========================================="
 echo ""
 
-MACRO_DIR="/home/furka/RV32IMZ/distribution/rv32im_core_only/macros"
+MACRO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$MACRO_DIR" || exit 1
 
 # Color codes
@@ -90,7 +90,7 @@ fi
 echo ""
 echo -e "${YELLOW}[FIX 3]${NC} Verifying SKY130 SRAM macro files"
 
-PDK_PATH="/home/furka/RV32IMZ/pdk/sky130A"
+PDK_PATH="$(cd "${MACRO_DIR}/../../../pdk/sky130A" && pwd)"
 SRAM_BASE="sky130_sram_2kbyte_1rw1r_32x512_8"
 
 SRAM_FILES=(
@@ -272,7 +272,7 @@ echo "  1. Review changes in backup files if needed"
 echo "  2. Test synthesis locally (optional but recommended):"
 echo "     cd core_macro && genus -batch -files scripts/core_synthesis.tcl"
 echo "  3. Package for university session:"
-echo "     tar -czf rv32im_ready.tar.gz /home/furka/RV32IMZ/distribution/rv32im_core_only/macros/"
+echo "     tar -czf rv32im_ready.tar.gz ./macros/"
 echo ""
 echo "You are now ready for the university Cadence session!"
 echo ""

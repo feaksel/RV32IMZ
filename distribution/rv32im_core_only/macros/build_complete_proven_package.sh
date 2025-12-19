@@ -20,9 +20,10 @@ echo "  5. Protection Macro - ~1K cells"
 echo "  6. Communication Macro - ~2K cells"
 echo ""
 
-# Set up environment
-export PDK_ROOT=/home/furka/RV32IMZ/pdk
-export PACKAGE_ROOT=/home/furka/RV32IMZ/distribution/rv32im_core_only
+# Set up environment - use relative paths for portability
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PDK_ROOT="$(cd "${SCRIPT_DIR}/../../../pdk" && pwd)"
+export PACKAGE_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # Build order based on dependencies
 BUILD_ORDER=(
