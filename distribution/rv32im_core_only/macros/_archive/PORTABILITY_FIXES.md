@@ -189,7 +189,7 @@ Before university session, verify:
 - [ ] PDK is accessible at expected location
 - [ ] Scripts run without hardcoded path errors
 - [ ] Environment variables are properly exported
-- [ ] All 6 macros can build successfully
+- [ ] All 7 macros + integrated option can build successfully
 - [ ] Generated netlists reference correct library paths
 
 ## Critical Files Summary

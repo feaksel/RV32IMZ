@@ -6,6 +6,12 @@
 
 This distribution contains a complete RISC-V core (RV32IM) ready for ASIC synthesis using Cadence tools with Sky130 PDK. The design implements the base integer instruction set (RV32I) plus multiply/divide extensions (M).
 
+**IMPORTANT**: See [macros/MACRO_ARCHITECTURE_GUIDE.md](macros/MACRO_ARCHITECTURE_GUIDE.md) for detailed explanation of the **THREE architecture options**:
+
+1. **Integrated RV32IM IP** (single macro - RECOMMENDED for IP reuse)
+2. **7 Separate Macros** (core, MDU, memory, peripherals - educational)
+3. **Complete SoC** (processor + all peripherals)
+
 ## Key Features
 
 - **RV32IM Core**: 32-bit RISC-V processor with integer and multiply/divide instructions
@@ -56,6 +62,7 @@ The full PDK (1.1GB) is included in the repository as 3 split files in `pdk_arch
 ```
 
 This script will:
+
 - Install `volare` PDK manager (if not already installed)
 - Download the full Sky130 PDK (version: c6d73a35)
 - Create a symlink from `pdk/sky130A` to the installed PDK

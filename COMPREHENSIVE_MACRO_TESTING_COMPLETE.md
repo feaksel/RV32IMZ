@@ -2,7 +2,7 @@
 
 ## Summary
 
-Successfully demonstrated **comprehensive pre-synthesis RTL testing** of the complete RV32IM SoC with all 6 macros integrated together.
+Successfully demonstrated **comprehensive pre-synthesis RTL testing** of the complete RV32IM SoC with all peripheral macros integrated together.
 
 ## Test Results
 
@@ -31,7 +31,7 @@ Data memory[0] = 0x0000000a (expected 0x0000000a = 10)
 
 ---
 
-### 2. Comprehensive SoC Test (All 6 Macros) ✓ COMPILED
+### 2. Comprehensive SoC Test (All Peripherals) ✓ COMPILED
 
 **File**: [sim/testbench/tb_macro_soc_complete.v](sim/testbench/tb_macro_soc_complete.v)  
 **Command**: `make -f Makefile.hierarchical soc_test`
@@ -66,7 +66,7 @@ Data memory[0] = 0x0000000a (expected 0x0000000a = 10)
 - SRAM macro integration (48 instances total)
 - Interrupt routing (16 sources)
 
-**Significance**: This successful compilation **proves that all 6 macros can be integrated together** without structural issues. The design is ready for synthesis and Place & Route flow.
+**Significance**: This successful compilation **proves that all macros can be integrated together** without structural issues. The design is ready for synthesis and Place & Route flow.
 
 ---
 
@@ -118,7 +118,7 @@ Data memory[0] = 0x0000000a (expected 0x0000000a = 10)
 
 - **Makefile.hierarchical** (300+ lines)
   - `rtl_sim`: Test hierarchical core (2 macros)
-  - `soc_test`: Test complete SoC (all 6 macros)
+  - `soc_test`: Test complete SoC (all peripheral macros)
   - `post_synth_sim`: Gate-level simulation
   - `post_pr_sim`: Post-P&R with SDF timing
   - `wave` / `wave_soc`: Waveform viewing
@@ -141,7 +141,7 @@ cd sim
 make -f Makefile.hierarchical rtl_sim
 ```
 
-### Comprehensive Test (All 6 Macros):
+### Comprehensive Test (All Peripherals):
 
 ```bash
 cd sim
@@ -190,7 +190,7 @@ make -f Makefile.hierarchical status
 
 ✅ **Hierarchical macro testing infrastructure is complete and proven**
 
-✅ **All 6 macros successfully integrate without conflicts**
+✅ **All macros successfully integrate without conflicts**
 
 ✅ **Design is validated for pre-synthesis RTL correctness**
 
