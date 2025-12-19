@@ -131,6 +131,9 @@ exec mkdir -p outputs
 # Write gate-level netlist
 write_hdl > outputs/communication_macro_netlist.v
 
+# Write netlist for hierarchical integration (used by soc_integration)
+write_hdl > outputs/communication_macro_syn.v
+
 # Write SDC constraints for P&R
 write_sdc > outputs/communication_macro_constraints.sdc
 

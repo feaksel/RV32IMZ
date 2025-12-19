@@ -44,12 +44,12 @@ echo -e "${YELLOW}Phase 1: Starting synthesis with Genus...${NC}"
 
 if command -v genus &> /dev/null; then
     echo "Running Genus synthesis..."
-    genus -f mdu_synthesis.tcl | tee ../reports/synthesis.log
+    genus -batch -files scripts/mdu_synthesis.tcl > reports/synthesis.log 2>&1
     
     if [ ${PIPESTATUS[0]} -eq 0 ]; then
         echo -e "${GREEN}✓ Synthesis completed successfully${NC}"
     else
-        echo -e "${RED}✗ Synthesis failed${NC}"
+        echo -e "${RED}✗ Synthesis failed - check reports/synthesis.log${NC}"
         exit 1
     fi
 else
@@ -66,12 +66,12 @@ echo -e "${YELLOW}Phase 2: Starting place & route with Innovus...${NC}"
 
 if command -v innovus &> /dev/null; then
     echo "Running Innovus place & route..."
-    innovus -f mdu_place_route.tcl | tee ../reports/place_route.log
+    innovus -batch -files scripts/mdu_place_route.tcl > reports/place_route.log 2>&1
     
     if [ ${PIPESTATUS[0]} -eq 0 ]; then
         echo -e "${GREEN}✓ Place & Route completed successfully${NC}"
     else
-        echo -e "${RED}✗ Place & Route failed${NC}"
+        echo -e "${RED}✗ Place & Route failed - check reports/place_route.log${NC}"
         exit 1
     fi
 else

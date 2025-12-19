@@ -11,15 +11,12 @@ set DESIGN_NAME "core_macro"
 set LIB_DIR "$env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lib"
 set TECH_DIR "$env(PDK_ROOT)/sky130A/libs.tech/openlane/sky130_fd_sc_hd"
 
-# Initialize Innovus
-init_design
-
 #==============================================================================
 # Library and Technology Setup
 #==============================================================================
 
 # Load MMMC configuration
-source mmmc/core_macro_mmmc.tcl
+init_mmmc_file mmmc/core_macro_mmmc.tcl
 
 # Load technology files
 read_physical -lef [list \
@@ -28,10 +25,10 @@ read_physical -lef [list \
 ]
 
 # Load the synthesized netlist
-read_netlist "netlist/core_macro_syn.v"
+read_netlist "outputs/core_macro_netlist.v"
 
 # Initialize the design
-init_design -setup {setup_view} -hold {hold_view}
+init_design
 
 #==============================================================================
 # Floorplan Creation

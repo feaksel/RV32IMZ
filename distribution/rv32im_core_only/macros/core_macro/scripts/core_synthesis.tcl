@@ -226,11 +226,14 @@ report_dp > reports/core_macro_congestion.rpt
 # Export Results
 #==============================================================================
 
-# Write out the synthesized netlist
-write_hdl > netlist/core_macro_syn.v
+# Write out the synthesized netlist (for P&R)
+write_hdl > outputs/core_macro_netlist.v
+
+# Write netlist for hierarchical integration (used by rv32im_integrated_macro)
+write_hdl > outputs/core_macro_syn.v
 
 # Write out constraints for P&R
-write_sdc > netlist/core_macro_syn.sdc
+write_sdc > outputs/core_macro.sdc
 
 # Write design database
 write_db -to_file db/core_macro_syn.db
@@ -274,8 +277,8 @@ if {[sizeof_collection $hold_violations] > 0} {
 }
 
 puts "Synthesis database saved to: db/core_macro_syn.db"
-puts "Netlist written to: netlist/core_macro_syn.v"
-puts "Constraints written to: netlist/core_macro_syn.sdc"
+puts "Netlist written to: outputs/core_macro_netlist.v and outputs/core_macro_syn.v"
+puts "Constraints written to: outputs/core_macro.sdc"
 puts "=========================================="
 
 # Exit genus

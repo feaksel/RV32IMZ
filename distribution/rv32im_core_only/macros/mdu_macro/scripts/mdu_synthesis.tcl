@@ -131,6 +131,9 @@ exec mkdir -p outputs
 # Write gate-level netlist
 write_hdl > outputs/mdu_macro_netlist.v
 
+# Write netlist for hierarchical integration (used by rv32im_integrated_macro)
+write_hdl > outputs/mdu_macro_syn.v
+
 # Write SDC constraints for P&R
 write_sdc > outputs/mdu_macro_constraints.sdc
 

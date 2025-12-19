@@ -131,6 +131,9 @@ exec mkdir -p outputs
 # Write gate-level netlist
 write_hdl > outputs/protection_macro_netlist.v
 
+# Write netlist for hierarchical integration (used by soc_integration)
+write_hdl > outputs/protection_macro_syn.v
+
 # Write SDC constraints for P&R
 write_sdc > outputs/protection_macro_constraints.sdc
 

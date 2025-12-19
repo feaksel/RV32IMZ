@@ -31,10 +31,8 @@ set_dont_touch [get_cells -hier protection_inst] true
 set_dont_touch [get_cells -hier adc_inst] true
 set_dont_touch [get_cells -hier pwm_inst] true
 
-# Timing constraints
-create_clock -name clk -period 10.0 [get_ports clk]
-set_input_delay -clock clk 2.0 [all_inputs]
-set_output_delay -clock clk 2.0 [all_outputs]
+# Read timing constraints
+read_sdc constraints/rv32im_soc_complete.sdc
 
 # Synthesis (only wrapper logic, macros are black boxes)
 syn_generic

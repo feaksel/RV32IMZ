@@ -31,10 +31,17 @@ set init_pwr_net VDD
 set init_gnd_net VSS
 
 # MMMC file (simplified for macro)
-set init_mmmc_file mmmc_mdu.tcl
+set init_mmmc_file ../mmmc/mmmc_mdu.tcl
 
 # Initialize design
 init_design
+
+#==============================================================================
+# Pin Placement
+#==============================================================================
+
+puts "Applying pin placement constraints..."
+source scripts/mdu_pin_placement.tcl
 
 #==============================================================================
 # Floorplanning

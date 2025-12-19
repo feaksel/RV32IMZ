@@ -7,7 +7,7 @@ set DESIGN rv32im_soc_complete
 # Setup technology
 set init_lef_file "${PDK_ROOT}/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd.tlef ${PDK_ROOT}/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef"
 set init_verilog "../soc_integration/outputs/${DESIGN}_syn.v"
-set init_mmmc_file "scripts/soc_mmmc.tcl"
+set init_mmmc_file "../mmmc/soc_mmmc.tcl"
 set init_design_uniquify 1
 set init_design_settop 1
 set init_top_cell $DESIGN
@@ -21,6 +21,10 @@ lappend init_lef_file "../adc_subsystem_macro/outputs/adc_subsystem_macro.lef"
 lappend init_lef_file "../pwm_accelerator_macro/outputs/pwm_accelerator_macro.lef"
 
 init_design
+
+# Pin placement
+puts "Applying pin placement constraints..."
+source scripts/soc_integration_pin_placement.tcl
 
 # Floorplan (adjust size as needed)
 floorPlan -site unithd -r 1.0 0.7 10 10 10 10
