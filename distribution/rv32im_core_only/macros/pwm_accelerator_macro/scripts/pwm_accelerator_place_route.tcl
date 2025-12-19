@@ -82,6 +82,11 @@ if {$bbox == ""} {
     puts "Using existing die area from design"
 }
 
+# Apply pin placement for SoC integration
+if {[file exists scripts/pwm_pin_placement.tcl]} {
+    source scripts/pwm_pin_placement.tcl
+}
+
 # Add core rings if area is sufficient
 catch {
     addRing -nets {VDD VSS} -type core_rings -follow core -layer {met4 met5} -width 1.8 -spacing 0.5 -offset 1.8

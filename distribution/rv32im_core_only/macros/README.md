@@ -125,7 +125,11 @@ set_input_delay -clock clk_macro -max $sram_setup [get_pins sram_*/din*]
 
 ## Build Scripts Explained
 
-### 1. build_complete_proven_package.sh ✅ **USE THIS FOR INDIVIDUAL MACROS**
+### 1. build_complete_proven_package.sh ✅ **MAIN BUILD SCRIPT**
+
+**Alternative:** `run_complete_macro_package.sh` does the same thing with more verbose logging
+
+### build_complete_proven_package.sh
 
 **Purpose:** Builds all 6 individual macros using proven working synthesis/P&R templates
 
@@ -146,7 +150,8 @@ set_input_delay -clock clk_macro -max $sram_setup [get_pins sram_*/din*]
 **Outputs:**
 
 ```
-cpu_core_macro/outputs/cpu_core_macro.gds + .lef
+core_macro/outputs/core_macro.gds + .lef
+mdu_macro/outputs/mdu_macro.gds + .lef (if built separately)
 memory_macro/outputs/memory_macro.gds + .lef
 pwm_accelerator_macro/outputs/pwm_accelerator.gds + .lef
 adc_subsystem_macro/outputs/adc_subsystem.gds + .lef
@@ -161,7 +166,21 @@ cd /home/furka/RV32IMZ/distribution/rv32im_core_only/macros
 ./build_complete_proven_package.sh
 ```
 
-### 2. run_hierarchical_flow.sh ⚠️ **DEPRECATED - DON'T USE**
+### 2. COMPLETE_SETUP.sh ℹ️ **OPTIONAL VERIFICATION SCRIPT**
+
+**Purpose:** Verifies setup and adds any missing error handling (CTS fallback, etc.)
+
+**Status:** Optional - all fixes have been applied to the scripts already
+
+**When to use:**
+
+- If you want to double-check all scripts have proper error handling
+- To verify SRAM macros are present
+- Creates backup before any changes
+
+**Note:** All necessary fixes are already in the P&R scripts, so this is optional.
+
+### 3. run_hierarchical_flow.sh ⚠️ **DEPRECATED - DON'T USE**
 
 **Purpose:** Old 2-macro approach (MDU + Core only) - replaced by 6-macro architecture
 
@@ -174,7 +193,15 @@ cd /home/furka/RV32IMZ/distribution/rv32im_core_only/macros
 - Does not use SRAM macros for memory
 - Superseded by build_complete_proven_package.sh + run_soc_complete.sh
 
-### 3. run_soc_complete.sh ✅ **USE THIS FOR FINAL CHIP INTEGRATION**
+### 4. run_complete_macro_package.sh ✅ **ALTERNATIVE TO build_complete_proven_package.sh**
+
+**Purpose:** Same as build_complete_proven_package.sh but with more verbose colored logging
+
+**Difference:** More detailed progress output, better for monitoring long builds
+
+**When to use:** If you prefer more detailed build status messages
+
+### 5. run_soc_complete.sh ✅ **USE THIS FOR FINAL CHIP INTEGRATION**
 
 **Purpose:** Integrates all 6 macros into final SoC and generates complete chip GDS
 
@@ -212,6 +239,17 @@ cd /home/furka/RV32IMZ/distribution/rv32im_core_only/macros
 ./run_soc_complete.sh
 ```
 
+### Individual Macro Scripts
+
+Some macros have their own dedicated build scripts:
+
+- **core_macro/run_core_macro.sh** - Build just the core macro
+- **mdu_macro/run_mdu_macro.sh** - Build just the MDU macro (if separate from core)
+
+**Note:** Core macro includes MDU integrated, so mdu_macro is optional/historical.
+
+For other macros (memory, PWM, ADC, protection, communication), use the main build script or run Genus/Innovus directly on their scripts.
+
 ## Recommended Build Flow (Step-by-Step)
 
 ### Step 1: Build All Individual Macros
@@ -221,15 +259,30 @@ cd /home/furka/RV32IMZ/distribution/rv32im_core_only/macros
 ./build_complete_proven_package.sh
 ```
 
-Wait for completion (~20-40 minutes depending on hardware). Verify outputs:
+Wait for completion (~3-4 hours depending on hardware). Verify outputs:
 
 ```bash
-ls -lh cpu_core_macro/outputs/cpu_core_macro.gds
+ls -lh core_macro/outputs/core_macro.gds
 ls -lh memory_macro/outputs/memory_macro.gds
 ls -lh pwm_accelerator_macro/outputs/pwm_accelerator.gds
 ls -lh adc_subsystem_macro/outputs/adc_subsystem.gds
 ls -lh protection_macro/outputs/protection_macro.gds
 ls -lh communication_macro/outputs/communication_macro.gds
+```
+
+**Or build individual macros:**
+
+```bash
+# Core macro has its own script
+cd core_macro && ./run_core_macro.sh
+
+# MDU macro (if separate build needed)
+cd mdu_macro && ./run_mdu_macro.sh
+
+# Other macros - use Genus/Innovus directly
+cd memory_macro
+genus -batch -files scripts/memory_synthesis.tcl
+innovus -batch -files scripts/memory_place_route.tcl
 ```
 
 ### Step 2: Integrate Into Final SoC
@@ -248,7 +301,7 @@ ls -lh soc_integration/outputs/soc_complete.gds
 
 ```bash
 # View individual macro
-klayout cpu_core_macro/outputs/cpu_core_macro.gds
+klayout core_macro/outputs/core_macro.gds
 
 # View final integrated chip
 klayout soc_integration/outputs/soc_complete.gds
