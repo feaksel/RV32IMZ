@@ -33,37 +33,85 @@ CPU_MACROS=(
 
 INTEGRATED_MACRO="rv32im_integrated_macro"
 
-# Function to build a single macro
-build_macro() {
+# Function to build peripheral macros (use base name without _macro suffix for scripts)
+build_peripheral_macro() {
     local macro_name=$1
+    local base_name=${macro_name%_macro}
     local macro_dir="$SCRIPT_DIR/$macro_name"
-    
+
     echo ""
     echo "=========================================="
     echo "Building: $macro_name"
     echo "=========================================="
-    
+
     if [ ! -d "$macro_dir" ]; then
         echo "ERROR: Directory not found: $macro_dir"
         return 1
     fi
-    
+
     cd "$macro_dir"
-    
-    # Run synthesis
+
+    # Create logs directory if it doesn't exist
+    mkdir -p logs
+
+    # Run synthesis (peripheral macros use base name: memory_synthesis.tcl not memory_macro_synthesis.tcl)
     echo "[1/2] Running synthesis..."
-    if ! genus -batch -files scripts/${macro_name%_macro}_synthesis.tcl > logs/${macro_name}_synthesis.log 2>&1; then
+    if ! genus -batch -files scripts/${base_name}_synthesis.tcl > logs/${macro_name}_synthesis.log 2>&1; then
         echo "ERROR: Synthesis failed for $macro_name"
+        echo "  Check: $macro_dir/logs/${macro_name}_synthesis.log"
         return 1
     fi
-    
+
     # Run place & route
     echo "[2/2] Running place & route..."
-    if ! innovus -batch -files scripts/${macro_name%_macro}_place_route.tcl > logs/${macro_name}_pr.log 2>&1; then
+    if ! innovus -batch -files scripts/${base_name}_place_route.tcl > logs/${macro_name}_place_route.log 2>&1; then
         echo "ERROR: Place & Route failed for $macro_name"
+        echo "  Check: $macro_dir/logs/${macro_name}_place_route.log"
         return 1
     fi
-    
+
+    echo "✅ $macro_name complete"
+    cd "$SCRIPT_DIR"
+    return 0
+}
+
+# Function to build CPU macros (use base name without _macro suffix for scripts)
+build_cpu_macro() {
+    local macro_name=$1
+    local base_name=${macro_name%_macro}
+    local macro_dir="$SCRIPT_DIR/$macro_name"
+
+    echo ""
+    echo "=========================================="
+    echo "Building: $macro_name"
+    echo "=========================================="
+
+    if [ ! -d "$macro_dir" ]; then
+        echo "ERROR: Directory not found: $macro_dir"
+        return 1
+    fi
+
+    cd "$macro_dir"
+
+    # Create logs directory if it doesn't exist
+    mkdir -p logs
+
+    # Run synthesis (CPU macros use base name: core_synthesis.tcl not core_macro_synthesis.tcl)
+    echo "[1/2] Running synthesis..."
+    if ! genus -batch -files scripts/${base_name}_synthesis.tcl > logs/${macro_name}_synthesis.log 2>&1; then
+        echo "ERROR: Synthesis failed for $macro_name"
+        echo "  Check: $macro_dir/logs/${macro_name}_synthesis.log"
+        return 1
+    fi
+
+    # Run place & route
+    echo "[2/2] Running place & route..."
+    if ! innovus -batch -files scripts/${base_name}_place_route.tcl > logs/${macro_name}_place_route.log 2>&1; then
+        echo "ERROR: Place & Route failed for $macro_name"
+        echo "  Check: $macro_dir/logs/${macro_name}_place_route.log"
+        return 1
+    fi
+
     echo "✅ $macro_name complete"
     cd "$SCRIPT_DIR"
     return 0
@@ -177,7 +225,7 @@ echo "=========================================="
 echo "STEP 1/4: Building Peripheral Macros"
 echo "=========================================="
 for macro in "${PERIPHERAL_MACROS[@]}"; do
-    if ! build_macro "$macro"; then
+    if ! build_peripheral_macro "$macro"; then
         echo "❌ Build failed at: $macro"
         exit 1
     fi
@@ -189,7 +237,7 @@ echo "=========================================="
 echo "STEP 2/4: Building CPU Macros (Core + MDU)"
 echo "=========================================="
 for macro in "${CPU_MACROS[@]}"; do
-    if ! build_macro "$macro"; then
+    if ! build_cpu_macro "$macro"; then
         echo "❌ Build failed at: $macro"
         exit 1
     fi
