@@ -4,8 +4,8 @@
 # For: Memory Macro (32KB ROM + 64KB RAM)
 #===============================================================================
 
-# Paths (relative to macro directory)
-set TECH_PATH "../../../../pdk/sky130A"
+# Paths (use PDK_ROOT environment variable set by build script)
+set TECH_PATH "$env(PDK_ROOT)/sky130A"
 set NETLIST_PATH "outputs/memory_macro_netlist.v"
 set SDC_PATH "outputs/memory_macro_constraints.sdc"
 
@@ -14,7 +14,7 @@ set SDC_PATH "outputs/memory_macro_constraints.sdc"
 #===============================================================================
 
 # MMMC setup script path
-set MMMC_SCRIPT "../mmmc/memory_macro_mmmc.tcl"
+set MMMC_SCRIPT "mmmc/memory_macro_mmmc.tcl"
 
 # Create MMMC script if it doesn't exist
 if {![file exists $MMMC_SCRIPT]} {

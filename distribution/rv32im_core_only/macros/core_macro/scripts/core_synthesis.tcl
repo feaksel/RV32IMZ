@@ -5,7 +5,7 @@
 #===============================================================================
 
 # Paths (relative to macro root directory where genus is executed)
-set TECH_LIB_PATH "../../../pdk/sky130A/libs.ref"
+set TECH_LIB_PATH "$env(PDK_ROOT)/sky130A/libs.ref"
 set RTL_PATH "rtl"
 
 #===============================================================================

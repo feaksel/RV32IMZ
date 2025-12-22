@@ -4,8 +4,8 @@
 # For: Memory Macro (32KB ROM + 64KB RAM)
 #===============================================================================
 
-# Paths (relative to macro root directory where genus is executed)
-set TECH_LIB_PATH "../../../pdk/sky130A/libs.ref"
+# Paths (use PDK_ROOT environment variable set by build script)
+set TECH_LIB_PATH "$env(PDK_ROOT)/sky130A/libs.ref"
 set RTL_PATH "rtl"
 
 #===============================================================================
