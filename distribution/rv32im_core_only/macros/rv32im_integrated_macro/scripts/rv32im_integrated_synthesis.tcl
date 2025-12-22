@@ -4,10 +4,10 @@
 # Treats both as black boxes and wires them together
 #===============================================================================
 
-# Paths (relative to scripts directory when run from there)
-set TECH_LIB_PATH "../../../../pdk/sky130A/libs.ref"
-set RTL_PATH "../rtl"
-set MACRO_PATH "../.."
+# Paths (relative to rv32im_integrated_macro root directory where genus is executed)
+set TECH_LIB_PATH "../../../pdk/sky130A/libs.ref"
+set RTL_PATH "rtl"
+set MACRO_PATH ".."
 
 #===============================================================================
 # Setup
@@ -63,7 +63,7 @@ if {[file exists "$MACRO_PATH/mdu_macro/outputs/mdu_macro_syn.v"]} {
 puts "Reading wrapper RTL..."
 
 # Only read the top-level wrapper that instantiates the two macros
-read_hdl -v2001 "$RTL_PATH/rv32im_integrated_macro.v"
+read_hdl -v2001 "rtl/rv32im_integrated_macro.v"
 
 #===============================================================================
 # Elaborate Design
@@ -88,8 +88,8 @@ puts "==> Pre-built macros marked as black boxes (dont_touch)"
 puts "Applying constraints..."
 
 # Read timing constraints
-if {[file exists "../constraints/rv32im_integrated_macro.sdc"]} {
-    read_sdc ../constraints/rv32im_integrated_macro.sdc
+if {[file exists "constraints/rv32im_integrated_macro.sdc"]} {
+    read_sdc constraints/rv32im_integrated_macro.sdc
 } else {
     # Create basic clock constraint - 100MHz target
     create_clock -period 10.0 [get_ports clk]
@@ -134,11 +134,12 @@ syn_opt
 
 puts "Generating reports..."
 
-report_area > ../reports/area.rpt
-report_gates > ../reports/gates.rpt
-report_timing > ../reports/timing.rpt
-report_power > ../reports/power.rpt
-report_qor > ../reports/qor.rpt
+file mkdir reports
+report_area > reports/area.rpt
+report_gates > reports/gates.rpt
+report_timing > reports/timing.rpt
+report_power > reports/power.rpt
+report_qor > reports/qor.rpt
 
 #===============================================================================
 # Write Output
@@ -147,16 +148,16 @@ report_qor > ../reports/qor.rpt
 puts "Writing netlist..."
 
 # Create outputs directory if it doesn't exist
-file mkdir ../outputs
+file mkdir outputs
 
 # Write Verilog netlist
-write_hdl > ../outputs/rv32im_integrated_macro_syn.v
+write_hdl > outputs/rv32im_integrated_macro_syn.v
 
 # Write SDC
-write_sdc > ../outputs/rv32im_integrated_macro.sdc
+write_sdc > outputs/rv32im_integrated_macro.sdc
 
 puts "==> Synthesis complete!"
-puts "==> Netlist: ../outputs/rv32im_integrated_macro_syn.v"
+puts "==> Netlist: outputs/rv32im_integrated_macro_syn.v"
 puts ""
 puts "Summary:"
 puts "--------"
