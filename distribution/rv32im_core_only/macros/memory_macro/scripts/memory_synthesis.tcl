@@ -36,14 +36,18 @@ puts "==> Library loaded successfully"
 puts "Reading RTL files..."
 
 # Read SRAM macro library first (behavioral model for synthesis)
-read_hdl -v2001 {
-    $env(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
+# Note: SRAM macros may not be in your PDK - if missing, they'll be black boxes
+set sram_path "$env(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v"
+if {[file exists $sram_path]} {
+    puts "Reading SRAM behavioral model from: $sram_path"
+    read_hdl -v2001 $sram_path
+} else {
+    puts "WARNING: SRAM macro not found at: $sram_path"
+    puts "         SRAM instances will be treated as black boxes"
 }
 
 # Read memory macro RTL
-read_hdl -v2001 {
-    memory_macro.v
-}
+read_hdl -v2001 memory_macro.v
 
 #===============================================================================
 # Elaborate Design
@@ -84,11 +88,26 @@ set_db syn_opt_effort high
 
 # SRAM macro handling - treat as black boxes during synthesis
 set_db hdl_track_filename_row_col true
-set_dont_touch [get_cells -hier *sram_rom*]
-set_dont_touch [get_cells -hier *sram_ram*]
 
-# Don't optimize through SRAM boundaries
-set_dont_use [get_lib_cells */sky130_sram_2kbyte_1rw1r_32x512_8]
+# Set dont_touch on SRAM instances (if they exist)
+catch {
+    set sram_cells [get_cells -hier *sram_rom*]
+    if {[llength $sram_cells] > 0} {
+        set_dont_touch $sram_cells
+        puts "Set dont_touch on ROM SRAM instances"
+    }
+}
+
+catch {
+    set sram_cells [get_cells -hier *sram_ram*]
+    if {[llength $sram_cells] > 0} {
+        set_dont_touch $sram_cells
+        puts "Set dont_touch on RAM SRAM instances"
+    }
+}
+
+# Don't optimize through SRAM boundaries (if lib cell exists)
+catch {set_dont_use [get_lib_cells */sky130_sram_2kbyte_1rw1r_32x512_8]}
 
 #===============================================================================
 # Synthesize - Same Commands as Working Script
