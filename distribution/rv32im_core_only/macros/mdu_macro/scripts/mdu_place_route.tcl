@@ -7,17 +7,17 @@ puts "Starting MDU Macro Place & Route"
 puts "=========================================="
 
 set DESIGN_NAME "mdu_macro"
-set OUTPUT_DIR "../outputs"
-set REPORT_DIR "../reports"
+set OUTPUT_DIR "outputs"
+set REPORT_DIR "reports"
 
 #==============================================================================
 # Initialize Design
 #==============================================================================
 
-# LEF files
+# LEF files (use PDK_ROOT environment variable set by build script)
 set init_lef_file {
-    ../../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef
-    ../../pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+    $env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd__tech.lef
+    $env(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
 }
 
 # Netlist from synthesis
@@ -31,7 +31,7 @@ set init_pwr_net VDD
 set init_gnd_net VSS
 
 # MMMC file (simplified for macro)
-set init_mmmc_file ../mmmc/mmmc_mdu.tcl
+set init_mmmc_file mmmc/mmmc_mdu.tcl
 
 # Initialize design
 init_design
