@@ -4,9 +4,9 @@
 # For: PWM Accelerator Macro
 #===============================================================================
 
-# Paths (relative to macro directory)
-set TECH_LIB_PATH "../../../../pdk/sky130A/libs.ref"
-set RTL_PATH "../rtl"
+# Paths (relative to macro root directory where genus is executed)
+set TECH_LIB_PATH "../../../pdk/sky130A/libs.ref"
+set RTL_PATH "rtl"
 
 #===============================================================================
 # Setup - Based on Working Script
