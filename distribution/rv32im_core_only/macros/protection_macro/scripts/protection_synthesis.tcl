@@ -57,7 +57,7 @@ check_design -unresolved
 puts "Applying constraints..."
 
 # Read timing constraints (create basic one if not exists)
-if {[file exists "../constraints/protection_macro.sdc"]} {
+if {[file exists "constraints/protection_macro.sdc"]} {
     read_sdc ../constraints/protection_macro.sdc
 } else {
     # Create basic clock constraint

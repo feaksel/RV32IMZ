@@ -37,7 +37,7 @@ puts "Reading RTL files..."
 
 # Read SRAM macro library first (behavioral model for synthesis)
 read_hdl -v2001 {
-    ../../../../pdk/sky130A/libs.ref/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
+    $env(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
 }
 
 # Read memory macro RTL
@@ -62,8 +62,8 @@ check_design -unresolved
 puts "Applying constraints..."
 
 # Read timing constraints (create basic one if not exists)
-if {[file exists "../constraints/memory_macro.sdc"]} {
-    read_sdc ../constraints/memory_macro.sdc
+if {[file exists "constraints/memory_macro.sdc"]} {
+    read_sdc constraints/memory_macro.sdc
 } else {
     # Create basic clock constraint
     create_clock -period 10.0 [get_ports clk]

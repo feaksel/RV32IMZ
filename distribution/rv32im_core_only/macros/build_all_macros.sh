@@ -7,7 +7,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-export PDK_ROOT="$(cd "../../../pdk" && pwd)"
+export PDK_ROOT="$(cd "../pdk" && pwd)"
 export PACKAGE_ROOT="$(cd ".." && pwd)"
 
 echo "========================================"
