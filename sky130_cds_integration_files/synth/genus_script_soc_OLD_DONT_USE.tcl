@@ -1,9 +1,10 @@
 #===============================================================================
-# Genus Synthesis Script for rv32imz_soc_macro (UPDATED FOR YOUR STRUCTURE)
-# Your SOC directly instantiates: rv32im_integrated + individual peripherals
+# Genus Synthesis Script for rv32imz_soc_macro
+# Top-level SOC integration
+# Integrates: rv32im_integrated + peripheral_subsystem + memory
 #===============================================================================
 
-set DESIGN "rv32im_soc_with_integrated_core"  # Your actual module name!
+set DESIGN "rv32imz_soc_macro"
 
 # Paths
 set LIB_PATH "../sky130_osu_sc_t18"
@@ -30,28 +31,30 @@ read_physical -lef "$LIB_PATH/lef/sky130_osu_sc_18T.lef"
 
 puts "==> Reading pre-built macro netlists..."
 
-# LEVEL 1: RV32IM integrated macro (core + mdu already merged)
-if {[file exists "${MACRO_DIR}/rv32im_integrated/rv32im_integrated_macro_netlist.v"]} {
-    read_hdl -v2001 "${MACRO_DIR}/rv32im_integrated/rv32im_integrated_macro_netlist.v"
-    puts "    ✓ rv32im_integrated_macro netlist loaded"
-} else {
-    puts "ERROR: rv32im_integrated_macro netlist not found!"
-    exit 1
-}
+# Level 1 integrated macros
+set l1_macros {rv32im_integrated peripheral_subsystem}
 
-# LEVEL 0: Individual peripheral macros (your SOC uses them directly)
-set peripheral_macros {memory_macro communication_macro protection_macro adc_subsystem_macro pwm_accelerator_macro}
-
-foreach macro $peripheral_macros {
-    set netlist_file "${MACRO_DIR}/${macro}/${macro}_netlist.v"
+foreach macro $l1_macros {
+    set netlist_file "${MACRO_DIR}/${macro}/${macro}_macro_netlist.v"
     if {[file exists $netlist_file]} {
         read_hdl -v2001 $netlist_file
-        puts "    ✓ ${macro} netlist loaded"
+        puts "    ✓ ${macro}_macro netlist loaded"
     } else {
-        puts "ERROR: ${macro} netlist not found!"
-        puts "Build ${macro} first using standard sky130_cds flow"
+        puts "ERROR: ${macro}_macro netlist not found!"
+        puts "Build ${macro}_macro first using integration flow"
         exit 1
     }
+}
+
+# Memory macro (leaf)
+set netlist_file "${MACRO_DIR}/memory_macro/memory_macro_netlist.v"
+if {[file exists $netlist_file]} {
+    read_hdl -v2001 $netlist_file
+    puts "    ✓ memory_macro netlist loaded"
+} else {
+    puts "ERROR: memory_macro netlist not found!"
+    puts "Build memory_macro first using standard sky130_cds flow"
+    exit 1
 }
 
 #===============================================================================
@@ -60,7 +63,7 @@ foreach macro $peripheral_macros {
 
 puts "==> Reading top-level SOC RTL..."
 read_hdl -v2001 {
-    rv32im_soc_complete.v
+    rv32imz_soc_macro.v
 }
 
 #===============================================================================
@@ -78,15 +81,9 @@ check_design -unresolved
 
 puts "==> Setting macros as black boxes..."
 
-# Set rv32im_integrated as black box
-if {[llength [get_db designs rv32im_integrated_macro]] > 0} {
-    set_db [get_db designs rv32im_integrated_macro] .preserve true
-    set_dont_touch [get_db designs rv32im_integrated_macro]
-    puts "    ✓ rv32im_integrated_macro marked as black box"
-}
+set all_macros {rv32im_integrated_macro peripheral_subsystem_macro memory_macro}
 
-# Set individual peripherals as black boxes
-foreach macro $peripheral_macros {
+foreach macro $all_macros {
     if {[llength [get_db designs $macro]] > 0} {
         set_db [get_db designs $macro] .preserve true
         set_dont_touch [get_db designs $macro]
@@ -102,14 +99,14 @@ puts "==> Applying constraints..."
 
 # Read constraints from sub-macros (optional)
 catch {read_sdc "${MACRO_DIR}/rv32im_integrated/rv32im_integrated_macro.sdc"}
-foreach macro $peripheral_macros {
-    catch {read_sdc "${MACRO_DIR}/${macro}/${macro}.sdc"}
-}
+catch {read_sdc "${MACRO_DIR}/peripheral_subsystem/peripheral_subsystem_macro.sdc"}
+catch {read_sdc "${MACRO_DIR}/memory_macro/memory_macro.sdc"}
 
 # Read top-level constraints
 if {[file exists "constraints/soc_integrated.sdc"]} {
     read_sdc "constraints/soc_integrated.sdc"
 } else {
+    # Default constraints
     puts "WARNING: No SDC file found, using default constraints"
     create_clock -period 10.0 [get_ports clk]
     set_clock_uncertainty 0.5 [get_clocks clk]
@@ -123,6 +120,7 @@ if {[file exists "constraints/soc_integrated.sdc"]} {
 #===============================================================================
 
 puts "==> Running synthesis (top-level glue logic only)..."
+puts "    Note: All macros are black boxes"
 
 set_db syn_generic_effort high
 set_db syn_map_effort high
@@ -164,15 +162,16 @@ puts "SOC Integration Synthesis Complete!"
 puts "========================================="
 puts ""
 puts "Complete design hierarchy:"
-puts "  rv32im_soc_with_integrated_core (top)"
-puts "    ├── u_cpu_core (rv32im_integrated_macro)"
+puts "  rv32imz_soc_macro (top)"
+puts "    ├── u_rv32im_core (rv32im_integrated_macro)"
 puts "    │   ├── u_core_macro (pre-built)"
 puts "    │   └── u_mdu_macro (pre-built)"
 puts "    ├── u_memory (memory_macro)"
-puts "    ├── u_pwm (pwm_accelerator_macro)"
-puts "    ├── u_adc (adc_subsystem_macro)"
-puts "    ├── u_protection (protection_macro)"
-puts "    └── u_communication (communication_macro)"
+puts "    └── u_peripherals (peripheral_subsystem_macro)"
+puts "        ├── u_communication (pre-built)"
+puts "        ├── u_protection (pre-built)"
+puts "        ├── u_adc_subsystem (pre-built)"
+puts "        └── u_pwm_accelerator (pre-built)"
 puts ""
 puts "Next step:"
 puts "  cd ../pnr"

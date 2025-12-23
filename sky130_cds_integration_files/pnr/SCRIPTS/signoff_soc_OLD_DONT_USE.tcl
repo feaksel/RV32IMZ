@@ -1,9 +1,9 @@
 #===============================================================================
-# Signoff Script for rv32imz_soc_macro (UPDATED FOR YOUR STRUCTURE)
-# Your SOC uses: rv32im_integrated + individual peripherals (NOT peripheral_subsystem)
+# Signoff Script for rv32imz_soc_macro
+# Final SOC signoff with all macros merged
 #===============================================================================
 
-restoreDesign DBS/soc_integrated/route.enc rv32im_soc_with_integrated_core
+restoreDesign DBS/soc_integrated/route.enc rv32imz_soc_macro
 
 #===============================================================================
 # Extract Parasitics
@@ -28,8 +28,14 @@ timeDesign -postRoute -si
 
 puts "==> Running design checks..."
 
+# Verify connectivity
 verifyConnectivity -type all -report RPT/soc_integrated/connectivity.rpt
+
+# Verify geometry
 verifyGeometry -report RPT/soc_integrated/geometry.rpt
+
+# Metal fill (optional - for density rules)
+# addMetalFill -layer {met1 met2 met3 met4 met5}
 
 #===============================================================================
 # Reports
@@ -45,6 +51,8 @@ report_area > RPT/soc_integrated/area.rpt
 report_power -hierarchy all > RPT/soc_integrated/power.rpt
 report_power > RPT/soc_integrated/power_summary.rpt
 summaryReport -noHtml -outFile RPT/soc_integrated/summary.rpt
+
+# Detailed hierarchy report
 report_hierarchy > RPT/soc_integrated/hierarchy.rpt
 
 # Timing summary
@@ -74,21 +82,27 @@ puts "==> Generating final SOC files..."
 
 exec mkdir -p outputs/soc_integrated
 
+# LEF (for potential next-level integration)
 write_lef_abstract -5.7 outputs/soc_integrated/rv32imz_soc_macro.lef
 puts "    ✓ LEF: outputs/soc_integrated/rv32imz_soc_macro.lef"
 
+# Netlist
 saveNetlist outputs/soc_integrated/rv32imz_soc_macro_netlist.v -excludeLeafCell
 puts "    ✓ Netlist: outputs/soc_integrated/rv32imz_soc_macro_netlist.v"
 
+# Full netlist (including all cells - for simulation)
 saveNetlist outputs/soc_integrated/rv32imz_soc_macro_full.v -includeLeafCell
 puts "    ✓ Full Netlist: outputs/soc_integrated/rv32imz_soc_macro_full.v"
 
+# Timing constraints
 write_sdc outputs/soc_integrated/rv32imz_soc_macro.sdc
 puts "    ✓ SDC: outputs/soc_integrated/rv32imz_soc_macro.sdc"
 
+# DEF
 defOut outputs/soc_integrated/rv32imz_soc_macro.def
 puts "    ✓ DEF: outputs/soc_integrated/rv32imz_soc_macro.def"
 
+# SDF for timing simulation
 write_sdf outputs/soc_integrated/rv32imz_soc_macro.sdf
 puts "    ✓ SDF: outputs/soc_integrated/rv32imz_soc_macro.sdf"
 
@@ -102,29 +116,29 @@ puts ""
 
 set MACRO_PATH "outputs"
 
-# Build complete merge list
+# Build complete merge list for entire SOC hierarchy
 set merge_list {}
 
-# Add rv32im_integrated (contains core + mdu already merged)
-set gds_file "${MACRO_PATH}/rv32im_integrated/rv32im_integrated_macro.gds"
-if {[file exists $gds_file]} {
-    lappend merge_list $gds_file
-    puts "    ✓ Will merge rv32im_integrated_macro.gds (contains core+mdu)"
-} else {
-    puts "    WARNING: rv32im_integrated_macro.gds not found at $gds_file"
-}
+# Level 1 integrated macros (which themselves contain merged leaf macros)
+set l1_integrated {rv32im_integrated peripheral_subsystem}
 
-# Add individual peripheral macros
-set peripheral_macros {memory_macro communication_macro protection_macro adc_subsystem_macro pwm_accelerator_macro}
-
-foreach macro $peripheral_macros {
-    set gds_file "${MACRO_PATH}/${macro}/${macro}.gds"
+foreach macro $l1_integrated {
+    set gds_file "${MACRO_PATH}/${macro}/${macro}_macro.gds"
     if {[file exists $gds_file]} {
         lappend merge_list $gds_file
-        puts "    ✓ Will merge ${macro}.gds"
+        puts "    ✓ Will merge ${macro}_macro.gds (contains nested macros)"
     } else {
-        puts "    WARNING: ${macro}.gds not found at $gds_file"
+        puts "    WARNING: ${macro}_macro.gds not found at $gds_file"
     }
+}
+
+# Memory macro (leaf)
+set gds_file "${MACRO_PATH}/memory_macro/memory_macro.gds"
+if {[file exists $gds_file]} {
+    lappend merge_list $gds_file
+    puts "    ✓ Will merge memory_macro.gds"
+} else {
+    puts "    WARNING: memory_macro.gds not found at $gds_file"
 }
 
 puts ""
@@ -160,7 +174,7 @@ if {[llength $merge_list] > 0} {
     puts "    ✓ GDSII: outputs/soc_integrated/rv32imz_soc_macro.gds"
     puts ""
     puts "    This GDS file contains the COMPLETE SOC layout"
-    puts "    including ALL macros merged!"
+    puts "    including ALL nested macros merged recursively!"
 } else {
     puts "    ERROR: No macro GDS files found to merge!"
 }
@@ -188,20 +202,19 @@ puts "  outputs/soc_integrated/rv32imz_soc_macro.sdc"
 puts "  outputs/soc_integrated/rv32imz_soc_macro.sdf"
 puts "  outputs/soc_integrated/rv32imz_soc_macro.gds  <-- FINAL CHIP GDS"
 puts ""
-puts "Complete SOC hierarchy in GDS (YOUR STRUCTURE):"
-puts "  rv32im_soc_with_integrated_core"
-puts "    ├── u_cpu_core (rv32im_integrated_macro)"
-puts "    │   ├── u_core_macro (core_macro)"
-puts "    │   └── u_mdu_macro (mdu_macro)"
-puts "    ├── u_memory (memory_macro)"
-puts "    ├── u_pwm (pwm_accelerator_macro)"
-puts "    ├── u_adc (adc_subsystem_macro)"
-puts "    ├── u_protection (protection_macro)"
-puts "    └── u_communication (communication_macro)"
+puts "Complete SOC hierarchy in GDS:"
+puts "  rv32imz_soc_macro"
+puts "    ├── rv32im_integrated_macro"
+puts "    │   ├── core_macro"
+puts "    │   └── mdu_macro"
+puts "    ├── peripheral_subsystem_macro"
+puts "    │   ├── communication_macro"
+puts "    │   ├── protection_macro"
+puts "    │   ├── adc_subsystem_macro"
+puts "    │   └── pwm_accelerator_macro"
+puts "    └── memory_macro"
 puts ""
-puts "Total macros merged: 7 (rv32im_integrated + 5 peripherals)"
-puts "Note: rv32im_integrated itself contains 2 macros (core + mdu)"
-puts "So the complete hierarchy has 7 top-level macros in the GDS"
+puts "Total macros merged: 8 (all levels)"
 puts ""
 puts "READY FOR TAPEOUT! 🚀"
 puts ""
