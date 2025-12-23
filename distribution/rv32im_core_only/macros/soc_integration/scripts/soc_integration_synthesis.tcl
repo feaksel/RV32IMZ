@@ -6,7 +6,7 @@ set DESIGN rv32im_soc_complete
 
 # Setup library
 set_db init_lib_search_path "${PDK_ROOT}/sky130A/libs.ref/sky130_fd_sc_hd/lib"
-set_db init_hdl_search_path "../soc_integration/rtl:../rv32im_integrated_macro/outputs:../memory_macro/outputs:../communication_macro/outputs:../protection_macro/outputs:../adc_subsystem_macro/outputs:../pwm_accelerator_macro/outputs"
+set_db init_hdl_search_path "rtl:../rv32im_integrated_macro/outputs:../memory_macro/outputs:../communication_macro/outputs:../protection_macro/outputs:../adc_subsystem_macro/outputs:../pwm_accelerator_macro/outputs"
 
 read_libs sky130_fd_sc_hd__tt_025C_1v80.lib
 

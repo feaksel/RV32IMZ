@@ -4,9 +4,9 @@
 # For: Core Macro (Pipeline + Register File + ALU + Decoder + CSR + Exception)
 #===============================================================================
 
-# Paths (relative to macro directory)
-set TECH_LIB_PATH "../../../../pdk/sky130A/libs.ref"
-set RTL_PATH "../rtl"
+# Paths (relative to macro root directory where genus is executed)
+set TECH_LIB_PATH "$env(PDK_ROOT)/sky130A/libs.ref/lib"
+set RTL_PATH "rtl"
 
 #===============================================================================
 # Setup - Based on Working Script
@@ -23,7 +23,7 @@ set_db information_level 7
 set_db hdl_max_loop_limit 10000
 
 # Read single technology library (typical corner only)
-set lib_path "$TECH_LIB_PATH/sky130_fd_sc_hd/lib"
+set lib_path "$TECH_LIB_PATH"
 
 puts "==> Loading single typical corner library..."
 read_libs ${lib_path}/sky130_fd_sc_hd__tt_025C_1v80.lib
@@ -57,8 +57,8 @@ check_design -unresolved
 puts "Applying constraints..."
 
 # Read timing constraints (create basic one if not exists)
-if {[file exists "../constraints/core_macro.sdc"]} {
-    read_sdc ../constraints/core_macro.sdc
+if {[file exists "constraints/core_macro.sdc"]} {
+    read_sdc constraints/core_macro.sdc
 } else {
     # Create basic clock constraint
     create_clock -period 10.0 [get_ports clk]

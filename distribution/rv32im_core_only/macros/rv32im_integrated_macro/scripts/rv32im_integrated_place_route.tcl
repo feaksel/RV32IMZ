@@ -30,16 +30,16 @@ read_physical -lef [list \
 
 # Load pre-built macro LEF files (physical abstract views)
 puts "Loading pre-built macro LEF files..."
-if {[file exists "$MACRO_DIR/../core_macro/outputs/core_macro.lef"]} {
-    read_physical -lef "$MACRO_DIR/../core_macro/outputs/core_macro.lef"
+if {[file exists "$MACRO_DIR/core_macro/outputs/core_macro.lef"]} {
+    read_physical -lef "$MACRO_DIR/core_macro/outputs/core_macro.lef"
     puts "    core_macro LEF loaded"
 } else {
     puts "ERROR: core_macro.lef not found!"
     exit 1
 }
 
-if {[file exists "$MACRO_DIR/../mdu_macro/outputs/mdu_macro.lef"]} {
-    read_physical -lef "$MACRO_DIR/../mdu_macro/outputs/mdu_macro.lef"
+if {[file exists "$MACRO_DIR/mdu_macro/outputs/mdu_macro.lef"]} {
+    read_physical -lef "$MACRO_DIR/mdu_macro/outputs/mdu_macro.lef"
     puts "    mdu_macro LEF loaded"
 } else {
     puts "ERROR: mdu_macro.lef not found!"
@@ -47,7 +47,7 @@ if {[file exists "$MACRO_DIR/../mdu_macro/outputs/mdu_macro.lef"]} {
 }
 
 # Load the synthesized netlist
-read_netlist "../outputs/rv32im_integrated_macro_syn.v"
+read_netlist "outputs/rv32im_integrated_macro_syn.v"
 
 # Initialize the design
 init_design -setup {setup_view} -hold {hold_view}
@@ -175,11 +175,11 @@ timeDesign -postRoute -prefix postRoute
 
 puts "Generating final reports..."
 
-file mkdir ../reports
+file mkdir reports
 
-catch {report_area > ../reports/final_area.rpt}
-catch {report_timing -nworst 10 > ../reports/timing.rpt}
-catch {report_power > ../reports/power.rpt}
+catch {report_area > reports/final_area.rpt}
+catch {report_timing -nworst 10 > reports/timing.rpt}
+catch {report_power > reports/power.rpt}
 
 #==============================================================================
 # Output Generation
@@ -188,9 +188,10 @@ catch {report_power > ../reports/power.rpt}
 puts "Writing output files..."
 
 # Write output files
-catch {streamOut ../outputs/rv32im_integrated_macro.gds -mapFile $env(PDK_ROOT)/sky130A/libs.tech/klayout/sky130A.gds.map}
-catch {write_lef_abstract ../outputs/rv32im_integrated_macro.lef}
-catch {defOut ../outputs/rv32im_integrated_macro.def}
+file mkdir outputs
+catch {streamOut outputs/rv32im_integrated_macro.gds -mapFile $env(PDK_ROOT)/sky130A/libs.tech/klayout/sky130A.gds.map}
+catch {write_lef_abstract outputs/rv32im_integrated_macro.lef}
+catch {defOut outputs/rv32im_integrated_macro.def}
 
 #==============================================================================
 # Summary
@@ -201,14 +202,14 @@ puts "RV32IM Integrated Macro Place & Route Complete"
 puts "======================================================================"
 puts ""
 puts "Outputs:"
-puts "  GDS:     ../outputs/rv32im_integrated_macro.gds"
-puts "  LEF:     ../outputs/rv32im_integrated_macro.lef"
-puts "  DEF:     ../outputs/rv32im_integrated_macro.def"
+puts "  GDS:     outputs/rv32im_integrated_macro.gds"
+puts "  LEF:     outputs/rv32im_integrated_macro.lef"
+puts "  DEF:     outputs/rv32im_integrated_macro.def"
 puts ""
 puts "Reports:"
-puts "  Area:    ../reports/final_area.rpt"
-puts "  Timing:  ../reports/timing.rpt"
-puts "  Power:   ../reports/power.rpt"
+puts "  Area:    reports/final_area.rpt"
+puts "  Timing:  reports/timing.rpt"
+puts "  Power:   reports/power.rpt"
 puts ""
 puts "======================================================================"
 
