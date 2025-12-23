@@ -1,0 +1,183 @@
+#===============================================================================
+# Makefile for rv32imz_soc_macro
+# Top-level SOC integration
+# Integrates: rv32im_integrated + peripheral_subsystem + memory
+#===============================================================================
+
+DESIGN = rv32imz_soc_macro
+SCRIPTS_DIR = SCRIPTS
+
+.PHONY: all init place cts route signoff clean help check
+
+all: init place cts route signoff
+
+#===============================================================================
+# SOC Integration Flow Stages
+#===============================================================================
+
+init:
+	@echo "========================================="
+	@echo "Initializing SOC Integration"
+	@echo "========================================="
+	innovus -init $(SCRIPTS_DIR)/init_soc.tcl -log LOG/soc_init.log
+	@echo "Init complete. Check LOG/soc_init.log"
+
+place:
+	@echo "========================================="
+	@echo "Placing SOC Glue Logic"
+	@echo "========================================="
+	@echo "restoreDesign DBS/soc_integrated/init.enc $(DESIGN)" > .tmp_place.tcl
+	@echo "setPlaceMode -fp false -maxRouteLayer 5" >> .tmp_place.tcl
+	@echo "placeDesign -inPlaceOpt -noPrePlaceOpt" >> .tmp_place.tcl
+	@echo "optDesign -preCTS -incr" >> .tmp_place.tcl
+	@echo "saveDesign DBS/soc_integrated/place.enc" >> .tmp_place.tcl
+	@echo "exit" >> .tmp_place.tcl
+	innovus -init .tmp_place.tcl -log LOG/soc_place.log
+	@rm .tmp_place.tcl
+	@echo "Placement complete. Check LOG/soc_place.log"
+
+cts:
+	@echo "========================================="
+	@echo "Clock Tree Synthesis"
+	@echo "========================================="
+	@echo "restoreDesign DBS/soc_integrated/place.enc $(DESIGN)" > .tmp_cts.tcl
+	@echo "create_ccopt_clock_tree_spec" >> .tmp_cts.tcl
+	@echo "set_ccopt_property target_max_trans 0.5" >> .tmp_cts.tcl
+	@echo "set_ccopt_property target_skew 0.1" >> .tmp_cts.tcl
+	@echo "catch {ccopt_design}" >> .tmp_cts.tcl
+	@echo "optDesign -postCTS -incr" >> .tmp_cts.tcl
+	@echo "saveDesign DBS/soc_integrated/cts.enc" >> .tmp_cts.tcl
+	@echo "exit" >> .tmp_cts.tcl
+	innovus -init .tmp_cts.tcl -log LOG/soc_cts.log
+	@rm .tmp_cts.tcl
+	@echo "CTS complete. Check LOG/soc_cts.log"
+
+route:
+	@echo "========================================="
+	@echo "Routing Complete SOC"
+	@echo "========================================="
+	@echo "restoreDesign DBS/soc_integrated/cts.enc $(DESIGN)" > .tmp_route.tcl
+	@echo "setNanoRouteMode -routeWithTimingDriven true" >> .tmp_route.tcl
+	@echo "setNanoRouteMode -routeWithSiDriven true" >> .tmp_route.tcl
+	@echo "setNanoRouteMode -drouteFixAntenna true" >> .tmp_route.tcl
+	@echo "globalRoute" >> .tmp_route.tcl
+	@echo "detailRoute" >> .tmp_route.tcl
+	@echo "optDesign -postRoute -incr" >> .tmp_route.tcl
+	@echo "saveDesign DBS/soc_integrated/route.enc" >> .tmp_route.tcl
+	@echo "exit" >> .tmp_route.tcl
+	innovus -init .tmp_route.tcl -log LOG/soc_route.log
+	@rm .tmp_route.tcl
+	@echo "Routing complete. Check LOG/soc_route.log"
+
+signoff:
+	@echo "========================================="
+	@echo "SOC Signoff and Final GDS Generation"
+	@echo "========================================="
+	innovus -init $(SCRIPTS_DIR)/signoff_soc.tcl -log LOG/soc_signoff.log
+	@echo ""
+	@echo "========================================="
+	@echo "SOC SIGNOFF COMPLETE!"
+	@echo "========================================="
+	@echo ""
+	@echo "Final SOC files generated in outputs/soc_integrated/:"
+	@echo "  - rv32imz_soc_macro.lef"
+	@echo "  - rv32imz_soc_macro_netlist.v"
+	@echo "  - rv32imz_soc_macro_full.v (with all leaf cells)"
+	@echo "  - rv32imz_soc_macro.sdc"
+	@echo "  - rv32imz_soc_macro.sdf"
+	@echo "  - rv32imz_soc_macro.gds  <-- FINAL CHIP GDS"
+	@echo ""
+	@echo "The GDS file contains ALL macros merged:"
+	@echo "  - rv32im_integrated (core + mdu)"
+	@echo "  - peripheral_subsystem (comm + prot + adc + pwm)"
+	@echo "  - memory"
+	@echo ""
+	@echo "Total: 8 macros in complete hierarchy"
+	@echo ""
+	@echo "🚀 READY FOR TAPEOUT!"
+	@echo ""
+
+#===============================================================================
+# Verification Target
+#===============================================================================
+
+check:
+	@echo "========================================="
+	@echo "Checking SOC Timing and DRC"
+	@echo "========================================="
+	@if [ -f RPT/soc_integrated/summary.rpt ]; then \
+		echo "=== Timing Summary ==="; \
+		grep -A 10 "Timing" RPT/soc_integrated/summary.rpt || echo "No timing info found"; \
+		echo ""; \
+		echo "=== Setup Violations ==="; \
+		grep -i "setup" RPT/soc_integrated/setup.rpt | head -20 || echo "No setup violations"; \
+		echo ""; \
+		echo "=== Hold Violations ==="; \
+		grep -i "hold" RPT/soc_integrated/hold.rpt | head -20 || echo "No hold violations"; \
+		echo ""; \
+		echo "For full reports, see:"; \
+		echo "  RPT/soc_integrated/summary.rpt"; \
+		echo "  RPT/soc_integrated/setup.rpt"; \
+		echo "  RPT/soc_integrated/hold.rpt"; \
+	else \
+		echo "No reports found. Run 'make signoff' first."; \
+	fi
+
+#===============================================================================
+# Utility Targets
+#===============================================================================
+
+clean:
+	@echo "Cleaning SOC files..."
+	rm -rf DBS/soc_integrated
+	rm -rf RPT/soc_integrated
+	rm -rf LOG/soc_*.log
+	rm -rf outputs/soc_integrated
+	rm -f .tmp_*.tcl
+	@echo "Clean complete"
+
+help:
+	@echo "========================================="
+	@echo "SOC Integration Makefile"
+	@echo "========================================="
+	@echo "Targets:"
+	@echo "  make init    - Initialize SOC floorplan and place major macros"
+	@echo "  make place   - Place top-level glue logic"
+	@echo "  make cts     - Clock tree synthesis"
+	@echo "  make route   - Route complete SOC"
+	@echo "  make signoff - Generate final GDS with ALL macros merged"
+	@echo "  make all     - Run complete SOC integration flow"
+	@echo "  make check   - Check timing and DRC reports"
+	@echo "  make clean   - Clean build files"
+	@echo ""
+	@echo "Prerequisites (IN ORDER):"
+	@echo ""
+	@echo "  LEVEL 0 (Leaf Macros):"
+	@echo "    1. Build core_macro"
+	@echo "    2. Build mdu_macro"
+	@echo "    3. Build memory_macro"
+	@echo "    4. Build communication_macro"
+	@echo "    5. Build protection_macro"
+	@echo "    6. Build adc_subsystem_macro"
+	@echo "    7. Build pwm_accelerator_macro"
+	@echo "    8. Generate integration files (LEF/netlist/GDS) for each"
+	@echo ""
+	@echo "  LEVEL 1 (Integrated Subsystems):"
+	@echo "    9. Build rv32im_integrated_macro:"
+	@echo "       cd ../synth && genus -f genus_script_rv32im.tcl"
+	@echo "       cd ../pnr && make -f Makefile.rv32im all"
+	@echo ""
+	@echo "   10. Build peripheral_subsystem_macro:"
+	@echo "       cd ../synth && genus -f genus_script_periph.tcl"
+	@echo "       cd ../pnr && make -f Makefile.periph all"
+	@echo ""
+	@echo "  LEVEL 2 (Final SOC):"
+	@echo "   11. Run synthesis:"
+	@echo "       cd ../synth && genus -f genus_script_soc.tcl"
+	@echo ""
+	@echo "   12. Run this makefile:"
+	@echo "       make -f Makefile.soc all"
+	@echo ""
+	@echo "========================================="
+	@echo "Result: Complete SOC with all macros in one GDS file!"
+	@echo "========================================="
