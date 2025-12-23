@@ -1,0 +1,116 @@
+#===============================================================================
+# Makefile for rv32im_integrated_macro
+# Integrates core_macro + mdu_macro
+#===============================================================================
+
+DESIGN = rv32im_integrated_macro
+SCRIPTS_DIR = SCRIPTS
+
+.PHONY: all init place cts route signoff clean help
+
+# Run complete flow
+all: init place cts route signoff
+
+#===============================================================================
+# Integration Flow Stages
+#===============================================================================
+
+init:
+	@echo "========================================="
+	@echo "Initializing RV32IM Integrated Design"
+	@echo "========================================="
+	innovus -init $(SCRIPTS_DIR)/init_rv32im.tcl -log LOG/rv32im_init.log
+	@echo "Init complete. Check LOG/rv32im_init.log"
+
+place:
+	@echo "========================================="
+	@echo "Placing Design (Glue Logic Only)"
+	@echo "========================================="
+	@echo "restoreDesign DBS/rv32im_integrated/init.enc $(DESIGN)" > .tmp_place.tcl
+	@echo "setPlaceMode -fp false -maxRouteLayer 5" >> .tmp_place.tcl
+	@echo "placeDesign -inPlaceOpt -noPrePlaceOpt" >> .tmp_place.tcl
+	@echo "optDesign -preCTS -incr" >> .tmp_place.tcl
+	@echo "saveDesign DBS/rv32im_integrated/place.enc" >> .tmp_place.tcl
+	@echo "exit" >> .tmp_place.tcl
+	innovus -init .tmp_place.tcl -log LOG/rv32im_place.log
+	@rm .tmp_place.tcl
+	@echo "Placement complete. Check LOG/rv32im_place.log"
+
+cts:
+	@echo "========================================="
+	@echo "Clock Tree Synthesis"
+	@echo "========================================="
+	@echo "restoreDesign DBS/rv32im_integrated/place.enc $(DESIGN)" > .tmp_cts.tcl
+	@echo "create_ccopt_clock_tree_spec" >> .tmp_cts.tcl
+	@echo "set_ccopt_property target_max_trans 0.5" >> .tmp_cts.tcl
+	@echo "set_ccopt_property target_skew 0.1" >> .tmp_cts.tcl
+	@echo "catch {ccopt_design}" >> .tmp_cts.tcl
+	@echo "optDesign -postCTS -incr" >> .tmp_cts.tcl
+	@echo "saveDesign DBS/rv32im_integrated/cts.enc" >> .tmp_cts.tcl
+	@echo "exit" >> .tmp_cts.tcl
+	innovus -init .tmp_cts.tcl -log LOG/rv32im_cts.log
+	@rm .tmp_cts.tcl
+	@echo "CTS complete. Check LOG/rv32im_cts.log"
+
+route:
+	@echo "========================================="
+	@echo "Routing Design"
+	@echo "========================================="
+	@echo "restoreDesign DBS/rv32im_integrated/cts.enc $(DESIGN)" > .tmp_route.tcl
+	@echo "setNanoRouteMode -routeWithTimingDriven true" >> .tmp_route.tcl
+	@echo "setNanoRouteMode -routeWithSiDriven true" >> .tmp_route.tcl
+	@echo "globalRoute" >> .tmp_route.tcl
+	@echo "detailRoute" >> .tmp_route.tcl
+	@echo "optDesign -postRoute -incr" >> .tmp_route.tcl
+	@echo "saveDesign DBS/rv32im_integrated/route.enc" >> .tmp_route.tcl
+	@echo "exit" >> .tmp_route.tcl
+	innovus -init .tmp_route.tcl -log LOG/rv32im_route.log
+	@rm .tmp_route.tcl
+	@echo "Routing complete. Check LOG/rv32im_route.log"
+
+signoff:
+	@echo "========================================="
+	@echo "Signoff and File Generation"
+	@echo "========================================="
+	innovus -init $(SCRIPTS_DIR)/signoff_rv32im.tcl -log LOG/rv32im_signoff.log
+	@echo ""
+	@echo "Signoff complete!"
+	@echo "Generated files in outputs/rv32im_integrated/:"
+	@echo "  - rv32im_integrated_macro.lef"
+	@echo "  - rv32im_integrated_macro_netlist.v"
+	@echo "  - rv32im_integrated_macro.sdc"
+	@echo "  - rv32im_integrated_macro.gds (with merged macros)"
+
+#===============================================================================
+# Utility Targets
+#===============================================================================
+
+clean:
+	@echo "Cleaning RV32IM integrated design files..."
+	rm -rf DBS/rv32im_integrated
+	rm -rf RPT/rv32im_integrated
+	rm -rf LOG/rv32im_*.log
+	rm -rf outputs/rv32im_integrated
+	rm -f .tmp_*.tcl
+	@echo "Clean complete"
+
+help:
+	@echo "========================================="
+	@echo "RV32IM Integration Makefile"
+	@echo "========================================="
+	@echo "Targets:"
+	@echo "  make init    - Initialize floorplan and place macros"
+	@echo "  make place   - Place standard cells (glue logic)"
+	@echo "  make cts     - Clock tree synthesis"
+	@echo "  make route   - Route design"
+	@echo "  make signoff - Generate LEF/netlist/GDS"
+	@echo "  make all     - Run complete flow"
+	@echo "  make clean   - Clean build files"
+	@echo ""
+	@echo "Prerequisites:"
+	@echo "  1. Build core_macro (cd pnr && make all DESIGN=core_macro)"
+	@echo "  2. Build mdu_macro (cd pnr && make all DESIGN=mdu_macro)"
+	@echo "  3. Generate integration files (LEF, netlist, GDS) for both"
+	@echo "  4. Run synthesis: cd ../synth && genus -f genus_script_rv32im.tcl"
+	@echo "  5. Run this makefile: make -f Makefile.rv32im all"
+	@echo "========================================="
