@@ -56,8 +56,16 @@ puts "==> Generating integration files..."
 exec mkdir -p outputs/rv32im_integrated
 
 # 1. LEF Abstract (for next-level integration)
-write_lef_abstract -5.7 outputs/rv32im_integrated/rv32im_integrated_macro.lef
-puts "    ✓ LEF: outputs/rv32im_integrated/rv32im_integrated_macro.lef"
+# Use LEF 5.6 to avoid OVERLAP layer requirement (LEF 5.7 needs OVERLAP in tech LEF)
+if {[catch {
+    write_lef_abstract -5.6 outputs/rv32im_integrated/rv32im_integrated_macro.lef
+    puts "    ✓ LEF: outputs/rv32im_integrated/rv32im_integrated_macro.lef (LEF 5.6 format)"
+} err]} {
+    # Fallback: LEF 5.7 without obstructions if 5.6 fails
+    write_lef_abstract -5.7 -noOBS outputs/rv32im_integrated/rv32im_integrated_macro.lef
+    puts "    ✓ LEF: outputs/rv32im_integrated/rv32im_integrated_macro.lef (LEF 5.7, no OBS)"
+    puts "    WARNING: Using -noOBS due to: $err"
+}
 
 # 2. Gate-level Netlist (for next-level synthesis)
 saveNetlist outputs/rv32im_integrated/rv32im_integrated_macro_netlist.v -excludeLeafCell

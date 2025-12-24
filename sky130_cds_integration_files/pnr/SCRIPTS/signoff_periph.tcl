@@ -54,8 +54,16 @@ puts "==> Generating integration files..."
 
 exec mkdir -p outputs/peripheral_subsystem
 
-write_lef_abstract -5.7 outputs/peripheral_subsystem/peripheral_subsystem_macro.lef
-puts "    ✓ LEF: outputs/peripheral_subsystem/peripheral_subsystem_macro.lef"
+# Use LEF 5.6 to avoid OVERLAP layer requirement (LEF 5.7 needs OVERLAP in tech LEF)
+if {[catch {
+    write_lef_abstract -5.6 outputs/peripheral_subsystem/peripheral_subsystem_macro.lef
+    puts "    ✓ LEF: outputs/peripheral_subsystem/peripheral_subsystem_macro.lef (LEF 5.6 format)"
+} err]} {
+    # Fallback: LEF 5.7 without obstructions if 5.6 fails
+    write_lef_abstract -5.7 -noOBS outputs/peripheral_subsystem/peripheral_subsystem_macro.lef
+    puts "    ✓ LEF: outputs/peripheral_subsystem/peripheral_subsystem_macro.lef (LEF 5.7, no OBS)"
+    puts "    WARNING: Using -noOBS due to: $err"
+}
 
 saveNetlist outputs/peripheral_subsystem/peripheral_subsystem_macro_netlist.v -excludeLeafCell
 puts "    ✓ Netlist: outputs/peripheral_subsystem/peripheral_subsystem_macro_netlist.v"
