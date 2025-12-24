@@ -1,0 +1,66 @@
+#===============================================================================
+# Fixed Init Script for rv32im_integrated_macro
+#===============================================================================
+
+# Source the setup variables
+source SCRIPTS/setup_rv32im.tcl
+
+#===============================================================================
+# Initialize Design
+#===============================================================================
+
+puts "==> Initializing design..."
+
+# Initialize the database using global variables
+init_design
+
+# Set the active timing view (Fixes 'physical-only' mode)
+set_analysis_view -setup {default_view} -hold {default_view}
+
+#===============================================================================
+# Create Floorplan
+#===============================================================================
+
+puts "==> Creating floorplan..."
+floorPlan -site unithd -s 400.0 350.0 15.0 15.0 15.0 15.0
+
+#===============================================================================
+# Place Pre-Built Macros
+#===============================================================================
+
+puts "==> Placing pre-built macros..."
+# Ensure these instance names match your synthesized netlist exactly
+placeInstance u_core_macro 40.0 60.0 -fixed
+placeInstance u_mdu_macro 250.0 60.0 -fixed
+
+#===============================================================================
+# Power Planning
+#===============================================================================
+
+puts "==> Creating power distribution network..."
+
+globalNetConnect vccd1 -type pgpin -pin vdd -inst *
+globalNetConnect vssd1 -type pgpin -pin gnd -inst *
+
+addRing -nets {vccd1 vssd1} \
+        -type core_rings \
+        -follow io \
+        -layer {top met1 bottom met1 left met2 right met2} \
+        -width 3.0 \
+        -spacing 1.5 \
+        -offset 2.0
+
+sroute -connect {blockPin padPin padRing corePin floatingStripe} \
+       -layerChangeRange {met1 met4} \
+       -blockPinTarget nearestTarget
+
+#===============================================================================
+# Save Database
+#===============================================================================
+
+exec mkdir -p DBS/rv32im_integrated
+saveDesign DBS/rv32im_integrated/init.enc
+
+puts "========================================="
+puts "Init Complete - Design Saved"
+puts "========================================="
