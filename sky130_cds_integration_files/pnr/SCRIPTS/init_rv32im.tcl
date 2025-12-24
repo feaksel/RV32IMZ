@@ -11,17 +11,10 @@ source setup_rv32im.tcl
 
 puts "==> Creating floorplan..."
 
-# Calculate floorplan size based on macro dimensions
-# Get macro bounding boxes to determine size needed
-set core_bbox [get_db [get_db insts u_core_macro] .bbox]
-set mdu_bbox [get_db [get_db insts u_mdu_macro] .bbox]
-
-puts "Core macro bbox: $core_bbox"
-puts "MDU macro bbox: $mdu_bbox"
-
 # Create floorplan with enough space for both macros plus glue logic
 # Size: 400µm x 350µm with 15µm margins
 # Adjust these dimensions based on your actual macro sizes!
+# NOTE: Macro bounding boxes can be queried after floorplan is created
 floorPlan -site unithd -s 400.0 350.0 15.0 15.0 15.0 15.0
 
 puts "Floorplan created: 400µm x 350µm with 15µm margins"
