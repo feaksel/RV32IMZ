@@ -47,15 +47,22 @@ set_ground_net VSS
 
 puts "==> Loading technology LEF files..."
 
-read_physical -lef [list \
-    "${LIB_PATH}/lef/sky130_osu_sc_18T_tech.lef" \
-    "${LIB_PATH}/lef/sky130_osu_sc_18T.lef" \
-]
-
-# Load OVERLAP layer definition (required for write_lef_abstract)
-if {[file exists "tech_overlay_overlap.lef"]} {
-    read_physical -lef "tech_overlay_overlap.lef"
-    puts "    ✓ OVERLAP layer definition loaded"
+# Use modified tech LEF with OVERLAP layer (if available), otherwise use original
+set tech_lef_with_overlap "sky130_osu_sc_18T_tech_with_overlap.lef"
+if {[file exists $tech_lef_with_overlap]} {
+    read_physical -lef [list \
+        $tech_lef_with_overlap \
+        "${LIB_PATH}/lef/sky130_osu_sc_18T.lef" \
+    ]
+    puts "    ✓ Using tech LEF with OVERLAP layer"
+} else {
+    puts "WARNING: Modified tech LEF not found!"
+    puts "Run: ./add_overlap_to_tech_lef.sh to create it"
+    puts "Using original tech LEF (write_lef_abstract may fail)"
+    read_physical -lef [list \
+        "${LIB_PATH}/lef/sky130_osu_sc_18T_tech.lef" \
+        "${LIB_PATH}/lef/sky130_osu_sc_18T.lef" \
+    ]
 }
 
 #===============================================================================
