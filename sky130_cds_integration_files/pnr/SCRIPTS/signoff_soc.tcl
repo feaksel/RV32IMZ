@@ -74,16 +74,9 @@ puts "==> Generating final SOC files..."
 
 exec mkdir -p outputs/soc_integrated
 
-# Use LEF 5.6 to avoid OVERLAP layer requirement (LEF 5.7 needs OVERLAP in tech LEF)
-if {[catch {
-    write_lef_abstract -5.6 outputs/soc_integrated/rv32imz_soc_macro.lef
-    puts "    ✓ LEF: outputs/soc_integrated/rv32imz_soc_macro.lef (LEF 5.6 format)"
-} err]} {
-    # Fallback: LEF 5.7 without obstructions if 5.6 fails
-    write_lef_abstract -5.7 -noOBS outputs/soc_integrated/rv32imz_soc_macro.lef
-    puts "    ✓ LEF: outputs/soc_integrated/rv32imz_soc_macro.lef (LEF 5.7, no OBS)"
-    puts "    WARNING: Using -noOBS due to: $err"
-}
+# OVERLAP layer is now defined in tech_overlay_overlap.lef (loaded in setup script)
+write_lef_abstract -5.7 outputs/soc_integrated/rv32imz_soc_macro.lef
+puts "    ✓ LEF: outputs/soc_integrated/rv32imz_soc_macro.lef"
 
 saveNetlist outputs/soc_integrated/rv32imz_soc_macro_netlist.v -excludeLeafCell
 puts "    ✓ Netlist: outputs/soc_integrated/rv32imz_soc_macro_netlist.v"

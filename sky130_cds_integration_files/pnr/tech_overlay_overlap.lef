@@ -1,0 +1,15 @@
+VERSION 5.7 ;
+BUSBITCHARS "[]" ;
+DIVIDERCHAR "/" ;
+
+# ============================================================================
+# OVERLAP Layer Definition for write_lef_abstract
+# This file adds the OVERLAP layer required by Innovus write_lef_abstract
+# Load this AFTER reading the standard technology LEF files
+# ============================================================================
+
+LAYER OVERLAP
+  TYPE OVERLAP ;
+END OVERLAP
+
+END LIBRARY

@@ -52,6 +52,12 @@ read_physical -lef [list \
     "${LIB_PATH}/lef/sky130_osu_sc_18T.lef" \
 ]
 
+# Load OVERLAP layer definition (required for write_lef_abstract)
+if {[file exists "tech_overlay_overlap.lef"]} {
+    read_physical -lef "tech_overlay_overlap.lef"
+    puts "    ✓ OVERLAP layer definition loaded"
+}
+
 #===============================================================================
 # Read Pre-Built Peripheral Macro LEF Files
 #===============================================================================
