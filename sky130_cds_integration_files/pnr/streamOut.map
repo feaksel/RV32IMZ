@@ -1,0 +1,30 @@
+# Layer mapping file for GDS streamOut
+# Maps LEF layer names to GDS layer numbers
+# Format: lef_layer_name gds_layer_number gds_datatype
+
+# Metal layers
+li1     67  20
+mcon    67  44
+met1    68  20
+via     68  44
+met2    69  20
+via2    69  44
+met3    70  20
+via3    70  44
+met4    71  20
+via4    71  44
+met5    72  20
+
+# Poly and diffusion
+poly    66  20
+nwell   64  20
+diff    65  20
+tap     65  44
+npc     95  20
+licon1  66  44
+
+# Other layers
+pwell   64  44
+dnwell  64  18
+pwelliso 44 20
+pwres   44  20

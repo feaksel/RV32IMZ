@@ -130,14 +130,16 @@ foreach macro $peripheral_macros {
 
 puts ""
 
-# Find GDS map file
+# Find GDS map file (try local first, then PDK)
 set gds_map ""
-if {[file exists "../sky130_osu_sc_t18/gds/sky130_osu_sc_18T.map"]} {
-    set gds_map "../sky130_osu_sc_t18/gds/sky130_osu_sc_18T.map"
-    puts "    Using GDS map: $gds_map"
-} elseif {[file exists "streamOut.map"]} {
+if {[file exists "streamOut.map"]} {
     set gds_map "streamOut.map"
     puts "    Using GDS map: $gds_map"
+} elseif {[file exists "../sky130_osu_sc_t18/gds/sky130_osu_sc_18T.map"]} {
+    set gds_map "../sky130_osu_sc_t18/gds/sky130_osu_sc_18T.map"
+    puts "    Using GDS map: $gds_map"
+} else {
+    puts "    No GDS map file found - using default layer mapping"
 }
 
 # Stream out final GDS

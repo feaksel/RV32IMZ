@@ -56,16 +56,9 @@ puts "==> Generating integration files..."
 exec mkdir -p outputs/rv32im_integrated
 
 # 1. LEF Abstract (for next-level integration)
-# Use LEF 5.6 to avoid OVERLAP layer requirement (LEF 5.7 needs OVERLAP in tech LEF)
-if {[catch {
-    write_lef_abstract -5.6 outputs/rv32im_integrated/rv32im_integrated_macro.lef
-    puts "    ✓ LEF: outputs/rv32im_integrated/rv32im_integrated_macro.lef (LEF 5.6 format)"
-} err]} {
-    # Fallback: LEF 5.7 without obstructions if 5.6 fails
-    write_lef_abstract -5.7 -noOBS outputs/rv32im_integrated/rv32im_integrated_macro.lef
-    puts "    ✓ LEF: outputs/rv32im_integrated/rv32im_integrated_macro.lef (LEF 5.7, no OBS)"
-    puts "    WARNING: Using -noOBS due to: $err"
-}
+# OVERLAP layer is now in modified tech LEF (loaded by setup script)
+write_lef_abstract -5.7 outputs/rv32im_integrated/rv32im_integrated_macro.lef
+puts "    ✓ LEF: outputs/rv32im_integrated/rv32im_integrated_macro.lef"
 
 # 2. Gate-level Netlist (for next-level synthesis)
 saveNetlist outputs/rv32im_integrated/rv32im_integrated_macro_netlist.v -excludeLeafCell
@@ -107,14 +100,16 @@ if {[file exists $mdu_gds]} {
     puts "    WARNING: mdu_macro.gds not found at $mdu_gds"
 }
 
-# Find GDS map file
+# Find GDS map file (try local first, then PDK)
 set gds_map ""
-if {[file exists "../sky130_osu_sc_t18/gds/sky130_osu_sc_18T.map"]} {
-    set gds_map "../sky130_osu_sc_t18/gds/sky130_osu_sc_18T.map"
-    puts "    Using GDS map: $gds_map"
-} elseif {[file exists "streamOut.map"]} {
+if {[file exists "streamOut.map"]} {
     set gds_map "streamOut.map"
     puts "    Using GDS map: $gds_map"
+} elseif {[file exists "../sky130_osu_sc_t18/gds/sky130_osu_sc_18T.map"]} {
+    set gds_map "../sky130_osu_sc_t18/gds/sky130_osu_sc_18T.map"
+    puts "    Using GDS map: $gds_map"
+} else {
+    puts "    No GDS map file found - using default layer mapping"
 }
 
 # Stream out with merged GDS
