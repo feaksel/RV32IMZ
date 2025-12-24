@@ -7,6 +7,7 @@ set DESIGN "rv32im_integrated_macro"
 
 # Paths
 set LIB_PATH "../sky130_osu_sc_t18"
+set LIB_VARIANT "18T_ms"  # Options: 18T_hs, 18T_ls, 18T_ms
 set HDL_PATH "hdl/rv32im_integrated"
 set MACRO_DIR "../pnr/outputs"  # Where pre-built macros are
 
@@ -14,20 +15,20 @@ set MACRO_DIR "../pnr/outputs"  # Where pre-built macros are
 # Library Setup
 #===============================================================================
 
-set_db init_lib_search_path "$LIB_PATH/lib $LIB_PATH/lef"
+set_db init_lib_search_path "$LIB_PATH/${LIB_VARIANT}/lib $LIB_PATH/${LIB_VARIANT}/lef $LIB_PATH"
 set_db init_hdl_search_path $HDL_PATH
 
 puts "==> Loading libraries..."
+puts "    Using library variant: $LIB_VARIANT"
 
 # Try to find timing library (try multiple variants)
 set lib_loaded 0
 foreach lib_variant {
-    "sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
-    "sky130_osu_sc_18T_TT_1P8_25C.ccs.lib"
-    "sky130_osu_sc_18T_ms_TT_1P8_25C.lib"
+    "sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.ccs.lib"
+    "sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.lib"
 } {
-    if {[file exists "$LIB_PATH/lib/$lib_variant"]} {
-        read_libs "$LIB_PATH/lib/$lib_variant"
+    if {[file exists "$LIB_PATH/${LIB_VARIANT}/lib/$lib_variant"]} {
+        read_libs "$LIB_PATH/${LIB_VARIANT}/lib/$lib_variant"
         puts "    ✓ Loaded library: $lib_variant"
         set lib_loaded 1
         break
@@ -35,51 +36,47 @@ foreach lib_variant {
 }
 
 if {!$lib_loaded} {
-    puts "ERROR: No timing library found in $LIB_PATH/lib/"
+    puts "ERROR: No timing library found in $LIB_PATH/${LIB_VARIANT}/lib/"
     puts "Expected one of:"
-    puts "  - sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
-    puts "  - sky130_osu_sc_18T_TT_1P8_25C.ccs.lib"
+    puts "  - sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.ccs.lib"
+    puts "  - sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.lib"
+    puts ""
+    puts "Available files:"
+    catch {exec ls -1 $LIB_PATH/${LIB_VARIANT}/lib/*.lib} lib_files
+    puts $lib_files
     exit 1
 }
 
 puts "==> Reading LEF files..."
 
 # Load tech LEF (MUST come first - defines layers)
+# Tech LEF is at ROOT of sky130_osu_sc_t18, NOT in lef/ subdirectory
 set tech_lef_loaded 0
-foreach tech_lef_variant {
-    "sky130_osu_sc_18T_tech.lef"
-    "sky130_osu_sc_18T_ms_tech.lef"
-} {
-    if {[file exists "$LIB_PATH/lef/$tech_lef_variant"]} {
-        read_physical -lef "$LIB_PATH/lef/$tech_lef_variant"
-        puts "    ✓ Tech LEF loaded: $tech_lef_variant"
-        set tech_lef_loaded 1
-        break
-    }
-}
-
-if {!$tech_lef_loaded} {
-    puts "ERROR: No technology LEF found in $LIB_PATH/lef/"
+set tech_lef_file "$LIB_PATH/sky130_osu_sc_18T.tlef"
+if {[file exists $tech_lef_file]} {
+    read_physical -lef $tech_lef_file
+    puts "    ✓ Tech LEF loaded: sky130_osu_sc_18T.tlef"
+    set tech_lef_loaded 1
+} else {
+    puts "ERROR: Tech LEF not found at: $tech_lef_file"
     puts "Tech LEF defines layers and is REQUIRED"
     exit 1
 }
 
 # Load cell LEF (MUST come after tech LEF)
+# Cell LEF is in variant subdirectory
 set cell_lef_loaded 0
-foreach cell_lef_variant {
-    "sky130_osu_sc_18T.lef"
-    "sky130_osu_sc_18T_ms.lef"
-} {
-    if {[file exists "$LIB_PATH/lef/$cell_lef_variant"]} {
-        read_physical -lef "$LIB_PATH/lef/$cell_lef_variant"
-        puts "    ✓ Cell LEF loaded: $cell_lef_variant"
-        set cell_lef_loaded 1
-        break
-    }
-}
-
-if {!$cell_lef_loaded} {
-    puts "ERROR: No cell LEF found in $LIB_PATH/lef/"
+set cell_lef_file "$LIB_PATH/${LIB_VARIANT}/lef/sky130_osu_sc_${LIB_VARIANT}.lef"
+if {[file exists $cell_lef_file]} {
+    read_physical -lef $cell_lef_file
+    puts "    ✓ Cell LEF loaded: sky130_osu_sc_${LIB_VARIANT}.lef"
+    set cell_lef_loaded 1
+} else {
+    puts "ERROR: Cell LEF not found at: $cell_lef_file"
+    puts ""
+    puts "Available LEF files in $LIB_PATH/${LIB_VARIANT}/lef/:"
+    catch {exec ls -1 $LIB_PATH/${LIB_VARIANT}/lef/*.lef} lef_files
+    puts $lef_files
     exit 1
 }
 

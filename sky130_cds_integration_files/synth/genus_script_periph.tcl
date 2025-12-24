@@ -7,6 +7,7 @@ set DESIGN "peripheral_subsystem_macro"
 
 # Paths
 set LIB_PATH "../sky130_osu_sc_t18"
+set LIB_VARIANT "18T_ms"  # Options: 18T_hs, 18T_ls, 18T_ms
 set HDL_PATH "hdl/peripheral_subsystem"
 set MACRO_DIR "../pnr/outputs"
 
@@ -14,15 +15,50 @@ set MACRO_DIR "../pnr/outputs"
 # Library Setup
 #===============================================================================
 
-set_db init_lib_search_path "$LIB_PATH/lib $LIB_PATH/lef"
+set_db init_lib_search_path "$LIB_PATH/${LIB_VARIANT}/lib $LIB_PATH/${LIB_VARIANT}/lef $LIB_PATH"
 set_db init_hdl_search_path $HDL_PATH
 
 puts "==> Loading libraries..."
-read_libs "$LIB_PATH/lib/sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
+puts "    Using library variant: $LIB_VARIANT"
+
+# Try to find timing library
+set lib_loaded 0
+foreach lib_variant {
+    "sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.ccs.lib"
+    "sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.lib"
+} {
+    if {[file exists "$LIB_PATH/${LIB_VARIANT}/lib/$lib_variant"]} {
+        read_libs "$LIB_PATH/${LIB_VARIANT}/lib/$lib_variant"
+        puts "    ✓ Loaded library: $lib_variant"
+        set lib_loaded 1
+        break
+    }
+}
+
+if {!$lib_loaded} {
+    puts "ERROR: No timing library found in $LIB_PATH/${LIB_VARIANT}/lib/"
+    exit 1
+}
 
 puts "==> Reading LEF files..."
-read_physical -lef "$LIB_PATH/lef/sky130_osu_sc_18T_tech.lef"
-read_physical -lef "$LIB_PATH/lef/sky130_osu_sc_18T.lef"
+
+# Tech LEF at root
+if {[file exists "$LIB_PATH/sky130_osu_sc_18T.tlef"]} {
+    read_physical -lef "$LIB_PATH/sky130_osu_sc_18T.tlef"
+    puts "    ✓ Tech LEF loaded: sky130_osu_sc_18T.tlef"
+} else {
+    puts "ERROR: Tech LEF not found at: $LIB_PATH/sky130_osu_sc_18T.tlef"
+    exit 1
+}
+
+# Cell LEF in variant subdirectory
+if {[file exists "$LIB_PATH/${LIB_VARIANT}/lef/sky130_osu_sc_${LIB_VARIANT}.lef"]} {
+    read_physical -lef "$LIB_PATH/${LIB_VARIANT}/lef/sky130_osu_sc_${LIB_VARIANT}.lef"
+    puts "    ✓ Cell LEF loaded: sky130_osu_sc_${LIB_VARIANT}.lef"
+} else {
+    puts "ERROR: Cell LEF not found at: $LIB_PATH/${LIB_VARIANT}/lef/sky130_osu_sc_${LIB_VARIANT}.lef"
+    exit 1
+}
 
 #===============================================================================
 # Read Pre-Built Macro Netlists

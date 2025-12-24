@@ -13,27 +13,42 @@ The layer 'met1' referenced in pin 'X' in macro 'sky130_osu_sc_18T_ms__addf_1' i
 
 ## ✅ Quick Fix
 
-### Step 1: Find Where the Script Looks for LEF Files
+### Step 1: Actual File Structure (Based on Your Setup)
 
-The integration scripts expect LEF files at:
+The integration scripts now look for LEF files in this structure:
 ```
 sky130_cds/sky130_osu_sc_t18/
-├── lib/
-│   └── sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib (or similar)
-└── lef/
-    ├── sky130_osu_sc_18T_tech.lef (REQUIRED - defines layers)
-    └── sky130_osu_sc_18T.lef (REQUIRED - defines cells)
+├── sky130_osu_sc_18T.tlef              (REQUIRED - tech LEF at ROOT)
+├── 18T_hs/                              (high speed variant)
+├── 18T_ls/                              (low speed variant)
+└── 18T_ms/                              (medium speed - DEFAULT)
+    ├── lef/
+    │   └── sky130_osu_sc_18T_ms.lef    (REQUIRED - cell LEF)
+    └── lib/
+        └── sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib (or similar)
 ```
 
-### Step 2: Check if Directory Exists
+**IMPORTANT:**
+- Tech LEF (`.tlef`) is at ROOT level, NOT in a lef/ subdirectory
+- Cell LEF is in variant subdirectory: `18T_ms/lef/`
+- Libraries are in variant subdirectory: `18T_ms/lib/`
+
+### Step 2: Verify Your File Structure
 
 ```bash
 cd sky130_cds
-ls -la sky130_osu_sc_t18/
 
-# If it doesn't exist:
-mkdir -p sky130_osu_sc_t18/lib
-mkdir -p sky130_osu_sc_t18/lef
+# Check tech LEF at root
+ls -lh sky130_osu_sc_t18/*.tlef
+# Should show: sky130_osu_sc_18T.tlef
+
+# Check cell LEF in variant
+ls -lh sky130_osu_sc_t18/18T_ms/lef/*.lef
+# Should show: sky130_osu_sc_18T_ms.lef
+
+# Check lib files in variant
+ls -lh sky130_osu_sc_t18/18T_ms/lib/*.lib
+# Should show timing libraries (.lib or .ccs.lib)
 ```
 
 ### Step 3: Copy LEF Files from Your PDK or Existing Setup
@@ -75,15 +90,17 @@ After copying files, verify:
 ```bash
 cd sky130_cds/sky130_osu_sc_t18
 
-# Check LEF files exist:
-ls -lh lef/*.lef
-# Should show:
-# sky130_osu_sc_18T_tech.lef (tech LEF - defines layers)
-# sky130_osu_sc_18T.lef (cell LEF - defines standard cells)
+# Check tech LEF at root:
+ls -lh sky130_osu_sc_18T.tlef
+# Should show: sky130_osu_sc_18T.tlef (tech LEF - defines layers)
 
-# Check lib files exist:
-ls -lh lib/*.lib
-# Should show timing library (.lib or .ccs.lib)
+# Check cell LEF in variant:
+ls -lh 18T_ms/lef/sky130_osu_sc_18T_ms.lef
+# Should show: sky130_osu_sc_18T_ms.lef (cell LEF - defines standard cells)
+
+# Check lib files in variant:
+ls -lh 18T_ms/lib/*.lib
+# Should show timing libraries (.lib or .ccs.lib)
 ```
 
 ---
