@@ -1,0 +1,51 @@
+#===============================================================================
+# Fixed Setup Script for rv32im_integrated_macro
+#===============================================================================
+
+set DESIGN "rv32im_integrated_macro"
+set LIB_PATH "../sky130_osu_sc_t18"
+set LIB_VARIANT "18T_ms"
+
+puts "========================================="
+puts "Setting up RV32IM Integration P&R"
+puts "========================================="
+
+# 1. SET GLOBAL VARIABLES (DO NOT USE set_db HERE)
+set init_lib_search_path "${LIB_PATH}/${LIB_VARIANT}/lib"
+
+# 2. DEFINE LEF FILES (Tech LEF must be the very first in the list)
+set tech_lef "${LIB_PATH}/sky130_osu_sc_18T.tlef"
+set cell_lef "${LIB_PATH}/${LIB_VARIANT}/lef/sky130_osu_sc_${LIB_VARIANT}.lef"
+set core_lef "../pnr/outputs/core_macro/core_macro.lef"
+set mdu_lef  "../pnr/outputs/mdu_macro/mdu_macro.lef"
+
+# Build the LEF list string
+set init_lef_file "$tech_lef $cell_lef"
+
+if {[file exists $core_lef]} {
+    append init_lef_file " $core_lef"
+    puts "    ✓ Found core_macro.lef"
+}
+if {[file exists $mdu_lef]} {
+    append init_lef_file " $mdu_lef"
+    puts "    ✓ Found mdu_macro.lef"
+}
+
+# 3. SET DESIGN FILES
+set NETLIST_FILE "../synth/outputs/rv32im_integrated/${DESIGN}.vh"
+set SDC_FILE     "../synth/outputs/rv32im_integrated/${DESIGN}.sdc"
+
+if {[file exists $NETLIST_FILE]} {
+    set init_verilog "$NETLIST_FILE"
+} else {
+    puts "ERROR: Netlist not found at $NETLIST_FILE"
+    exit 1
+}
+
+set init_top_cell "$DESIGN"
+
+# 4. POWER AND GROUND (Required for Sky130)
+set init_pwr_net "vccd1"
+set init_gnd_net "vssd1"
+
+puts "==> Setup Variables Configured"
