@@ -1,0 +1,44 @@
+#===============================================================================
+# Final Expert-Level Init Script for rv32im_integrated_macro
+#===============================================================================
+
+# Source the setup variables
+source SCRIPTS/setup_rv32im.tcl
+
+# 1. Initialize Design Database
+init_design
+
+# 2. Activate Timing View (Fixes 'physical-only' and 'read_sdc' errors)
+set_analysis_view -setup {default_analysis_view} -hold {default_analysis_view}
+
+# 3. Create Floorplan
+floorPlan -site unithd -s 400.0 350.0 15.0 15.0 15.0 15.0
+
+# 4. Place Pre-Built Macros as Fixed Blocks
+# Ensure instance names match your synthesized netlist
+placeInstance u_core_macro 40.0 60.0 -fixed
+placeInstance u_mdu_macro 250.0 60.0 -fixed
+
+# 5. Power Planning
+globalNetConnect vccd1 -type pgpin -pin vdd -inst *
+globalNetConnect vssd1 -type pgpin -pin gnd -inst *
+
+addRing -nets {vccd1 vssd1} \
+        -type core_rings \
+        -follow io \
+        -layer {top met1 bottom met1 left met2 right met2} \
+        -width 3.0 \
+        -spacing 1.5 \
+        -offset 2.0
+
+sroute -connect {blockPin padPin padRing corePin floatingStripe} \
+       -layerChangeRange {met1 met4} \
+       -blockPinTarget nearestTarget
+
+# 6. Save Database
+exec mkdir -p DBS/rv32im_integrated
+saveDesign DBS/rv32im_integrated/init.enc
+
+puts "========================================="
+puts "Initialization Complete - Ready for Placement"
+puts "========================================="
