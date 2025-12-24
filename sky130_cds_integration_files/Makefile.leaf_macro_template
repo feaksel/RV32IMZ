@@ -1,0 +1,189 @@
+#===============================================================================
+# Makefile for Leaf Macro Build (e.g., memory_macro with SRAM)
+# Automates: synthesis → P&R → LEF/GDS generation
+#===============================================================================
+
+# Design name
+DESIGN = memory_macro
+
+# Directories
+SCRIPTS_DIR = scripts
+OUTPUTS_DIR = outputs
+REPORTS_DIR = reports
+DBS_DIR = DBS
+LOG_DIR = logs
+
+# PDK paths (adjust these to your setup)
+PDK_ROOT ?= ../pdk
+SRAM_PATH = $(PDK_ROOT)/sky130A/libs.ref/sky130_sram_macros
+
+# Tools
+GENUS = genus
+INNOVUS = innovus
+
+# SRAM configuration (set to 1 if your macro uses SRAM)
+USE_SRAM = 1
+SRAM_NAME = sky130_sram_2kbyte_1rw1r_32x512_8
+
+#===============================================================================
+# Targets
+#===============================================================================
+
+.PHONY: all synth pnr init place cts route signoff lef gds clean help
+
+# Default target - build everything
+all: synth pnr lef gds
+	@echo ""
+	@echo "========================================="
+	@echo "✓ $(DESIGN) build complete!"
+	@echo "========================================="
+	@echo "Generated files:"
+	@echo "  - $(OUTPUTS_DIR)/$(DESIGN).lef"
+	@echo "  - $(OUTPUTS_DIR)/$(DESIGN).gds"
+	@echo "  - $(OUTPUTS_DIR)/$(DESIGN)_netlist.v"
+	@echo ""
+
+#===============================================================================
+# Synthesis
+#===============================================================================
+
+synth:
+	@echo "==> Running synthesis for $(DESIGN)..."
+	@mkdir -p $(LOG_DIR) $(OUTPUTS_DIR) $(REPORTS_DIR)
+	cd . && $(GENUS) -batch -files $(SCRIPTS_DIR)/$(DESIGN)_synthesis.tcl \
+		-log $(LOG_DIR)/synthesis.log
+	@echo "✓ Synthesis complete"
+
+#===============================================================================
+# Place & Route
+#===============================================================================
+
+pnr: init place cts route
+	@echo "✓ P&R complete"
+
+# Initialize (setup + floorplan)
+init:
+	@echo "==> Running init (setup + floorplan)..."
+	@mkdir -p $(LOG_DIR) $(DBS_DIR)
+	$(INNOVUS) -init $(SCRIPTS_DIR)/init.tcl \
+		-log $(LOG_DIR)/init.log
+	@echo "✓ Init complete"
+
+# Placement
+place:
+	@echo "==> Running placement..."
+	$(INNOVUS) -init $(SCRIPTS_DIR)/place.tcl \
+		-log $(LOG_DIR)/place.log
+	@echo "✓ Placement complete"
+
+# Clock Tree Synthesis
+cts:
+	@echo "==> Running clock tree synthesis..."
+	$(INNOVUS) -init $(SCRIPTS_DIR)/cts.tcl \
+		-log $(LOG_DIR)/cts.log
+	@echo "✓ CTS complete"
+
+# Routing
+route:
+	@echo "==> Running routing..."
+	$(INNOVUS) -init $(SCRIPTS_DIR)/route.tcl \
+		-log $(LOG_DIR)/route.log
+	@echo "✓ Routing complete"
+
+#===============================================================================
+# Signoff - Generate LEF and GDS
+#===============================================================================
+
+signoff: lef gds
+
+# Generate LEF
+lef:
+	@echo "==> Generating LEF..."
+	$(INNOVUS) -init $(SCRIPTS_DIR)/generate_lef.tcl \
+		-log $(LOG_DIR)/lef_gen.log
+	@echo "✓ LEF generated: $(OUTPUTS_DIR)/$(DESIGN).lef"
+
+# Generate GDS
+gds:
+	@echo "==> Generating GDS..."
+ifeq ($(USE_SRAM),1)
+	@echo "    (with SRAM merge)"
+	$(INNOVUS) -init $(SCRIPTS_DIR)/generate_gds_with_sram.tcl \
+		-log $(LOG_DIR)/gds_gen.log
+else
+	$(INNOVUS) -init $(SCRIPTS_DIR)/generate_gds.tcl \
+		-log $(LOG_DIR)/gds_gen.log
+endif
+	@echo "✓ GDS generated: $(OUTPUTS_DIR)/$(DESIGN).gds"
+
+#===============================================================================
+# Verification
+#===============================================================================
+
+check:
+	@echo "==> Checking generated files..."
+	@if [ -f $(OUTPUTS_DIR)/$(DESIGN).lef ]; then \
+		echo "  ✓ LEF exists"; \
+	else \
+		echo "  ✗ LEF missing"; \
+	fi
+	@if [ -f $(OUTPUTS_DIR)/$(DESIGN).gds ]; then \
+		echo "  ✓ GDS exists"; \
+	else \
+		echo "  ✗ GDS missing"; \
+	fi
+	@if [ -f $(OUTPUTS_DIR)/$(DESIGN)_netlist.v ]; then \
+		echo "  ✓ Netlist exists"; \
+	else \
+		echo "  ✗ Netlist missing"; \
+	fi
+
+#===============================================================================
+# Utility Targets
+#===============================================================================
+
+clean:
+	@echo "==> Cleaning build artifacts..."
+	rm -rf $(LOG_DIR)/* $(DBS_DIR)/* fv/ .rs_* *.log* *.cmd* innovus.* genus.*
+	@echo "✓ Clean complete (outputs preserved)"
+
+clean-all:
+	@echo "==> Cleaning everything including outputs..."
+	rm -rf $(LOG_DIR) $(DBS_DIR) $(OUTPUTS_DIR) $(REPORTS_DIR)
+	rm -rf fv/ .rs_* *.log* *.cmd* innovus.* genus.*
+	@echo "✓ Full clean complete"
+
+help:
+	@echo ""
+	@echo "========================================="
+	@echo "Leaf Macro Build Makefile"
+	@echo "========================================="
+	@echo ""
+	@echo "Targets:"
+	@echo "  all      - Run complete flow (synth → P&R → LEF/GDS)"
+	@echo "  synth    - Run synthesis only"
+	@echo "  pnr      - Run P&R (init → place → cts → route)"
+	@echo "  init     - Initialize design (setup + floorplan)"
+	@echo "  place    - Run placement"
+	@echo "  cts      - Run clock tree synthesis"
+	@echo "  route    - Run routing"
+	@echo "  lef      - Generate LEF file"
+	@echo "  gds      - Generate GDS file"
+	@echo "  check    - Verify output files exist"
+	@echo "  clean    - Clean build artifacts (keep outputs)"
+	@echo "  clean-all - Clean everything"
+	@echo "  help     - Show this help message"
+	@echo ""
+	@echo "Configuration:"
+	@echo "  DESIGN     = $(DESIGN)"
+	@echo "  USE_SRAM   = $(USE_SRAM) (0=no SRAM, 1=with SRAM)"
+	@echo "  SRAM_NAME  = $(SRAM_NAME)"
+	@echo ""
+	@echo "Example usage:"
+	@echo "  make all              # Build everything"
+	@echo "  make synth            # Synthesis only"
+	@echo "  make pnr              # P&R only"
+	@echo "  make clean && make all # Clean rebuild"
+	@echo ""
+
+.DEFAULT_GOAL := help
