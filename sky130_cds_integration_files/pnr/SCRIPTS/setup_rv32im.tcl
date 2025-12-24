@@ -103,18 +103,44 @@ if {[file exists $netlist_file]} {
 
 puts "==> Elaborating design..."
 
-init_design -setup {../synth/outputs/rv32im_integrated/${DESIGN}.sdc} \
-            -hold {../synth/outputs/rv32im_integrated/${DESIGN}.sdc}
+# Use quotes instead of braces to allow variable substitution
+set sdc_file "../synth/outputs/rv32im_integrated/${DESIGN}.sdc"
 
-puts "    ✓ Design elaborated: $DESIGN"
+if {[file exists $sdc_file]} {
+    init_design -setup $sdc_file -hold $sdc_file
+    puts "    ✓ Design elaborated: $DESIGN"
+    puts "    ✓ Timing constraints loaded: $sdc_file"
+} else {
+    # No SDC file - elaborate without constraints
+    puts "WARNING: SDC file not found: $sdc_file"
+    puts "Continuing without timing constraints..."
+    init_design
+    puts "    ✓ Design elaborated: $DESIGN (no constraints)"
+}
 
 #===============================================================================
 # Design Checks
 #===============================================================================
 
-# Check if macros are present
-set core_exists [llength [get_db insts u_core_macro]]
-set mdu_exists [llength [get_db insts u_mdu_macro]]
+puts "==> Checking design..."
+
+# Check if macros are present (use catch to avoid errors)
+set core_exists 0
+set mdu_exists 0
+
+catch {
+    set core_list [get_db insts u_core_macro]
+    if {[llength $core_list] > 0} {
+        set core_exists 1
+    }
+}
+
+catch {
+    set mdu_list [get_db insts u_mdu_macro]
+    if {[llength $mdu_list] > 0} {
+        set mdu_exists 1
+    }
+}
 
 if {$core_exists == 0} {
     puts "WARNING: u_core_macro instance not found in netlist!"
