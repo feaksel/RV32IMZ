@@ -18,11 +18,70 @@ set_db init_lib_search_path "$LIB_PATH/lib $LIB_PATH/lef"
 set_db init_hdl_search_path $HDL_PATH
 
 puts "==> Loading libraries..."
-read_libs "$LIB_PATH/lib/sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
+
+# Try to find timing library (try multiple variants)
+set lib_loaded 0
+foreach lib_variant {
+    "sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
+    "sky130_osu_sc_18T_TT_1P8_25C.ccs.lib"
+    "sky130_osu_sc_18T_ms_TT_1P8_25C.lib"
+} {
+    if {[file exists "$LIB_PATH/lib/$lib_variant"]} {
+        read_libs "$LIB_PATH/lib/$lib_variant"
+        puts "    ✓ Loaded library: $lib_variant"
+        set lib_loaded 1
+        break
+    }
+}
+
+if {!$lib_loaded} {
+    puts "ERROR: No timing library found in $LIB_PATH/lib/"
+    puts "Expected one of:"
+    puts "  - sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
+    puts "  - sky130_osu_sc_18T_TT_1P8_25C.ccs.lib"
+    exit 1
+}
 
 puts "==> Reading LEF files..."
-read_physical -lef "$LIB_PATH/lef/sky130_osu_sc_18T_tech.lef"
-read_physical -lef "$LIB_PATH/lef/sky130_osu_sc_18T.lef"
+
+# Load tech LEF (MUST come first - defines layers)
+set tech_lef_loaded 0
+foreach tech_lef_variant {
+    "sky130_osu_sc_18T_tech.lef"
+    "sky130_osu_sc_18T_ms_tech.lef"
+} {
+    if {[file exists "$LIB_PATH/lef/$tech_lef_variant"]} {
+        read_physical -lef "$LIB_PATH/lef/$tech_lef_variant"
+        puts "    ✓ Tech LEF loaded: $tech_lef_variant"
+        set tech_lef_loaded 1
+        break
+    }
+}
+
+if {!$tech_lef_loaded} {
+    puts "ERROR: No technology LEF found in $LIB_PATH/lef/"
+    puts "Tech LEF defines layers and is REQUIRED"
+    exit 1
+}
+
+# Load cell LEF (MUST come after tech LEF)
+set cell_lef_loaded 0
+foreach cell_lef_variant {
+    "sky130_osu_sc_18T.lef"
+    "sky130_osu_sc_18T_ms.lef"
+} {
+    if {[file exists "$LIB_PATH/lef/$cell_lef_variant"]} {
+        read_physical -lef "$LIB_PATH/lef/$cell_lef_variant"
+        puts "    ✓ Cell LEF loaded: $cell_lef_variant"
+        set cell_lef_loaded 1
+        break
+    }
+}
+
+if {!$cell_lef_loaded} {
+    puts "ERROR: No cell LEF found in $LIB_PATH/lef/"
+    exit 1
+}
 
 #===============================================================================
 # Read Pre-Built Macro Netlists (Black Boxes)
