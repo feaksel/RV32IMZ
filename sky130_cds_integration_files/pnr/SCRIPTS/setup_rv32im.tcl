@@ -1,6 +1,6 @@
 #===============================================================================
 # Setup Script for rv32im_integrated_macro P&R
-# Loads libraries, LEF files, and netlist from synthesis
+# Loads libraries, LEF files, and netlist for Innovus
 #===============================================================================
 
 set DESIGN "rv32im_integrated_macro"
@@ -13,145 +13,111 @@ puts "========================================="
 puts ""
 
 #===============================================================================
-# Load Libraries
+# Set Library Search Paths
 #===============================================================================
 
-puts "==> Loading timing libraries..."
+set_db init_lib_search_path "${LIB_PATH}/${LIB_VARIANT}/lib"
+set_db init_lef_file "${LIB_PATH}/sky130_osu_sc_18T.tlef ${LIB_PATH}/${LIB_VARIANT}/lef/sky130_osu_sc_${LIB_VARIANT}.lef"
 
-# Load timing library for standard cells
-set lib_file "$LIB_PATH/${LIB_VARIANT}/lib/sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.ccs.lib"
-if {[file exists $lib_file]} {
-    read_lib $lib_file
-    puts "    ✓ Loaded: $lib_file"
-} else {
-    puts "ERROR: Timing library not found: $lib_file"
-    exit 1
-}
-
-# TODO: Load macro timing models if available
-# catch {read_lib ../pnr/outputs/core_macro/core_macro.lib}
-# catch {read_lib ../pnr/outputs/mdu_macro/mdu_macro.lib}
+puts "==> Library search path set"
+puts "    Libs: ${LIB_PATH}/${LIB_VARIANT}/lib"
+puts "    LEFs: tech + cell"
 
 #===============================================================================
-# Load LEF Files
+# Load Macro LEF Files
 #===============================================================================
 
-puts "==> Loading LEF files..."
-
-# Load technology LEF (at root level)
-set tech_lef "$LIB_PATH/sky130_osu_sc_18T.tlef"
-if {[file exists $tech_lef]} {
-    read_lef $tech_lef
-    puts "    ✓ Tech LEF: sky130_osu_sc_18T.tlef"
-} else {
-    puts "ERROR: Tech LEF not found: $tech_lef"
-    exit 1
-}
-
-# Load standard cell LEF
-set cell_lef "$LIB_PATH/${LIB_VARIANT}/lef/sky130_osu_sc_${LIB_VARIANT}.lef"
-if {[file exists $cell_lef]} {
-    read_lef $cell_lef
-    puts "    ✓ Cell LEF: sky130_osu_sc_${LIB_VARIANT}.lef"
-} else {
-    puts "ERROR: Cell LEF not found: $cell_lef"
-    exit 1
-}
-
-# Load macro LEF files (from pre-built macros)
 puts "==> Loading macro LEF files..."
 
-set core_lef "../pnr/outputs/core_macro/core_macro.lef"
-if {[file exists $core_lef]} {
-    read_lef $core_lef
-    puts "    ✓ core_macro LEF loaded"
+# Load core_macro LEF
+if {[file exists "../pnr/outputs/core_macro/core_macro.lef"]} {
+    set_db init_lef_file [concat [get_db init_lef_file] "../pnr/outputs/core_macro/core_macro.lef"]
+    puts "    ✓ core_macro.lef"
 } else {
-    puts "WARNING: core_macro LEF not found: $core_lef"
-    puts "You need to build core_macro first and generate LEF abstract"
+    puts "    WARNING: core_macro.lef not found"
 }
 
-set mdu_lef "../pnr/outputs/mdu_macro/mdu_macro.lef"
-if {[file exists $mdu_lef]} {
-    read_lef $mdu_lef
-    puts "    ✓ mdu_macro LEF loaded"
+# Load mdu_macro LEF
+if {[file exists "../pnr/outputs/mdu_macro/mdu_macro.lef"]} {
+    set_db init_lef_file [concat [get_db init_lef_file] "../pnr/outputs/mdu_macro/mdu_macro.lef"]
+    puts "    ✓ mdu_macro.lef"
 } else {
-    puts "WARNING: mdu_macro LEF not found: $mdu_lef"
-    puts "You need to build mdu_macro first and generate LEF abstract"
+    puts "    WARNING: mdu_macro.lef not found"
 }
 
 #===============================================================================
-# Load Netlist from Synthesis
+# Set Netlist and Timing Files
 #===============================================================================
 
-puts "==> Loading netlist from synthesis..."
+puts "==> Setting up design files..."
 
-set netlist_file "../synth/outputs/rv32im_integrated/${DESIGN}.vh"
-if {[file exists $netlist_file]} {
-    read_hdl $netlist_file
-    puts "    ✓ Netlist loaded: ${DESIGN}.vh"
+set NETLIST_FILE "../synth/outputs/rv32im_integrated/${DESIGN}.vh"
+set SDC_FILE "../synth/outputs/rv32im_integrated/${DESIGN}.sdc"
+
+if {[file exists $NETLIST_FILE]} {
+    set_db init_verilog $NETLIST_FILE
+    puts "    ✓ Netlist: ${DESIGN}.vh"
 } else {
-    puts "ERROR: Netlist not found: $netlist_file"
-    puts "Run synthesis first:"
-    puts "  cd ../synth"
-    puts "  genus -batch -files genus_script_rv32im.tcl"
+    puts "    ERROR: Netlist not found: $NETLIST_FILE"
+    puts "    Run synthesis first!"
     exit 1
 }
 
-#===============================================================================
-# Elaborate Design
-#===============================================================================
-
-puts "==> Elaborating design..."
-
-# Use quotes instead of braces to allow variable substitution
-set sdc_file "../synth/outputs/rv32im_integrated/${DESIGN}.sdc"
-
-if {[file exists $sdc_file]} {
-    init_design -setup $sdc_file -hold $sdc_file
-    puts "    ✓ Design elaborated: $DESIGN"
-    puts "    ✓ Timing constraints loaded: $sdc_file"
+# Set up timing
+if {[file exists $SDC_FILE]} {
+    # Use simple constraint mode
+    set_db init_top_cell $DESIGN
+    puts "    ✓ Top cell: $DESIGN"
+    puts "    ✓ SDC: ${DESIGN}.sdc"
 } else {
-    # No SDC file - elaborate without constraints
-    puts "WARNING: SDC file not found: $sdc_file"
-    puts "Continuing without timing constraints..."
-    init_design
-    puts "    ✓ Design elaborated: $DESIGN (no constraints)"
+    puts "    WARNING: SDC not found: $SDC_FILE"
+    set_db init_top_cell $DESIGN
 }
 
 #===============================================================================
-# Design Checks
+# Initialize Design
+#===============================================================================
+
+puts "==> Initializing design..."
+
+# Init design - this reads everything and elaborates
+if {[file exists $SDC_FILE]} {
+    init_design -setup $SDC_FILE -hold $SDC_FILE
+} else {
+    init_design
+}
+
+puts "    ✓ Design initialized: $DESIGN"
+
+#===============================================================================
+# Verify Design
 #===============================================================================
 
 puts "==> Checking design..."
 
-# Check if macros are present (use catch to avoid errors)
-set core_exists 0
-set mdu_exists 0
+# Check if macros are present
+set core_found 0
+set mdu_found 0
 
-catch {
-    set core_list [get_db insts u_core_macro]
-    if {[llength $core_list] > 0} {
-        set core_exists 1
+set all_insts [get_db insts -if {.is_hierarchical}]
+foreach inst $all_insts {
+    set inst_name [get_db $inst .name]
+    if {$inst_name == "u_core_macro"} {
+        set core_found 1
+        puts "    ✓ Found: u_core_macro"
+    }
+    if {$inst_name == "u_mdu_macro"} {
+        set mdu_found 1
+        puts "    ✓ Found: u_mdu_macro"
     }
 }
 
-catch {
-    set mdu_list [get_db insts u_mdu_macro]
-    if {[llength $mdu_list] > 0} {
-        set mdu_exists 1
-    }
+if {!$core_found} {
+    puts "    WARNING: u_core_macro not found in design"
 }
 
-if {$core_exists == 0} {
-    puts "WARNING: u_core_macro instance not found in netlist!"
-}
-
-if {$mdu_exists == 0} {
-    puts "WARNING: u_mdu_macro instance not found in netlist!"
-}
-
-if {$core_exists > 0 && $mdu_exists > 0} {
-    puts "    ✓ Both macros found in design"
+if {!$mdu_found} {
+    puts "    WARNING: u_mdu_macro not found in design"
 }
 
 puts ""
