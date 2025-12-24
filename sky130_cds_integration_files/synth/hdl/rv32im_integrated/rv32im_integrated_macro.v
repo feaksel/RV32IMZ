@@ -1,26 +1,27 @@
 /**
  * @file rv32im_integrated_macro.v
  * @brief Complete RV32IM Core - Single Integrated IP Macro
- * 
+ *
  * This macro hierarchically integrates TWO pre-built macros:
  * 1. core_macro - The RV32I pipeline with external MDU interface
  * 2. mdu_macro - The multiply/divide unit
- * 
+ *
  * These are wired together to create a single RV32IM IP block.
  * Both sub-macros are synthesized separately, then this wrapper
  * places and routes them together as a single deliverable.
- * 
+ *
+ * IMPORTANT: No parameters - sub-macros are pre-built netlists!
+ * RESET_VECTOR was set when core_macro was originally built.
+ *
  * Target: SKY130 technology, optimized for timing closure
  * Estimated: ~11,000-14,000 cells (core 8K + MDU 3K)
- * 
+ *
  * @author Custom RISC-V Core Team
  * @date 2025-12-20
- * @version 2.0 - Hierarchical Integration of Pre-Built Macros
+ * @version 2.1 - Fixed for black box integration (no parameters)
  */
 
-module rv32im_integrated_macro #(
-    parameter RESET_VECTOR = 32'h00000000
-)(
+module rv32im_integrated_macro (
     // Clock and Reset
     input  wire        clk,
     input  wire        rst_n,
@@ -73,11 +74,11 @@ module rv32im_integrated_macro #(
 
     //==========================================================================
     // Core Macro Instantiation (pre-built macro - black box)
+    // NOTE: Parameters cannot be passed to pre-built netlists!
+    //       RESET_VECTOR was set when core_macro was built separately.
     //==========================================================================
 
-    core_macro #(
-        .RESET_VECTOR(RESET_VECTOR)
-    ) u_core_macro (
+    core_macro u_core_macro (
         .clk                (clk),
         .rst_n              (rst_n),
         
