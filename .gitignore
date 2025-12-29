@@ -9,6 +9,9 @@ dist/
 # Python
 __pycache__/
 *.pyc
+.venv/
+venv/
+*.egg-info/
 
 # VS Code
 .vscode/
@@ -19,3 +22,9 @@ __pycache__/
 
 # Distribution archives
 *.tar.gz
+
+# Renders
+renders/
+tools/lyp/styles/
+tools/render_macros.py
+tools/render_artistic.py
