@@ -1,0 +1,1482 @@
+NODE g27244/A0 (input) Id 146  :
+  VIEW setup_func :
+    SLACK rise=3599 fall=2758
+    SLEW rise=2774 fall=2114
+  PHASE clk(D)(P)(setup_func)* Id 146 Pol 1 AT rise=23728 fall=23416 RT rise=27327 fall=26174
+  PHASE clk(D)(P)(setup_func)* Id 146 Pol 1 AT rise=23728 fall=23416 RT rise=32991 fall=33276
+  EDGE TO g27244/Y (output) Id 48  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1303 (derating=1.000000) RF=<NA> FR=<NA> FF=1200 (derating=1.000000)
+
+NODE g27244/A1 (input) Id 145  :
+  VIEW setup_func :
+    SLACK rise=6248 fall=12493
+    SLEW rise=10505 fall=8445
+  PHASE clk(D)(P)(setup_func)* Id 145 Pol 1 AT rise=49625 fall=42860 RT rise=55873 fall=55353
+  PHASE @(D)(P)(setup_func)* Id 145 Pol 1 AT rise=0 fall=0 RT rise=32186 fall=31522
+  EDGE TO g27244/Y (output) Id 48  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=2176 (derating=1.000000) RF=<NA> FR=<NA> FF=2070 (derating=1.000000)
+
+NODE g27245/A0 (input) Id 144  :
+  VIEW setup_func :
+    SLACK rise=1444 fall=161
+    SLEW rise=6268 fall=6384
+  PHASE clk(D)(P)(setup_func)* Id 144 Pol 1 AT rise=25919 fall=25361 RT rise=27363 fall=25522
+  PHASE clk(D)(P)(setup_func)* Id 144 Pol 1 AT rise=25919 fall=25361 RT rise=33027 fall=32624
+  EDGE TO g27245/Y (output) Id 47  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1798 (derating=1.000000) RF=<NA> FR=<NA> FF=1815 (derating=1.000000)
+
+NODE g27245/A1 (input) Id 143  :
+  VIEW setup_func :
+    SLACK rise=8408 fall=9276
+    SLEW rise=11566 fall=9180
+  PHASE clk(D)(P)(setup_func)* Id 143 Pol 1 AT rise=48004 fall=46049 RT rise=56412 fall=55325
+  PHASE @(D)(P)(setup_func)* Id 143 Pol 1 AT rise=0 fall=0 RT rise=32725 fall=31494
+  EDGE TO g27245/Y (output) Id 47  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=2168 (derating=1.000000) RF=<NA> FR=<NA> FF=2061 (derating=1.000000)
+
+NODE g27259/B (input) Id 142  :
+  VIEW setup_func :
+    SLACK rise=5461 fall=5275
+    SLEW rise=3417 fall=2123
+  PHASE clk(D)(P)(setup_func)* Id 142 Pol 1 AT rise=14021 fall=13440 RT rise=19482 fall=18715
+  PHASE clk(D)(P)(setup_func)* Id 142 Pol 1 AT rise=14021 fall=13440 RT rise=26069 fall=26855
+  EDGE TO g27259/Y (output) Id 46  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=772 (derating=1.000000) FR=1132 (derating=1.000000) FF=<NA>
+
+NODE g27280/A0 (input) Id 141  :
+  VIEW setup_func :
+    SLACK rise=8535 fall=5065
+    SLEW rise=9843 fall=11739
+  PHASE clk(D)(P)(setup_func)* Id 141 Pol 1 AT rise=47344 fall=48043 RT rise=55879 fall=53108
+  PHASE @(D)(P)(setup_func)* Id 141 Pol 1 AT rise=0 fall=0 RT rise=32452 fall=29905
+  EDGE TO g27280/Y (output) Id 45  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=4328 (derating=1.000000) FR=6435 (derating=1.000000) FF=<NA>
+
+NODE g27280/B0 (input) Id 140  :
+  VIEW setup_func :
+    SLACK rise=15300 fall=14124
+    SLEW rise=1592 fall=1159
+  PHASE clk(D)(P)(setup_func)* Id 140 Pol 1 AT rise=13552 fall=12959 RT rise=28852 fall=27083
+  PHASE clk(D)(P)(setup_func)* Id 140 Pol 1 AT rise=13552 fall=12959 RT rise=34516 fall=34185
+  EDGE TO g27280/Y (output) Id 45  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2196 (derating=1.000000) FR=3039 (derating=1.000000) FF=<NA>
+
+NODE g27280/B1 (input) Id 139  :
+  VIEW setup_func :
+    SLACK rise=22399 fall=19873
+    SLEW rise=3392 fall=2852
+  PHASE clk(D)(P)(setup_func)* Id 139 Pol 1 AT rise=6005 fall=6432 RT rise=28404 fall=26305
+  PHASE clk(D)(P)(setup_func)* Id 139 Pol 1 AT rise=6005 fall=6432 RT rise=34068 fall=33407
+  EDGE TO g27280/Y (output) Id 45  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2644 (derating=1.000000) FR=3817 (derating=1.000000) FF=<NA>
+
+NODE g27282/A0 (input) Id 138  :
+  VIEW setup_func :
+    SLACK rise=12765 fall=8607
+    SLEW rise=10873 fall=12797
+  PHASE clk(D)(P)(setup_func)* Id 138 Pol 1 AT rise=42458 fall=43970 RT rise=55223 fall=52577
+  PHASE @(D)(P)(setup_func)* Id 138 Pol 1 AT rise=0 fall=0 RT rise=32244 fall=29910
+  EDGE TO g27282/Y (output) Id 44  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=4482 (derating=1.000000) FR=6701 (derating=1.000000) FF=<NA>
+
+NODE g27282/B0 (input) Id 137  :
+  VIEW setup_func :
+    SLACK rise=15394 fall=14517
+    SLEW rise=1553 fall=1089
+  PHASE clk(D)(P)(setup_func)* Id 137 Pol 1 AT rise=13397 fall=12829 RT rise=28791 fall=27346
+  PHASE clk(D)(P)(setup_func)* Id 137 Pol 1 AT rise=13397 fall=12829 RT rise=34455 fall=34448
+  EDGE TO g27282/Y (output) Id 44  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2203 (derating=1.000000) FR=3047 (derating=1.000000) FF=<NA>
+
+NODE g27282/B1 (input) Id 136  :
+  VIEW setup_func :
+    SLACK rise=22562 fall=20350
+    SLEW rise=3269 fall=2616
+  PHASE clk(D)(P)(setup_func)* Id 136 Pol 1 AT rise=5794 fall=6275 RT rise=28356 fall=26625
+  PHASE clk(D)(P)(setup_func)* Id 136 Pol 1 AT rise=5794 fall=6275 RT rise=34020 fall=33727
+  EDGE TO g27282/Y (output) Id 44  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2638 (derating=1.000000) FR=3768 (derating=1.000000) FF=<NA>
+
+NODE g27296/B (input) Id 135  :
+  VIEW setup_func :
+    SLACK rise=2071 fall=2468
+    SLEW rise=900 fall=723
+  PHASE clk(D)(P)(setup_func)* Id 135 Pol 1 AT rise=38196 fall=37178 RT rise=40267 fall=39646
+  PHASE @(D)(P)(setup_func)* Id 135 Pol 1 AT rise=1448 fall=1469 RT rise=25083 fall=25090
+  EDGE TO g27296/Y (output) Id 43  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1076 (derating=1.000000) RF=<NA> FR=<NA> FF=980 (derating=1.000000)
+
+NODE g27258/A0 (input) Id 134  :
+  VIEW setup_func :
+    SLACK rise=-2293 fall=-2204
+    SLEW rise=4042 fall=2698
+  PHASE clk(D)(P)(setup_func)* Id 134 Pol 1 AT rise=14762 fall=14267 RT rise=12469 fall=12063
+  PHASE clk(D)(P)(setup_func)* Id 134 Pol 1 AT rise=14762 fall=14267 RT rise=20208 fall=19916
+  EDGE TO g27258/Y (output) Id 39  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1695 (derating=1.000000) FR=1961 (derating=1.000000) FF=<NA>
+
+NODE g27258/A1 (input) Id 133  :
+  VIEW setup_func :
+    SLACK rise=-3672 fall=-4209
+    SLEW rise=398 fall=313
+  PHASE clk(D)(P)(setup_func)* Id 133 Pol 1 AT rise=16976 fall=17136 RT rise=13304 fall=12927
+  PHASE clk(D)(P)(setup_func)* Id 133 Pol 1 AT rise=16976 fall=17136 RT rise=21043 fall=20780
+  EDGE TO g27258/Y (output) Id 39  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=860 (derating=1.000000) FR=1097 (derating=1.000000) FF=<NA>
+
+NODE g27258/B1 (input) Id 132  :
+  VIEW setup_func :
+    SLACK rise=3262 fall=4089
+    SLEW rise=1387 fall=1530
+  PHASE clk(D)(P)(setup_func)* Id 132 Pol 1 AT rise=37657 fall=36138 RT rise=40919 fall=40227
+  PHASE @(D)(P)(setup_func)* Id 132 Pol 1 AT rise=0 fall=0 RT rise=19545 fall=18886
+  EDGE TO g27258/Y (output) Id 39  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=837 (derating=1.000000) FR=1356 (derating=1.000000) FF=<NA>
+
+NODE g27297/B (input) Id 131  :
+  VIEW setup_func :
+    SLACK rise=638 fall=2240
+    SLEW rise=1641 fall=1720
+  PHASE clk(D)(P)(setup_func)* Id 131 Pol 1 AT rise=43075 fall=41669 RT rise=43713 fall=43909
+  PHASE @(D)(P)(setup_func)* Id 131 Pol 1 AT rise=0 fall=0 RT rise=23398 fall=22806
+  EDGE TO g27297/Y (output) Id 38  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1218 (derating=1.000000) RF=<NA> FR=<NA> FF=1283 (derating=1.000000)
+
+NODE g27284/A0 (input) Id 130  :
+  VIEW setup_func :
+    SLACK rise=8643 fall=10932
+    SLEW rise=10792 fall=12632
+  PHASE clk(D)(P)(setup_func)* Id 130 Pol 1 AT rise=47798 fall=43407 RT rise=56441 fall=54339
+  PHASE @(D)(P)(setup_func)* Id 130 Pol 1 AT rise=0 fall=0 RT rise=32754 fall=30508
+  EDGE TO g27284/Y (output) Id 37  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=4293 (derating=1.000000) FR=6403 (derating=1.000000) FF=<NA>
+
+NODE g27284/B0 (input) Id 129  :
+  VIEW setup_func :
+    SLACK rise=23285 fall=21392
+    SLEW rise=3633 fall=2883
+  PHASE clk(D)(P)(setup_func)* Id 129 Pol 1 AT rise=5414 fall=5852 RT rise=28699 fall=27244
+  PHASE clk(D)(P)(setup_func)* Id 129 Pol 1 AT rise=5414 fall=5852 RT rise=34363 fall=34346
+  EDGE TO g27284/Y (output) Id 37  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2616 (derating=1.000000) FR=3449 (derating=1.000000) FF=<NA>
+
+NODE g27284/B1 (input) Id 128  :
+  VIEW setup_func :
+    SLACK rise=15565 fall=14600
+    SLEW rise=1609 fall=1185
+  PHASE clk(D)(P)(setup_func)* Id 128 Pol 1 AT rise=13661 fall=13051 RT rise=29226 fall=27651
+  PHASE clk(D)(P)(setup_func)* Id 128 Pol 1 AT rise=13661 fall=13051 RT rise=34890 fall=34753
+  EDGE TO g27284/Y (output) Id 37  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2089 (derating=1.000000) FR=3042 (derating=1.000000) FF=<NA>
+
+NODE g27298/A (input) Id 127  :
+  VIEW setup_func :
+    SLACK rise=8986 fall=10752
+    SLEW rise=13937 fall=16333
+  PHASE clk(D)(P)(setup_func)* Id 127 Pol 1 AT rise=46028 fall=42926 RT rise=55014 fall=53678
+  PHASE @(D)(P)(setup_func)* Id 127 Pol 1 AT rise=0 fall=0 RT rise=31327 fall=29847
+  EDGE TO g27298/Y (output) Id 36  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2124 (derating=1.000000) FR=2994 (derating=1.000000) FF=<NA>
+
+NODE g27253/A0 (input) Id 126  :
+  VIEW setup_func :
+    SLACK rise=4574 fall=4148
+    SLEW rise=5542 fall=4204
+  PHASE clk(D)(P)(setup_func)* Id 126 Pol 1 AT rise=22854 fall=22367 RT rise=27428 fall=26515
+  PHASE clk(D)(P)(setup_func)* Id 126 Pol 1 AT rise=22854 fall=22367 RT rise=33092 fall=33617
+  EDGE TO g27253/Y (output) Id 35  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1684 (derating=1.000000) RF=<NA> FR=<NA> FF=1482 (derating=1.000000)
+
+NODE g27253/A1 (input) Id 125  :
+  VIEW setup_func :
+    SLACK rise=11832 fall=17728
+    SLEW rise=10886 fall=8721
+  PHASE clk(D)(P)(setup_func)* Id 125 Pol 1 AT rise=44569 fall=38290 RT rise=56401 fall=56018
+  PHASE @(D)(P)(setup_func)* Id 125 Pol 1 AT rise=0 fall=0 RT rise=32714 fall=32187
+  EDGE TO g27253/Y (output) Id 35  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=2130 (derating=1.000000) RF=<NA> FR=<NA> FF=2028 (derating=1.000000)
+
+NODE g27281/A0 (input) Id 124  :
+  VIEW setup_func :
+    SLACK rise=7193 fall=3926
+    SLEW rise=9763 fall=11594
+  PHASE clk(D)(P)(setup_func)* Id 124 Pol 1 AT rise=48949 fall=49544 RT rise=56142 fall=53470
+  PHASE @(D)(P)(setup_func)* Id 124 Pol 1 AT rise=0 fall=0 RT rise=33514 fall=30573
+  EDGE TO g27281/Y (output) Id 34  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=4203 (derating=1.000000) FR=6232 (derating=1.000000) FF=<NA>
+
+NODE g27281/B0 (input) Id 123  :
+  VIEW setup_func :
+    SLACK rise=16211 fall=14629
+    SLEW rise=1610 fall=1185
+  PHASE clk(D)(P)(setup_func)* Id 123 Pol 1 AT rise=13663 fall=13053 RT rise=29874 fall=27682
+  PHASE clk(D)(P)(setup_func)* Id 123 Pol 1 AT rise=13663 fall=13053 RT rise=35538 fall=34784
+  EDGE TO g27281/Y (output) Id 34  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2111 (derating=1.000000) FR=2905 (derating=1.000000) FF=<NA>
+
+NODE g27281/B1 (input) Id 122  :
+  VIEW setup_func :
+    SLACK rise=23747 fall=20619
+    SLEW rise=3811 fall=2954
+  PHASE clk(D)(P)(setup_func)* Id 122 Pol 1 AT rise=5596 fall=6265 RT rise=29343 fall=26884
+  PHASE clk(D)(P)(setup_func)* Id 122 Pol 1 AT rise=5596 fall=6265 RT rise=35007 fall=33986
+  EDGE TO g27281/Y (output) Id 34  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2642 (derating=1.000000) FR=3703 (derating=1.000000) FF=<NA>
+
+NODE g27283/A0 (input) Id 121  :
+  VIEW setup_func :
+    SLACK rise=13776 fall=12417
+    SLEW rise=8972 fall=10477
+  PHASE clk(D)(P)(setup_func)* Id 121 Pol 1 AT rise=43539 fall=42407 RT rise=57315 fall=54824
+  PHASE @(D)(P)(setup_func)* Id 121 Pol 1 AT rise=0 fall=0 RT rise=33628 fall=30993
+  EDGE TO g27283/Y (output) Id 33  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=4081 (derating=1.000000) FR=5957 (derating=1.000000) FF=<NA>
+
+NODE g27283/B0 (input) Id 120  :
+  VIEW setup_func :
+    SLACK rise=16226 fall=14810
+    SLEW rise=1610 fall=1185
+  PHASE clk(D)(P)(setup_func)* Id 120 Pol 1 AT rise=13662 fall=13052 RT rise=29888 fall=27862
+  PHASE clk(D)(P)(setup_func)* Id 120 Pol 1 AT rise=13662 fall=13052 RT rise=35552 fall=34964
+  EDGE TO g27283/Y (output) Id 33  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2089 (derating=1.000000) FR=2870 (derating=1.000000) FF=<NA>
+
+NODE g27283/B1 (input) Id 119  :
+  VIEW setup_func :
+    SLACK rise=22446 fall=19773
+    SLEW rise=4224 fall=3525
+  PHASE clk(D)(P)(setup_func)* Id 119 Pol 1 AT rise=6820 fall=7093 RT rise=29266 fall=26866
+  PHASE clk(D)(P)(setup_func)* Id 119 Pol 1 AT rise=6820 fall=7093 RT rise=34930 fall=33968
+  EDGE TO g27283/Y (output) Id 33  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2711 (derating=1.000000) FR=3866 (derating=1.000000) FF=<NA>
+
+NODE g27285/A0 (input) Id 118  :
+  VIEW setup_func :
+    SLACK rise=8435 fall=6259
+    SLEW rise=10316 fall=12215
+  PHASE clk(D)(P)(setup_func)* Id 118 Pol 1 AT rise=48779 fall=48825 RT rise=57214 fall=55084
+  PHASE @(D)(P)(setup_func)* Id 118 Pol 1 AT rise=0 fall=0 RT rise=33527 fall=31253
+  EDGE TO g27285/Y (output) Id 32  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=4011 (derating=1.000000) FR=5979 (derating=1.000000) FF=<NA>
+
+NODE g27285/B0 (input) Id 117  :
+  VIEW setup_func :
+    SLACK rise=16240 fall=15378
+    SLEW rise=1609 fall=1184
+  PHASE clk(D)(P)(setup_func)* Id 117 Pol 1 AT rise=13656 fall=13047 RT rise=29896 fall=28425
+  PHASE clk(D)(P)(setup_func)* Id 117 Pol 1 AT rise=13656 fall=13047 RT rise=35560 fall=35527
+  EDGE TO g27285/Y (output) Id 32  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1910 (derating=1.000000) FR=2589 (derating=1.000000) FF=<NA>
+
+NODE g27285/B1 (input) Id 116  :
+  VIEW setup_func :
+    SLACK rise=23546 fall=21339
+    SLEW rise=3408 fall=2699
+  PHASE clk(D)(P)(setup_func)* Id 116 Pol 1 AT rise=5922 fall=6389 RT rise=29468 fall=27728
+  PHASE clk(D)(P)(setup_func)* Id 116 Pol 1 AT rise=5922 fall=6389 RT rise=35132 fall=34830
+  EDGE TO g27285/Y (output) Id 32  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2338 (derating=1.000000) FR=3286 (derating=1.000000) FF=<NA>
+
+NODE g27286/A (input) Id 115  :
+  VIEW setup_func :
+    SLACK rise=-252 fall=-867
+    SLEW rise=3251 fall=2234
+  PHASE clk(D)(P)(setup_func)* Id 115 Pol 1 AT rise=12937 fall=12292 RT rise=12685 fall=11425
+  PHASE clk(D)(P)(setup_func)* Id 115 Pol 1 AT rise=12937 fall=12292 RT rise=20825 fall=19565
+  EDGE TO g27286/Y (output) Id 30  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1924 (derating=1.000000) RF=<NA> FR=<NA> FF=2378 (derating=1.000000)
+
+NODE g27326/A (input) Id 114  :
+  VIEW setup_func :
+    SLACK rise=-3673 fall=-4106
+    SLEW rise=489 fall=351
+  PHASE clk(D)(P)(setup_func)* Id 114 Pol 1 AT rise=10748 fall=11155 RT rise=7075 fall=7049
+  PHASE clk(D)(P)(setup_func)* Id 114 Pol 1 AT rise=10748 fall=11155 RT rise=14177 fall=14151
+  EDGE TO g27326/Y (output) Id 23  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1963 (derating=1.000000) RF=<NA> FR=<NA> FF=1642 (derating=1.000000)
+
+NODE g27326/B (input) Id 113  :
+  VIEW setup_func :
+    SLACK rise=-1851 fall=-2482
+    SLEW rise=848 fall=674
+  PHASE clk(D)(P)(setup_func)* Id 113 Pol 1 AT rise=8783 fall=9364 RT rise=6932 fall=6882
+  PHASE clk(D)(P)(setup_func)* Id 113 Pol 1 AT rise=8783 fall=9364 RT rise=14034 fall=13984
+  EDGE TO g27326/Y (output) Id 23  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=2106 (derating=1.000000) RF=<NA> FR=<NA> FF=1809 (derating=1.000000)
+
+NODE regfile_inst/g57098/A0 (input) Id 112  :
+  VIEW setup_func :
+    SLACK rise=16211 fall=16307
+    SLEW rise=11668 fall=8934
+  PHASE clk(D)(P)(setup_func)* Id 112 Pol 1 AT rise=20895 fall=18323 RT rise=64980 fall=64449
+  PHASE clk(D)(P)(setup_func)* Id 112 Pol 1 AT rise=20895 fall=18323 RT rise=37106 fall=34630
+  EDGE TO regfile_inst/g57098/Y (output) Id 19  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1968 (derating=1.000000) FR=2854 (derating=1.000000) FF=<NA>
+
+NODE regfile_inst/g57098/A1 (input) Id 111  :
+  VIEW setup_func :
+    SLACK rise=35459 fall=33032
+    SLEW rise=680 fall=557
+  PHASE clk(D)(P)(setup_func)* Id 111 Pol 1 AT rise=2836 fall=3482 RT rise=66169 fall=66333
+  PHASE clk(D)(P)(setup_func)* Id 111 Pol 1 AT rise=2836 fall=3482 RT rise=38295 fall=36514
+  EDGE TO regfile_inst/g57098/Y (output) Id 19  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=779 (derating=1.000000) FR=970 (derating=1.000000) FF=<NA>
+
+NODE regfile_inst/g57098/B0 (input) Id 110  :
+  VIEW setup_func :
+    SLACK rise=4086 fall=3930
+    SLEW rise=947 fall=805
+  PHASE clk(D)(P)(setup_func)* Id 110 Pol 1 AT rise=34310 fall=32604 RT rise=66270 fall=66353
+  PHASE clk(D)(P)(setup_func)* Id 110 Pol 1 AT rise=34310 fall=32604 RT rise=38396 fall=36534
+  EDGE TO regfile_inst/g57098/Y (output) Id 19  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=678 (derating=1.000000) FR=950 (derating=1.000000) FF=<NA>
+
+NODE regfile_inst/g57017/A (input) Id 109  :
+  VIEW setup_func :
+    SLACK rise=2461 fall=4505
+    SLEW rise=1532 fall=747
+  PHASE clk(D)(P)(setup_func)* Id 109 Pol 1 AT rise=33845 fall=33834 RT rise=66125 fall=66213
+  PHASE clk(D)(P)(setup_func)* Id 109 Pol 1 AT rise=33845 fall=33834 RT rise=36306 fall=38339
+  EDGE TO regfile_inst/g57017/Y (output) Id 17  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1498 (derating=1.000000) RF=<NA> FR=<NA> FF=1187 (derating=1.000000)
+
+NODE regfile_inst/g57017/B (input) Id 108  :
+  VIEW setup_func :
+    SLACK rise=13868 fall=7008
+    SLEW rise=3089 fall=3777
+  PHASE clk(D)(P)(setup_func)* Id 108 Pol 1 AT rise=22194 fall=30508 RT rise=65881 fall=65390
+  PHASE clk(D)(P)(setup_func)* Id 108 Pol 1 AT rise=22194 fall=30508 RT rise=36062 fall=37516
+  EDGE TO regfile_inst/g57017/Y (output) Id 17  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1742 (derating=1.000000) RF=<NA> FR=<NA> FF=2010 (derating=1.000000)
+
+NODE alu_inst/lt_25_52_g939/A (input) Id 107  :
+  VIEW setup_func :
+    SLACK rise=3599 fall=2758
+    SLEW rise=11176 fall=8276
+  PHASE clk(D)(P)(setup_func)* Id 107 Pol 1 AT rise=25031 fall=24616 RT rise=28630 fall=27374
+  PHASE clk(D)(P)(setup_func)* Id 107 Pol 1 AT rise=25031 fall=24616 RT rise=34294 fall=34476
+  PHASE clk(D)(P)(setup_func)* Id 107 Pol 1 AT rise=51801 fall=44930 RT rise=58049 fall=57423
+  PHASE @(D)(P)(setup_func)* Id 107 Pol 1 AT rise=2176 fall=2070 RT rise=34362 fall=33592
+
+NODE alu_inst/g10752__6161/B (input) Id 106  :
+  VIEW setup_func :
+    SLACK rise=12892 fall=17388
+    SLEW rise=11176 fall=8276
+  PHASE clk(D)(P)(setup_func)* Id 106 Pol 1 AT rise=25031 fall=24616 RT rise=44405 fall=42004
+  PHASE clk(D)(P)(setup_func)* Id 106 Pol 1 AT rise=25031 fall=24616 RT rise=58698 fall=56297
+  PHASE clk(D)(P)(setup_func)* Id 106 Pol 1 AT rise=51801 fall=44930 RT rise=64693 fall=62678
+  PHASE @(D)(P)(setup_func)* Id 106 Pol 1 AT rise=2176 fall=2070 RT rise=50623 fall=48222
+
+NODE alu_inst/g10481__5526/B0 (input) Id 105  :
+  VIEW setup_func :
+    SLACK rise=12504 fall=20356
+    SLEW rise=11176 fall=8276
+  PHASE clk(D)(P)(setup_func)* Id 105 Pol 1 AT rise=25031 fall=24616 RT rise=43631 fall=46182
+  PHASE clk(D)(P)(setup_func)* Id 105 Pol 1 AT rise=25031 fall=24616 RT rise=57924 fall=60964
+  PHASE clk(D)(P)(setup_func)* Id 105 Pol 1 AT rise=51801 fall=44930 RT rise=64305 fall=65286
+  PHASE @(D)(P)(setup_func)* Id 105 Pol 1 AT rise=2176 fall=2070 RT rise=49849 fall=51914
+
+NODE alu_inst/g10479__4319/A1 (input) Id 104  :
+  VIEW setup_func :
+    SLACK rise=13632 fall=20573
+    SLEW rise=11176 fall=8276
+  PHASE clk(D)(P)(setup_func)* Id 104 Pol 1 AT rise=25031 fall=24616 RT rise=45064 fall=47313
+  PHASE clk(D)(P)(setup_func)* Id 104 Pol 1 AT rise=25031 fall=24616 RT rise=59357 fall=62095
+  PHASE clk(D)(P)(setup_func)* Id 104 Pol 1 AT rise=51801 fall=44930 RT rise=65433 fall=65503
+  PHASE @(D)(P)(setup_func)* Id 104 Pol 1 AT rise=2176 fall=2070 RT rise=51282 fall=53045
+
+NODE alu_inst/g10392__2398/A1 (input) Id 103  :
+  VIEW setup_func :
+    SLACK rise=14849 fall=19852
+    SLEW rise=11176 fall=8276
+  PHASE clk(D)(P)(setup_func)* Id 103 Pol 1 AT rise=25031 fall=24616 RT rise=47546 fall=44468
+  PHASE clk(D)(P)(setup_func)* Id 103 Pol 1 AT rise=25031 fall=24616 RT rise=62328 fall=58761
+  PHASE clk(D)(P)(setup_func)* Id 103 Pol 1 AT rise=51801 fall=44930 RT rise=66650 fall=65142
+  PHASE @(D)(P)(setup_func)* Id 103 Pol 1 AT rise=2176 fall=2070 RT rise=53278 fall=50686
+
+NODE alu_inst/g10796/A (input) Id 102  :
+  VIEW setup_func :
+    SLACK rise=1444 fall=161
+    SLEW rise=12201 fall=8997
+  PHASE clk(D)(P)(setup_func)* Id 102 Pol 1 AT rise=27717 fall=27176 RT rise=29161 fall=27337
+  PHASE clk(D)(P)(setup_func)* Id 102 Pol 1 AT rise=27717 fall=27176 RT rise=34825 fall=34439
+  PHASE clk(D)(P)(setup_func)* Id 102 Pol 1 AT rise=50172 fall=48110 RT rise=58580 fall=57386
+  PHASE @(D)(P)(setup_func)* Id 102 Pol 1 AT rise=2168 fall=2061 RT rise=34893 fall=33555
+
+NODE alu_inst/g10724__5526/B (input) Id 101  :
+  VIEW setup_func :
+    SLACK rise=14729 fall=13922
+    SLEW rise=12201 fall=8997
+  PHASE clk(D)(P)(setup_func)* Id 101 Pol 1 AT rise=27717 fall=27176 RT rise=45974 fall=42742
+  PHASE clk(D)(P)(setup_func)* Id 101 Pol 1 AT rise=27717 fall=27176 RT rise=60267 fall=57035
+  PHASE clk(D)(P)(setup_func)* Id 101 Pol 1 AT rise=50172 fall=48110 RT rise=64901 fall=62032
+  PHASE @(D)(P)(setup_func)* Id 101 Pol 1 AT rise=2168 fall=2061 RT rise=52040 fall=48960
+
+NODE alu_inst/g10601__7098/A0 (input) Id 100  :
+  VIEW setup_func :
+    SLACK rise=13518 fall=16402
+    SLEW rise=12201 fall=8997
+  PHASE clk(D)(P)(setup_func)* Id 100 Pol 1 AT rise=27717 fall=27176 RT rise=44400 fall=45777
+  PHASE clk(D)(P)(setup_func)* Id 100 Pol 1 AT rise=27717 fall=27176 RT rise=58693 fall=60559
+  PHASE clk(D)(P)(setup_func)* Id 100 Pol 1 AT rise=50172 fall=48110 RT rise=63690 fall=64512
+  PHASE @(D)(P)(setup_func)* Id 100 Pol 1 AT rise=2168 fall=2061 RT rise=50618 fall=51509
+
+NODE alu_inst/g10481__5526/A1 (input) Id 99  :
+  VIEW setup_func :
+    SLACK rise=14097 fall=16621
+    SLEW rise=12201 fall=8997
+  PHASE clk(D)(P)(setup_func)* Id 99 Pol 1 AT rise=27717 fall=27176 RT rise=43595 fall=45627
+  PHASE clk(D)(P)(setup_func)* Id 99 Pol 1 AT rise=27717 fall=27176 RT rise=57888 fall=60409
+  PHASE clk(D)(P)(setup_func)* Id 99 Pol 1 AT rise=50172 fall=48110 RT rise=64269 fall=64731
+  PHASE @(D)(P)(setup_func)* Id 99 Pol 1 AT rise=2168 fall=2061 RT rise=49813 fall=51359
+
+NODE alu_inst/g10416__1666/A1 (input) Id 98  :
+  VIEW setup_func :
+    SLACK rise=16419 fall=17207
+    SLEW rise=12201 fall=8997
+  PHASE clk(D)(P)(setup_func)* Id 98 Pol 1 AT rise=27717 fall=27176 RT rise=47856 fall=46027
+  PHASE clk(D)(P)(setup_func)* Id 98 Pol 1 AT rise=27717 fall=27176 RT rise=62638 fall=60320
+  PHASE clk(D)(P)(setup_func)* Id 98 Pol 1 AT rise=50172 fall=48110 RT rise=66591 fall=65317
+  PHASE @(D)(P)(setup_func)* Id 98 Pol 1 AT rise=2168 fall=2061 RT rise=53588 fall=52245
+
+NODE g27254/B (input) Id 97  :
+  VIEW setup_func :
+    SLACK rise=5275 fall=5461
+    SLEW rise=893 fall=716
+  PHASE clk(D)(P)(setup_func)* Id 97 Pol 1 AT rise=14572 fall=14793 RT rise=19847 fall=20254
+  PHASE clk(D)(P)(setup_func)* Id 97 Pol 1 AT rise=14572 fall=14793 RT rise=27987 fall=26841
+
+NODE g27274/A (input) Id 96  :
+  VIEW setup_func :
+    SLACK rise=5065 fall=8535
+    SLEW rise=4827 fall=3280
+  PHASE clk(D)(P)(setup_func)* Id 96 Pol 1 AT rise=15998 fall=15748 RT rise=34843 fall=35507
+  PHASE clk(D)(P)(setup_func)* Id 96 Pol 1 AT rise=15998 fall=15748 RT rise=49136 fall=49800
+  PHASE clk(D)(P)(setup_func)* Id 96 Pol 1 AT rise=54478 fall=51672 RT rise=59543 fall=60207
+  PHASE @(D)(P)(setup_func)* Id 96 Pol 1 AT rise=6435 fall=4328 RT rise=41061 fall=41725
+
+NODE alu_inst/lt_26_43_g881__10875/B0 (input) Id 95  :
+  VIEW setup_func :
+    SLACK rise=6954 fall=10319
+    SLEW rise=4827 fall=3280
+  PHASE clk(D)(P)(setup_func)* Id 95 Pol 1 AT rise=15998 fall=15748 RT rise=31383 fall=32572
+  PHASE clk(D)(P)(setup_func)* Id 95 Pol 1 AT rise=15998 fall=15748 RT rise=38485 fall=38236
+  PHASE clk(D)(P)(setup_func)* Id 95 Pol 1 AT rise=54478 fall=51672 RT rise=61432 fall=61991
+  PHASE @(D)(P)(setup_func)* Id 95 Pol 1 AT rise=6435 fall=4328 RT rise=37601 fall=38304
+
+NODE alu_inst/lt_26_43_g932__10841/B (input) Id 94  :
+  VIEW setup_func :
+    SLACK rise=5693 fall=8795
+    SLEW rise=4827 fall=3280
+  PHASE clk(D)(P)(setup_func)* Id 94 Pol 1 AT rise=15998 fall=15748 RT rise=30122 fall=31048
+  PHASE clk(D)(P)(setup_func)* Id 94 Pol 1 AT rise=15998 fall=15748 RT rise=37224 fall=36712
+  PHASE clk(D)(P)(setup_func)* Id 94 Pol 1 AT rise=54478 fall=51672 RT rise=60171 fall=60467
+  PHASE @(D)(P)(setup_func)* Id 94 Pol 1 AT rise=6435 fall=4328 RT rise=36340 fall=36780
+
+NODE alu_inst/g10451__4319/A1 (input) Id 93  :
+  VIEW setup_func :
+    SLACK rise=8073 fall=11601
+    SLEW rise=4827 fall=3280
+  PHASE clk(D)(P)(setup_func)* Id 93 Pol 1 AT rise=15998 fall=15748 RT rise=37851 fall=40198
+  PHASE clk(D)(P)(setup_func)* Id 93 Pol 1 AT rise=15998 fall=15748 RT rise=52144 fall=54980
+  PHASE clk(D)(P)(setup_func)* Id 93 Pol 1 AT rise=54478 fall=51672 RT rise=62551 fall=63273
+  PHASE @(D)(P)(setup_func)* Id 93 Pol 1 AT rise=6435 fall=4328 RT rise=44069 fall=45930
+
+NODE alu_inst/g10446__6417/A1 (input) Id 92  :
+  VIEW setup_func :
+    SLACK rise=11011 fall=13915
+    SLEW rise=4827 fall=3280
+  PHASE clk(D)(P)(setup_func)* Id 92 Pol 1 AT rise=15998 fall=15748 RT rise=40789 fall=42512
+  PHASE clk(D)(P)(setup_func)* Id 92 Pol 1 AT rise=15998 fall=15748 RT rise=55082 fall=57294
+  PHASE clk(D)(P)(setup_func)* Id 92 Pol 1 AT rise=54478 fall=51672 RT rise=65489 fall=65587
+  PHASE @(D)(P)(setup_func)* Id 92 Pol 1 AT rise=6435 fall=4328 RT rise=47007 fall=48244
+
+NODE g27276/A (input) Id 91  :
+  VIEW setup_func :
+    SLACK rise=8607 fall=12765
+    SLEW rise=5005 fall=3438
+  PHASE clk(D)(P)(setup_func)* Id 91 Pol 1 AT rise=16016 fall=15600 RT rise=38447 fall=39814
+  PHASE clk(D)(P)(setup_func)* Id 91 Pol 1 AT rise=16016 fall=15600 RT rise=52740 fall=54107
+  PHASE clk(D)(P)(setup_func)* Id 91 Pol 1 AT rise=50671 fall=46940 RT rise=59278 fall=59705
+  PHASE @(D)(P)(setup_func)* Id 91 Pol 1 AT rise=6701 fall=4482 RT rise=44665 fall=46032
+
+NODE alu_inst/lt_26_43_g879__10876/B0 (input) Id 90  :
+  VIEW setup_func :
+    SLACK rise=11154 fall=15030
+    SLEW rise=5005 fall=3438
+  PHASE clk(D)(P)(setup_func)* Id 90 Pol 1 AT rise=16016 fall=15600 RT rise=31776 fall=32551
+  PHASE clk(D)(P)(setup_func)* Id 90 Pol 1 AT rise=16016 fall=15600 RT rise=38878 fall=38215
+  PHASE clk(D)(P)(setup_func)* Id 90 Pol 1 AT rise=50671 fall=46940 RT rise=61825 fall=61970
+  PHASE @(D)(P)(setup_func)* Id 90 Pol 1 AT rise=6701 fall=4482 RT rise=37994 fall=38283
+
+NODE alu_inst/lt_26_43_g930__10842/B (input) Id 89  :
+  VIEW setup_func :
+    SLACK rise=9771 fall=13473
+    SLEW rise=5005 fall=3438
+  PHASE clk(D)(P)(setup_func)* Id 89 Pol 1 AT rise=16016 fall=15600 RT rise=30393 fall=30994
+  PHASE clk(D)(P)(setup_func)* Id 89 Pol 1 AT rise=16016 fall=15600 RT rise=37495 fall=36658
+  PHASE clk(D)(P)(setup_func)* Id 89 Pol 1 AT rise=50671 fall=46940 RT rise=60442 fall=60413
+  PHASE @(D)(P)(setup_func)* Id 89 Pol 1 AT rise=6701 fall=4482 RT rise=36611 fall=36726
+
+NODE alu_inst/g10486__1705/B0 (input) Id 88  :
+  VIEW setup_func :
+    SLACK rise=11900 fall=15848
+    SLEW rise=5005 fall=3438
+  PHASE clk(D)(P)(setup_func)* Id 88 Pol 1 AT rise=16016 fall=15600 RT rise=41740 fall=44012
+  PHASE clk(D)(P)(setup_func)* Id 88 Pol 1 AT rise=16016 fall=15600 RT rise=56033 fall=58794
+  PHASE clk(D)(P)(setup_func)* Id 88 Pol 1 AT rise=50671 fall=46940 RT rise=62571 fall=62788
+  PHASE @(D)(P)(setup_func)* Id 88 Pol 1 AT rise=6701 fall=4482 RT rise=47958 fall=49744
+
+NODE alu_inst/g10434__6131/A1 (input) Id 87  :
+  VIEW setup_func :
+    SLACK rise=15892 fall=19150
+    SLEW rise=5005 fall=3438
+  PHASE clk(D)(P)(setup_func)* Id 87 Pol 1 AT rise=16016 fall=15600 RT rise=45403 fall=46909
+  PHASE clk(D)(P)(setup_func)* Id 87 Pol 1 AT rise=16016 fall=15600 RT rise=59696 fall=61691
+  PHASE clk(D)(P)(setup_func)* Id 87 Pol 1 AT rise=50671 fall=46940 RT rise=66563 fall=66090
+  PHASE @(D)(P)(setup_func)* Id 87 Pol 1 AT rise=6701 fall=4482 RT rise=51621 fall=52641
+
+NODE g27254/A (input) Id 86  :
+  VIEW setup_func :
+    SLACK rise=2071 fall=2468
+    SLEW rise=383 fall=300
+  PHASE clk(D)(P)(setup_func)* Id 86 Pol 1 AT rise=39272 fall=38158 RT rise=41343 fall=40626
+  PHASE @(D)(P)(setup_func)* Id 86 Pol 1 AT rise=2524 fall=2449 RT rise=26159 fall=26070
+  PHASE clk(D)(P)(setup_func)* Id 86 Pol 1 AT rise=13774 fall=13746 RT rise=19941 fall=20213
+  PHASE clk(D)(P)(setup_func)* Id 86 Pol 1 AT rise=13774 fall=13746 RT rise=28081 fall=26800
+
+NODE g27261/A (input) Id 85  :
+  VIEW setup_func :
+    SLACK rise=-3673 fall=-2970
+    SLEW rise=473 fall=399
+  PHASE clk(D)(P)(setup_func)* Id 85 Pol 1 AT rise=13845 fall=13949 RT rise=10172 fall=10979
+  PHASE clk(D)(P)(setup_func)* Id 85 Pol 1 AT rise=13845 fall=13949 RT rise=17274 fall=17980
+
+NODE g27299/A (input) Id 84  :
+  VIEW setup_func :
+    SLACK rise=-2900 fall=-4106
+    SLEW rise=473 fall=399
+  PHASE clk(D)(P)(setup_func)* Id 84 Pol 1 AT rise=13845 fall=13949 RT rise=10945 fall=9843
+  PHASE clk(D)(P)(setup_func)* Id 84 Pol 1 AT rise=13845 fall=13949 RT rise=17946 fall=16945
+
+NODE FE_OFC49_n_2779/A (input) Id 83  :
+  VIEW setup_func :
+    SLACK rise=1932 fall=3117
+    SLEW rise=311 fall=272
+  PHASE clk(D)(P)(setup_func)* Id 83 Pol 1 AT rise=13721 fall=13832 RT rise=15653 fall=16949
+  PHASE clk(D)(P)(setup_func)* Id 83 Pol 1 AT rise=13721 fall=13832 RT rise=22755 fall=23175
+
+NODE g27260/B (input) Id 82  :
+  VIEW setup_func :
+    SLACK rise=1887 fall=2237
+    SLEW rise=492 fall=407
+  PHASE clk(D)(P)(setup_func)* Id 82 Pol 1 AT rise=15421 fall=15559 RT rise=17308 fall=17796
+  PHASE clk(D)(P)(setup_func)* Id 82 Pol 1 AT rise=15421 fall=15559 RT rise=24410 fall=23460
+
+NODE FE_OFC50_n_2779/A (input) Id 81  :
+  VIEW setup_func :
+    SLACK rise=-2905 fall=-2695
+    SLEW rise=492 fall=407
+  PHASE clk(D)(P)(setup_func)* Id 81 Pol 1 AT rise=15421 fall=15559 RT rise=12516 fall=12864
+  PHASE clk(D)(P)(setup_func)* Id 81 Pol 1 AT rise=15421 fall=15559 RT rise=20369 fall=20603
+
+NODE alu_inst/FE_OFC11_n_2808/A (input) Id 80  :
+  VIEW setup_func :
+    SLACK rise=-4209 fall=-3672
+    SLEW rise=1139 fall=1079
+  PHASE clk(D)(P)(setup_func)* Id 80 Pol 1 AT rise=37494 fall=38494 RT rise=41583 fall=41756
+  PHASE @(D)(P)(setup_func)* Id 80 Pol 1 AT rise=1356 fall=837 RT rise=20242 fall=20382
+  PHASE clk(D)(P)(setup_func)* Id 80 Pol 1 AT rise=18233 fall=17836 RT rise=14024 fall=14164
+  PHASE clk(D)(P)(setup_func)* Id 80 Pol 1 AT rise=18233 fall=17836 RT rise=21877 fall=21903
+
+NODE g27255/A (input) Id 79  :
+  VIEW setup_func :
+    SLACK rise=638 fall=2240
+    SLEW rise=364 fall=297
+  PHASE clk(D)(P)(setup_func)* Id 79 Pol 1 AT rise=44293 fall=42952 RT rise=44931 fall=45192
+  PHASE @(D)(P)(setup_func)* Id 79 Pol 1 AT rise=1218 fall=1283 RT rise=24616 fall=24089
+  PHASE clk(D)(P)(setup_func)* Id 79 Pol 1 AT rise=15452 fall=15468 RT rise=18884 fall=17871
+  PHASE clk(D)(P)(setup_func)* Id 79 Pol 1 AT rise=15452 fall=15468 RT rise=24548 fall=24973
+
+NODE g27278/A (input) Id 78  :
+  VIEW setup_func :
+    SLACK rise=11664 fall=10795
+    SLEW rise=4695 fall=3271
+  PHASE clk(D)(P)(setup_func)* Id 78 Pol 1 AT rise=17546 fall=16586 RT rise=39075 fall=40807
+  PHASE clk(D)(P)(setup_func)* Id 78 Pol 1 AT rise=17546 fall=16586 RT rise=53368 fall=55100
+  PHASE clk(D)(P)(setup_func)* Id 78 Pol 1 AT rise=49810 fall=52091 RT rise=61474 fall=62886
+  PHASE @(D)(P)(setup_func)* Id 78 Pol 1 AT rise=6403 fall=4293 RT rise=45293 fall=47025
+
+NODE alu_inst/lt_26_43_g882__10877/B0 (input) Id 77  :
+  VIEW setup_func :
+    SLACK rise=12288 fall=10300
+    SLEW rise=4695 fall=3271
+  PHASE clk(D)(P)(setup_func)* Id 77 Pol 1 AT rise=17546 fall=16586 RT rise=32049 fall=32972
+  PHASE clk(D)(P)(setup_func)* Id 77 Pol 1 AT rise=17546 fall=16586 RT rise=39151 fall=38636
+  PHASE clk(D)(P)(setup_func)* Id 77 Pol 1 AT rise=49810 fall=52091 RT rise=62098 fall=62391
+  PHASE @(D)(P)(setup_func)* Id 77 Pol 1 AT rise=6403 fall=4293 RT rise=38267 fall=38704
+
+NODE alu_inst/lt_26_43_g915__10839/B (input) Id 76  :
+  VIEW setup_func :
+    SLACK rise=10932 fall=8643
+    SLEW rise=4695 fall=3271
+  PHASE clk(D)(P)(setup_func)* Id 76 Pol 1 AT rise=17546 fall=16586 RT rise=30693 fall=31315
+  PHASE clk(D)(P)(setup_func)* Id 76 Pol 1 AT rise=17546 fall=16586 RT rise=37795 fall=36979
+  PHASE clk(D)(P)(setup_func)* Id 76 Pol 1 AT rise=49810 fall=52091 RT rise=60742 fall=60734
+  PHASE @(D)(P)(setup_func)* Id 76 Pol 1 AT rise=6403 fall=4293 RT rise=36911 fall=37047
+
+NODE alu_inst/g10484__1617/B0 (input) Id 75  :
+  VIEW setup_func :
+    SLACK rise=15356 fall=14445
+    SLEW rise=4695 fall=3271
+  PHASE clk(D)(P)(setup_func)* Id 75 Pol 1 AT rise=17546 fall=16586 RT rise=42767 fall=45633
+  PHASE clk(D)(P)(setup_func)* Id 75 Pol 1 AT rise=17546 fall=16586 RT rise=57060 fall=60415
+  PHASE clk(D)(P)(setup_func)* Id 75 Pol 1 AT rise=49810 fall=52091 RT rise=65166 fall=66536
+  PHASE @(D)(P)(setup_func)* Id 75 Pol 1 AT rise=6403 fall=4293 RT rise=48985 fall=51365
+
+NODE alu_inst/g10432__8246/A1 (input) Id 74  :
+  VIEW setup_func :
+    SLACK rise=16719 fall=15030
+    SLEW rise=4695 fall=3271
+  PHASE clk(D)(P)(setup_func)* Id 74 Pol 1 AT rise=17546 fall=16586 RT rise=44130 fall=46218
+  PHASE clk(D)(P)(setup_func)* Id 74 Pol 1 AT rise=17546 fall=16586 RT rise=58423 fall=61000
+  PHASE clk(D)(P)(setup_func)* Id 74 Pol 1 AT rise=49810 fall=52091 RT rise=66529 fall=67121
+  PHASE @(D)(P)(setup_func)* Id 74 Pol 1 AT rise=6403 fall=4293 RT rise=50348 fall=51950
+
+NODE g27233/B0 (input) Id 73  :
+  VIEW setup_func :
+    SLACK rise=10752 fall=8986
+    SLEW rise=3058 fall=2581
+  PHASE clk(D)(P)(setup_func)* Id 73 Pol 1 AT rise=15377 fall=15390 RT rise=26623 fall=27719
+  PHASE clk(D)(P)(setup_func)* Id 73 Pol 1 AT rise=15377 fall=15390 RT rise=33725 fall=33383
+  PHASE clk(D)(P)(setup_func)* Id 73 Pol 1 AT rise=45920 fall=48152 RT rise=56672 fall=57138
+  PHASE @(D)(P)(setup_func)* Id 73 Pol 1 AT rise=2994 fall=2124 RT rise=32841 fall=33451
+
+NODE alu_inst/lt_25_52_g966/A (input) Id 72  :
+  VIEW setup_func :
+    SLACK rise=4574 fall=4148
+    SLEW rise=11522 fall=8542
+  PHASE clk(D)(P)(setup_func)* Id 72 Pol 1 AT rise=24538 fall=23849 RT rise=29112 fall=27997
+  PHASE clk(D)(P)(setup_func)* Id 72 Pol 1 AT rise=24538 fall=23849 RT rise=34776 fall=35099
+  PHASE clk(D)(P)(setup_func)* Id 72 Pol 1 AT rise=46699 fall=40318 RT rise=58531 fall=58046
+  PHASE @(D)(P)(setup_func)* Id 72 Pol 1 AT rise=2130 fall=2028 RT rise=34844 fall=34215
+
+NODE alu_inst/g10717__6417/B (input) Id 71  :
+  VIEW setup_func :
+    SLACK rise=14966 fall=14923
+    SLEW rise=11522 fall=8542
+  PHASE clk(D)(P)(setup_func)* Id 71 Pol 1 AT rise=24538 fall=23849 RT rise=42401 fall=38772
+  PHASE clk(D)(P)(setup_func)* Id 71 Pol 1 AT rise=24538 fall=23849 RT rise=57183 fall=53065
+  PHASE clk(D)(P)(setup_func)* Id 71 Pol 1 AT rise=46699 fall=40318 RT rise=61665 fall=59667
+  PHASE @(D)(P)(setup_func)* Id 71 Pol 1 AT rise=2130 fall=2028 RT rise=48133 fall=44990
+
+NODE alu_inst/g10483__3680/A1 (input) Id 70  :
+  VIEW setup_func :
+    SLACK rise=17693 fall=22549
+    SLEW rise=11522 fall=8542
+  PHASE clk(D)(P)(setup_func)* Id 70 Pol 1 AT rise=24538 fall=23849 RT rise=45102 fall=46398
+  PHASE clk(D)(P)(setup_func)* Id 70 Pol 1 AT rise=24538 fall=23849 RT rise=59395 fall=61180
+  PHASE clk(D)(P)(setup_func)* Id 70 Pol 1 AT rise=46699 fall=40318 RT rise=64392 fall=65133
+  PHASE @(D)(P)(setup_func)* Id 70 Pol 1 AT rise=2130 fall=2028 RT rise=51320 fall=52130
+
+NODE alu_inst/g10455__3680/B0 (input) Id 69  :
+  VIEW setup_func :
+    SLACK rise=17953 fall=22105
+    SLEW rise=11522 fall=8542
+  PHASE clk(D)(P)(setup_func)* Id 69 Pol 1 AT rise=24538 fall=23849 RT rise=43757 fall=45954
+  PHASE clk(D)(P)(setup_func)* Id 69 Pol 1 AT rise=24538 fall=23849 RT rise=58050 fall=60736
+  PHASE clk(D)(P)(setup_func)* Id 69 Pol 1 AT rise=46699 fall=40318 RT rise=64652 fall=65218
+  PHASE @(D)(P)(setup_func)* Id 69 Pol 1 AT rise=2130 fall=2028 RT rise=49975 fall=51686
+
+NODE alu_inst/g10346__1705/A1 (input) Id 68  :
+  VIEW setup_func :
+    SLACK rise=19855 fall=20782
+    SLEW rise=11522 fall=8542
+  PHASE clk(D)(P)(setup_func)* Id 68 Pol 1 AT rise=24538 fall=23849 RT rise=47290 fall=44631
+  PHASE clk(D)(P)(setup_func)* Id 68 Pol 1 AT rise=24538 fall=23849 RT rise=62072 fall=58924
+  PHASE clk(D)(P)(setup_func)* Id 68 Pol 1 AT rise=46699 fall=40318 RT rise=66554 fall=65526
+  PHASE @(D)(P)(setup_func)* Id 68 Pol 1 AT rise=2130 fall=2028 RT rise=53022 fall=50849
+
+NODE g27275/A (input) Id 67  :
+  VIEW setup_func :
+    SLACK rise=3926 fall=7193
+    SLEW rise=4616 fall=3167
+  PHASE clk(D)(P)(setup_func)* Id 67 Pol 1 AT rise=17584 fall=16611 RT rise=37322 fall=39736
+  PHASE clk(D)(P)(setup_func)* Id 67 Pol 1 AT rise=17584 fall=16611 RT rise=51615 fall=54518
+  PHASE clk(D)(P)(setup_func)* Id 67 Pol 1 AT rise=55776 fall=53152 RT rise=59702 fall=60345
+  PHASE @(D)(P)(setup_func)* Id 67 Pol 1 AT rise=6232 fall=4203 RT rise=43540 fall=45468
+
+NODE alu_inst/lt_26_43_g891__10871/A1 (input) Id 66  :
+  VIEW setup_func :
+    SLACK rise=5337 fall=8654
+    SLEW rise=4616 fall=3167
+  PHASE clk(D)(P)(setup_func)* Id 66 Pol 1 AT rise=17584 fall=16611 RT rise=31064 fall=32387
+  PHASE clk(D)(P)(setup_func)* Id 66 Pol 1 AT rise=17584 fall=16611 RT rise=38166 fall=38051
+  PHASE clk(D)(P)(setup_func)* Id 66 Pol 1 AT rise=55776 fall=53152 RT rise=61113 fall=61806
+  PHASE @(D)(P)(setup_func)* Id 66 Pol 1 AT rise=6232 fall=4203 RT rise=37282 fall=38119
+
+NODE alu_inst/lt_26_43_g906__10846/A (input) Id 65  :
+  VIEW setup_func :
+    SLACK rise=4860 fall=8252
+    SLEW rise=4616 fall=3167
+  PHASE clk(D)(P)(setup_func)* Id 65 Pol 1 AT rise=17584 fall=16611 RT rise=30587 fall=31985
+  PHASE clk(D)(P)(setup_func)* Id 65 Pol 1 AT rise=17584 fall=16611 RT rise=37689 fall=37649
+  PHASE clk(D)(P)(setup_func)* Id 65 Pol 1 AT rise=55776 fall=53152 RT rise=60636 fall=61404
+  PHASE @(D)(P)(setup_func)* Id 65 Pol 1 AT rise=6232 fall=4203 RT rise=36805 fall=37717
+
+NODE alu_inst/g10494__4733/B0 (input) Id 64  :
+  VIEW setup_func :
+    SLACK rise=6602 fall=9631
+    SLEW rise=4616 fall=3167
+  PHASE clk(D)(P)(setup_func)* Id 64 Pol 1 AT rise=17584 fall=16611 RT rise=39998 fall=42174
+  PHASE clk(D)(P)(setup_func)* Id 64 Pol 1 AT rise=17584 fall=16611 RT rise=54291 fall=56956
+  PHASE clk(D)(P)(setup_func)* Id 64 Pol 1 AT rise=55776 fall=53152 RT rise=62378 fall=62783
+  PHASE @(D)(P)(setup_func)* Id 64 Pol 1 AT rise=6232 fall=4203 RT rise=46216 fall=47906
+
+NODE alu_inst/g10435__1881/A1 (input) Id 63  :
+  VIEW setup_func :
+    SLACK rise=10981 fall=13092
+    SLEW rise=4616 fall=3167
+  PHASE clk(D)(P)(setup_func)* Id 63 Pol 1 AT rise=17584 fall=16611 RT rise=44046 fall=45403
+  PHASE clk(D)(P)(setup_func)* Id 63 Pol 1 AT rise=17584 fall=16611 RT rise=58339 fall=60185
+  PHASE clk(D)(P)(setup_func)* Id 63 Pol 1 AT rise=55776 fall=53152 RT rise=66757 fall=66244
+  PHASE @(D)(P)(setup_func)* Id 63 Pol 1 AT rise=6232 fall=4203 RT rise=50264 fall=51135
+
+NODE g27277/A (input) Id 62  :
+  VIEW setup_func :
+    SLACK rise=12569 fall=14635
+    SLEW rise=4426 fall=3040
+  PHASE clk(D)(P)(setup_func)* Id 62 Pol 1 AT rise=17549 fall=16588 RT rise=39815 fall=41389
+  PHASE clk(D)(P)(setup_func)* Id 62 Pol 1 AT rise=17549 fall=16588 RT rise=54108 fall=55682
+  PHASE clk(D)(P)(setup_func)* Id 62 Pol 1 AT rise=48364 fall=47620 RT rise=60933 fall=62255
+  PHASE @(D)(P)(setup_func)* Id 62 Pol 1 AT rise=5957 fall=4081 RT rise=46033 fall=47607
+
+NODE alu_inst/lt_26_43_g890__10868/A1 (input) Id 61  :
+  VIEW setup_func :
+    SLACK rise=13206 fall=15063
+    SLEW rise=4426 fall=3040
+  PHASE clk(D)(P)(setup_func)* Id 61 Pol 1 AT rise=17549 fall=16588 RT rise=31521 fall=33264
+  PHASE clk(D)(P)(setup_func)* Id 61 Pol 1 AT rise=17549 fall=16588 RT rise=38623 fall=38928
+  PHASE clk(D)(P)(setup_func)* Id 61 Pol 1 AT rise=48364 fall=47620 RT rise=61570 fall=62683
+  PHASE @(D)(P)(setup_func)* Id 61 Pol 1 AT rise=5957 fall=4081 RT rise=37739 fall=38996
+
+NODE alu_inst/lt_26_43_g909__10847/A (input) Id 60  :
+  VIEW setup_func :
+    SLACK rise=12417 fall=13776
+    SLEW rise=4426 fall=3040
+  PHASE clk(D)(P)(setup_func)* Id 60 Pol 1 AT rise=17549 fall=16588 RT rise=30732 fall=31977
+  PHASE clk(D)(P)(setup_func)* Id 60 Pol 1 AT rise=17549 fall=16588 RT rise=37834 fall=37641
+  PHASE clk(D)(P)(setup_func)* Id 60 Pol 1 AT rise=48364 fall=47620 RT rise=60781 fall=61396
+  PHASE @(D)(P)(setup_func)* Id 60 Pol 1 AT rise=5957 fall=4081 RT rise=36950 fall=37709
+
+NODE alu_inst/g10485__2802/B0 (input) Id 59  :
+  VIEW setup_func :
+    SLACK rise=16053 fall=17800
+    SLEW rise=4426 fall=3040
+  PHASE clk(D)(P)(setup_func)* Id 59 Pol 1 AT rise=17549 fall=16588 RT rise=43299 fall=45212
+  PHASE clk(D)(P)(setup_func)* Id 59 Pol 1 AT rise=17549 fall=16588 RT rise=57592 fall=59994
+  PHASE clk(D)(P)(setup_func)* Id 59 Pol 1 AT rise=48364 fall=47620 RT rise=64417 fall=65420
+  PHASE @(D)(P)(setup_func)* Id 59 Pol 1 AT rise=5957 fall=4081 RT rise=49517 fall=50944
+
+NODE alu_inst/g10433__7098/A1 (input) Id 58  :
+  VIEW setup_func :
+    SLACK rise=18175 fall=18890
+    SLEW rise=4426 fall=3040
+  PHASE clk(D)(P)(setup_func)* Id 58 Pol 1 AT rise=17549 fall=16588 RT rise=45617 fall=46410
+  PHASE clk(D)(P)(setup_func)* Id 58 Pol 1 AT rise=17549 fall=16588 RT rise=59910 fall=61192
+  PHASE clk(D)(P)(setup_func)* Id 58 Pol 1 AT rise=48364 fall=47620 RT rise=66539 fall=66510
+  PHASE @(D)(P)(setup_func)* Id 58 Pol 1 AT rise=5957 fall=4081 RT rise=51835 fall=52142
+
+NODE g27279/A (input) Id 57  :
+  VIEW setup_func :
+    SLACK rise=7019 fall=10131
+    SLEW rise=4269 fall=3009
+  PHASE clk(D)(P)(setup_func)* Id 57 Pol 1 AT rise=17269 fall=16410 RT rise=39882 fall=40980
+  PHASE clk(D)(P)(setup_func)* Id 57 Pol 1 AT rise=17269 fall=16410 RT rise=54175 fall=55273
+  PHASE clk(D)(P)(setup_func)* Id 57 Pol 1 AT rise=54804 fall=52790 RT rise=61823 fall=62921
+  PHASE @(D)(P)(setup_func)* Id 57 Pol 1 AT rise=5979 fall=4011 RT rise=46100 fall=47198
+
+NODE alu_inst/lt_26_43_g895__10869/A1 (input) Id 56  :
+  VIEW setup_func :
+    SLACK rise=6825 fall=9103
+    SLEW rise=4269 fall=3009
+  PHASE clk(D)(P)(setup_func)* Id 56 Pol 1 AT rise=17269 fall=16410 RT rise=31580 fall=32474
+  PHASE clk(D)(P)(setup_func)* Id 56 Pol 1 AT rise=17269 fall=16410 RT rise=38682 fall=38138
+  PHASE clk(D)(P)(setup_func)* Id 56 Pol 1 AT rise=54804 fall=52790 RT rise=61629 fall=61893
+  PHASE @(D)(P)(setup_func)* Id 56 Pol 1 AT rise=5979 fall=4011 RT rise=37798 fall=38206
+
+NODE alu_inst/lt_26_43_g923__10848/A (input) Id 55  :
+  VIEW setup_func :
+    SLACK rise=6259 fall=8435
+    SLEW rise=4269 fall=3009
+  PHASE clk(D)(P)(setup_func)* Id 55 Pol 1 AT rise=17269 fall=16410 RT rise=31014 fall=31806
+  PHASE clk(D)(P)(setup_func)* Id 55 Pol 1 AT rise=17269 fall=16410 RT rise=38116 fall=37470
+  PHASE clk(D)(P)(setup_func)* Id 55 Pol 1 AT rise=54804 fall=52790 RT rise=61063 fall=61225
+  PHASE @(D)(P)(setup_func)* Id 55 Pol 1 AT rise=5979 fall=4011 RT rise=37232 fall=37538
+
+NODE alu_inst/g10593__5526/B1 (input) Id 54  :
+  VIEW setup_func :
+    SLACK rise=9374 fall=12974
+    SLEW rise=4269 fall=3009
+  PHASE clk(D)(P)(setup_func)* Id 54 Pol 1 AT rise=17269 fall=16410 RT rise=42237 fall=45732
+  PHASE clk(D)(P)(setup_func)* Id 54 Pol 1 AT rise=17269 fall=16410 RT rise=56530 fall=60514
+  PHASE clk(D)(P)(setup_func)* Id 54 Pol 1 AT rise=54804 fall=52790 RT rise=64178 fall=65764
+  PHASE @(D)(P)(setup_func)* Id 54 Pol 1 AT rise=5979 fall=4011 RT rise=48455 fall=51464
+
+NODE alu_inst/g10443__2346/A1 (input) Id 53  :
+  VIEW setup_func :
+    SLACK rise=11596 fall=14275
+    SLEW rise=4269 fall=3009
+  PHASE clk(D)(P)(setup_func)* Id 53 Pol 1 AT rise=17269 fall=16410 RT rise=44459 fall=46926
+  PHASE clk(D)(P)(setup_func)* Id 53 Pol 1 AT rise=17269 fall=16410 RT rise=58752 fall=61708
+  PHASE clk(D)(P)(setup_func)* Id 53 Pol 1 AT rise=54804 fall=52790 RT rise=66400 fall=67065
+  PHASE @(D)(P)(setup_func)* Id 53 Pol 1 AT rise=5979 fall=4011 RT rise=50677 fall=52658
+
+NODE dwb_dat_o[0] (output) Id 52  :
+  VIEW setup_func :
+    SLACK rise=31960 fall=32280
+    SLEW rise=14448 fall=11439
+  PHASE clk(D)(P)(setup_func)* Id 52 Pol 1 AT rise=43040 fall=42720 RT rise=75000 fall=75000
+
+NODE mdu_operand_b[0] (output) Id 51  :
+  VIEW setup_func :
+    SLACK rise=31960 fall=32280
+    SLEW rise=14448 fall=11439
+  PHASE clk(D)(P)(setup_func)* Id 51 Pol 1 AT rise=43040 fall=42720 RT rise=75000 fall=75000
+
+NODE alu_inst/FE_PSC187_alu_operand_b_0/A (input) Id 50  :
+  VIEW setup_func :
+    SLACK rise=1449 fall=-2156
+    SLEW rise=705 fall=644
+  PHASE clk(D)(P)(setup_func)* Id 50 Pol 1 AT rise=16644 fall=17075 RT rise=18093 fall=14919
+  PHASE clk(D)(P)(setup_func)* Id 50 Pol 1 AT rise=16644 fall=17075 RT rise=24195 fall=22639
+  PHASE clk(D)(P)(setup_func)* Id 50 Pol 1 AT rise=38689 fall=39232 RT rise=44518 fall=42967
+  PHASE @(D)(P)(setup_func)* Id 50 Pol 1 AT rise=2247 fall=2652 RT rise=23952 fall=21137
+
+NODE alu_inst/FE_PSC189_alu_operand_b_0/A (input) Id 49  :
+  VIEW setup_func :
+    SLACK rise=-2035 fall=-3272
+    SLEW rise=705 fall=644
+  PHASE clk(D)(P)(setup_func)* Id 49 Pol 1 AT rise=16644 fall=17075 RT rise=14609 fall=13803
+  PHASE clk(D)(P)(setup_func)* Id 49 Pol 1 AT rise=16644 fall=17075 RT rise=22749 fall=21943
+  PHASE clk(D)(P)(setup_func)* Id 49 Pol 1 AT rise=38689 fall=39232 RT rise=42775 fall=41693
+  PHASE @(D)(P)(setup_func)* Id 49 Pol 1 AT rise=2247 fall=2652 RT rise=20827 fall=20021
+
+NODE g27244/Y (output) Id 48  :
+  VIEW setup_func :
+    SLACK rise=3599 fall=2758
+    SLEW rise=11177 fall=8277
+    CAP 40.113
+  PHASE clk(D)(P)(setup_func)* Id 48 Pol 1 AT rise=25031 fall=24616 RT rise=28630 fall=27374
+  PHASE clk(D)(P)(setup_func)* Id 48 Pol 1 AT rise=25031 fall=24616 RT rise=34294 fall=34476
+  PHASE clk(D)(P)(setup_func)* Id 48 Pol 1 AT rise=51801 fall=44930 RT rise=58049 fall=57423
+  PHASE @(D)(P)(setup_func)* Id 48 Pol 1 AT rise=2176 fall=2070 RT rise=34362 fall=33592
+  EDGE TO alu_inst/g10392__2398/A1 (input) Id 103  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10479__4319/A1 (input) Id 104  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10481__5526/B0 (input) Id 105  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10752__6161/B (input) Id 106  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_25_52_g939/A (input) Id 107  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27245/Y (output) Id 47  :
+  VIEW setup_func :
+    SLACK rise=1444 fall=161
+    SLEW rise=12202 fall=8998
+    CAP 38.2046
+  PHASE clk(D)(P)(setup_func)* Id 47 Pol 1 AT rise=27717 fall=27176 RT rise=29161 fall=27337
+  PHASE clk(D)(P)(setup_func)* Id 47 Pol 1 AT rise=27717 fall=27176 RT rise=34825 fall=34439
+  PHASE clk(D)(P)(setup_func)* Id 47 Pol 1 AT rise=50172 fall=48110 RT rise=58580 fall=57386
+  PHASE @(D)(P)(setup_func)* Id 47 Pol 1 AT rise=2168 fall=2061 RT rise=34893 fall=33555
+  EDGE TO alu_inst/g10416__1666/A1 (input) Id 98  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10481__5526/A1 (input) Id 99  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10601__7098/A0 (input) Id 100  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10724__5526/B (input) Id 101  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10796/A (input) Id 102  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27259/Y (output) Id 46  :
+  VIEW setup_func :
+    SLACK rise=5275 fall=5461
+    SLEW rise=894 fall=717
+    CAP 5.85358
+  PHASE clk(D)(P)(setup_func)* Id 46 Pol 1 AT rise=14572 fall=14793 RT rise=19847 fall=20254
+  PHASE clk(D)(P)(setup_func)* Id 46 Pol 1 AT rise=14572 fall=14793 RT rise=27987 fall=26841
+  EDGE TO g27254/B (input) Id 97  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27280/Y (output) Id 45  :
+  VIEW setup_func :
+    SLACK rise=5065 fall=8535
+    SLEW rise=4828 fall=3281
+    CAP 46.7296
+  PHASE clk(D)(P)(setup_func)* Id 45 Pol 1 AT rise=15998 fall=15748 RT rise=30122 fall=31048
+  PHASE clk(D)(P)(setup_func)* Id 45 Pol 1 AT rise=15998 fall=15748 RT rise=37224 fall=36712
+  PHASE clk(D)(P)(setup_func)* Id 45 Pol 1 AT rise=54478 fall=51672 RT rise=59543 fall=60207
+  PHASE @(D)(P)(setup_func)* Id 45 Pol 1 AT rise=6435 fall=4328 RT rise=36340 fall=36780
+  EDGE TO alu_inst/g10446__6417/A1 (input) Id 92  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10451__4319/A1 (input) Id 93  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g932__10841/B (input) Id 94  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g881__10875/B0 (input) Id 95  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27274/A (input) Id 96  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27282/Y (output) Id 44  :
+  VIEW setup_func :
+    SLACK rise=8607 fall=12765
+    SLEW rise=5006 fall=3439
+    CAP 46.8473
+  PHASE clk(D)(P)(setup_func)* Id 44 Pol 1 AT rise=16016 fall=15600 RT rise=30393 fall=30994
+  PHASE clk(D)(P)(setup_func)* Id 44 Pol 1 AT rise=16016 fall=15600 RT rise=37495 fall=36658
+  PHASE clk(D)(P)(setup_func)* Id 44 Pol 1 AT rise=50671 fall=46940 RT rise=59278 fall=59705
+  PHASE @(D)(P)(setup_func)* Id 44 Pol 1 AT rise=6701 fall=4482 RT rise=36611 fall=36726
+  EDGE TO alu_inst/g10434__6131/A1 (input) Id 87  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10486__1705/B0 (input) Id 88  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g930__10842/B (input) Id 89  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g879__10876/B0 (input) Id 90  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27276/A (input) Id 91  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27296/Y (output) Id 43  :
+  VIEW setup_func :
+    SLACK rise=2071 fall=2468
+    SLEW rise=384 fall=301
+    CAP 7.21058
+  PHASE clk(D)(P)(setup_func)* Id 43 Pol 1 AT rise=39272 fall=38158 RT rise=41343 fall=40626
+  PHASE @(D)(P)(setup_func)* Id 43 Pol 1 AT rise=2524 fall=2449 RT rise=26159 fall=26070
+  PHASE clk(D)(P)(setup_func)* Id 43 Pol 1 AT rise=13774 fall=13746 RT rise=19941 fall=20213
+  PHASE clk(D)(P)(setup_func)* Id 43 Pol 1 AT rise=13774 fall=13746 RT rise=28081 fall=26800
+  EDGE TO g27254/A (input) Id 86  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE FE_PSC194_n_2779/Y (output) Id 42  :
+  VIEW setup_func :
+    SLACK rise=-3673 fall=-4106
+    SLEW rise=474 fall=400
+    CAP 20.1692
+  PHASE clk(D)(P)(setup_func)* Id 42 Pol 1 AT rise=13845 fall=13949 RT rise=10172 fall=9843
+  PHASE clk(D)(P)(setup_func)* Id 42 Pol 1 AT rise=13845 fall=13949 RT rise=17274 fall=16945
+  EDGE TO g27299/A (input) Id 84  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27261/A (input) Id 85  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE FE_PSC196_n_2779/Y (output) Id 41  :
+  VIEW setup_func :
+    SLACK rise=1932 fall=3117
+    SLEW rise=312 fall=273
+    CAP 10.7311
+  PHASE clk(D)(P)(setup_func)* Id 41 Pol 1 AT rise=13721 fall=13832 RT rise=15653 fall=16949
+  PHASE clk(D)(P)(setup_func)* Id 41 Pol 1 AT rise=13721 fall=13832 RT rise=22755 fall=23175
+  EDGE TO FE_OFC49_n_2779/A (input) Id 83  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE FE_PSC20_n_2779/Y (output) Id 40  :
+  VIEW setup_func :
+    SLACK rise=-2905 fall=-2695
+    SLEW rise=493 fall=408
+    CAP 11.6387
+  PHASE clk(D)(P)(setup_func)* Id 40 Pol 1 AT rise=15421 fall=15559 RT rise=12516 fall=12864
+  PHASE clk(D)(P)(setup_func)* Id 40 Pol 1 AT rise=15421 fall=15559 RT rise=20369 fall=20603
+  EDGE TO FE_OFC50_n_2779/A (input) Id 81  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27260/B (input) Id 82  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27258/Y (output) Id 39  :
+  VIEW setup_func :
+    SLACK rise=-4209 fall=-3672
+    SLEW rise=1140 fall=1080
+    CAP 6.99431
+  PHASE clk(D)(P)(setup_func)* Id 39 Pol 1 AT rise=37494 fall=38494 RT rise=41583 fall=41756
+  PHASE @(D)(P)(setup_func)* Id 39 Pol 1 AT rise=1356 fall=837 RT rise=20242 fall=20382
+  PHASE clk(D)(P)(setup_func)* Id 39 Pol 1 AT rise=18233 fall=17836 RT rise=14024 fall=14164
+  PHASE clk(D)(P)(setup_func)* Id 39 Pol 1 AT rise=18233 fall=17836 RT rise=21877 fall=21903
+  EDGE TO alu_inst/FE_OFC11_n_2808/A (input) Id 80  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27297/Y (output) Id 38  :
+  VIEW setup_func :
+    SLACK rise=638 fall=2240
+    SLEW rise=365 fall=298
+    CAP 6.23969
+  PHASE clk(D)(P)(setup_func)* Id 38 Pol 1 AT rise=44293 fall=42952 RT rise=44931 fall=45192
+  PHASE @(D)(P)(setup_func)* Id 38 Pol 1 AT rise=1218 fall=1283 RT rise=24616 fall=24089
+  PHASE clk(D)(P)(setup_func)* Id 38 Pol 1 AT rise=15452 fall=15468 RT rise=18884 fall=17871
+  PHASE clk(D)(P)(setup_func)* Id 38 Pol 1 AT rise=15452 fall=15468 RT rise=24548 fall=24973
+  EDGE TO g27255/A (input) Id 79  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27284/Y (output) Id 37  :
+  VIEW setup_func :
+    SLACK rise=10932 fall=8643
+    SLEW rise=4696 fall=3272
+    CAP 42.92
+  PHASE clk(D)(P)(setup_func)* Id 37 Pol 1 AT rise=17546 fall=16586 RT rise=30693 fall=31315
+  PHASE clk(D)(P)(setup_func)* Id 37 Pol 1 AT rise=17546 fall=16586 RT rise=37795 fall=36979
+  PHASE clk(D)(P)(setup_func)* Id 37 Pol 1 AT rise=49810 fall=52091 RT rise=60742 fall=60734
+  PHASE @(D)(P)(setup_func)* Id 37 Pol 1 AT rise=6403 fall=4293 RT rise=36911 fall=37047
+  EDGE TO alu_inst/g10432__8246/A1 (input) Id 74  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10484__1617/B0 (input) Id 75  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g915__10839/B (input) Id 76  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g882__10877/B0 (input) Id 77  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27278/A (input) Id 78  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27298/Y (output) Id 36  :
+  VIEW setup_func :
+    SLACK rise=10752 fall=8986
+    SLEW rise=3059 fall=2582
+    CAP 14.8679
+  PHASE clk(D)(P)(setup_func)* Id 36 Pol 1 AT rise=15377 fall=15390 RT rise=26623 fall=27719
+  PHASE clk(D)(P)(setup_func)* Id 36 Pol 1 AT rise=15377 fall=15390 RT rise=33725 fall=33383
+  PHASE clk(D)(P)(setup_func)* Id 36 Pol 1 AT rise=45920 fall=48152 RT rise=56672 fall=57138
+  PHASE @(D)(P)(setup_func)* Id 36 Pol 1 AT rise=2994 fall=2124 RT rise=32841 fall=33451
+  EDGE TO g27233/B0 (input) Id 73  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27253/Y (output) Id 35  :
+  VIEW setup_func :
+    SLACK rise=4574 fall=4148
+    SLEW rise=11523 fall=8543
+    CAP 38.1702
+  PHASE clk(D)(P)(setup_func)* Id 35 Pol 1 AT rise=24538 fall=23849 RT rise=29112 fall=27997
+  PHASE clk(D)(P)(setup_func)* Id 35 Pol 1 AT rise=24538 fall=23849 RT rise=34776 fall=35099
+  PHASE clk(D)(P)(setup_func)* Id 35 Pol 1 AT rise=46699 fall=40318 RT rise=58531 fall=58046
+  PHASE @(D)(P)(setup_func)* Id 35 Pol 1 AT rise=2130 fall=2028 RT rise=34844 fall=34215
+  EDGE TO alu_inst/g10346__1705/A1 (input) Id 68  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10455__3680/B0 (input) Id 69  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10483__3680/A1 (input) Id 70  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10717__6417/B (input) Id 71  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_25_52_g966/A (input) Id 72  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27281/Y (output) Id 34  :
+  VIEW setup_func :
+    SLACK rise=3926 fall=7193
+    SLEW rise=4617 fall=3168
+    CAP 43.18
+  PHASE clk(D)(P)(setup_func)* Id 34 Pol 1 AT rise=17584 fall=16611 RT rise=30587 fall=31985
+  PHASE clk(D)(P)(setup_func)* Id 34 Pol 1 AT rise=17584 fall=16611 RT rise=37689 fall=37649
+  PHASE clk(D)(P)(setup_func)* Id 34 Pol 1 AT rise=55776 fall=53152 RT rise=59702 fall=60345
+  PHASE @(D)(P)(setup_func)* Id 34 Pol 1 AT rise=6232 fall=4203 RT rise=36805 fall=37717
+  EDGE TO alu_inst/g10435__1881/A1 (input) Id 63  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10494__4733/B0 (input) Id 64  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g906__10846/A (input) Id 65  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g891__10871/A1 (input) Id 66  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27275/A (input) Id 67  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27283/Y (output) Id 33  :
+  VIEW setup_func :
+    SLACK rise=12417 fall=13776
+    SLEW rise=4427 fall=3041
+    CAP 42.6183
+  PHASE clk(D)(P)(setup_func)* Id 33 Pol 1 AT rise=17549 fall=16588 RT rise=30732 fall=31977
+  PHASE clk(D)(P)(setup_func)* Id 33 Pol 1 AT rise=17549 fall=16588 RT rise=37834 fall=37641
+  PHASE clk(D)(P)(setup_func)* Id 33 Pol 1 AT rise=48364 fall=47620 RT rise=60781 fall=61396
+  PHASE @(D)(P)(setup_func)* Id 33 Pol 1 AT rise=5957 fall=4081 RT rise=36950 fall=37709
+  EDGE TO alu_inst/g10433__7098/A1 (input) Id 58  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10485__2802/B0 (input) Id 59  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g909__10847/A (input) Id 60  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g890__10868/A1 (input) Id 61  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27277/A (input) Id 62  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27285/Y (output) Id 32  :
+  VIEW setup_func :
+    SLACK rise=6259 fall=8435
+    SLEW rise=4270 fall=3010
+    CAP 37.4497
+  PHASE clk(D)(P)(setup_func)* Id 32 Pol 1 AT rise=17269 fall=16410 RT rise=31014 fall=31806
+  PHASE clk(D)(P)(setup_func)* Id 32 Pol 1 AT rise=17269 fall=16410 RT rise=38116 fall=37470
+  PHASE clk(D)(P)(setup_func)* Id 32 Pol 1 AT rise=54804 fall=52790 RT rise=61063 fall=61225
+  PHASE @(D)(P)(setup_func)* Id 32 Pol 1 AT rise=5979 fall=4011 RT rise=37232 fall=37538
+  EDGE TO alu_inst/g10443__2346/A1 (input) Id 53  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/g10593__5526/B1 (input) Id 54  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g923__10848/A (input) Id 55  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/lt_26_43_g895__10869/A1 (input) Id 56  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27279/A (input) Id 57  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE FE_PSC11_dwb_dat_o_0/Y (output) Id 31  :
+  VIEW setup_func :
+    SLACK rise=31960 fall=32280
+    SLEW rise=8669 fall=6864
+    CAP 255.643
+  PHASE clk(D)(P)(setup_func)* Id 31 Pol 1 AT rise=43040 fall=42720 RT rise=75000 fall=75000
+  EDGE TO mdu_operand_b[0] (output) Id 51  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO dwb_dat_o[0] (output) Id 52  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27286/Y (output) Id 30  :
+  VIEW setup_func :
+    SLACK rise=-2035 fall=-3272
+    SLEW rise=706 fall=645
+    CAP 32.1683
+  PHASE clk(D)(P)(setup_func)* Id 30 Pol 1 AT rise=16644 fall=17075 RT rise=14609 fall=13803
+  PHASE clk(D)(P)(setup_func)* Id 30 Pol 1 AT rise=16644 fall=17075 RT rise=22749 fall=21943
+  PHASE clk(D)(P)(setup_func)* Id 30 Pol 1 AT rise=38689 fall=39232 RT rise=42775 fall=41693
+  PHASE @(D)(P)(setup_func)* Id 30 Pol 1 AT rise=2247 fall=2652 RT rise=20827 fall=20021
+  EDGE TO alu_inst/FE_PSC189_alu_operand_b_0/A (input) Id 49  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO alu_inst/FE_PSC187_alu_operand_b_0/A (input) Id 50  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27244/S0 (input) Id 29  :
+  VIEW setup_func :
+    SLACK rise=13444 fall=13184
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 29 Pol 1 AT rise=12711 fall=12797 RT rise=26155 fall=25981
+  PHASE clk(D)(P)(setup_func)* Id 29 Pol 1 AT rise=12711 fall=12797 RT rise=32993 fall=32992
+  EDGE TO g27244/Y (output) Id 48  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1301 (derating=1.000000) RF=<NA> FR=<NA> FF=1393 (derating=1.000000)
+  EDGE TO g27244/Y (output) Id 48  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1219 (derating=1.000000) FR=1302 (derating=1.000000) FF=<NA>
+
+NODE g27245/S0 (input) Id 28  :
+  VIEW setup_func :
+    SLACK rise=13438 fall=13177
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 28 Pol 1 AT rise=12711 fall=12797 RT rise=26149 fall=25974
+  PHASE clk(D)(P)(setup_func)* Id 28 Pol 1 AT rise=12711 fall=12797 RT rise=33251 fall=33076
+  EDGE TO g27245/Y (output) Id 47  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1272 (derating=1.000000) RF=<NA> FR=<NA> FF=1363 (derating=1.000000)
+  EDGE TO g27245/Y (output) Id 47  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1188 (derating=1.000000) FR=1272 (derating=1.000000) FF=<NA>
+
+NODE g27259/A (input) Id 27  :
+  VIEW setup_func :
+    SLACK rise=6907 fall=6149
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 27 Pol 1 AT rise=12711 fall=12797 RT rise=19618 fall=18946
+  PHASE clk(D)(P)(setup_func)* Id 27 Pol 1 AT rise=12711 fall=12797 RT rise=26205 fall=27086
+  EDGE TO g27259/Y (output) Id 46  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=636 (derating=1.000000) FR=901 (derating=1.000000) FF=<NA>
+
+NODE g27280/A1 (input) Id 26  :
+  VIEW setup_func :
+    SLACK rise=16040 fall=14139
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 26 Pol 1 AT rise=12711 fall=12797 RT rise=28751 fall=26936
+  PHASE clk(D)(P)(setup_func)* Id 26 Pol 1 AT rise=12711 fall=12797 RT rise=34415 fall=34038
+  EDGE TO g27280/Y (output) Id 45  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2297 (derating=1.000000) FR=3186 (derating=1.000000) FF=<NA>
+
+NODE g27282/A1 (input) Id 25  :
+  VIEW setup_func :
+    SLACK rise=15965 fall=14377
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 25 Pol 1 AT rise=12711 fall=12797 RT rise=28676 fall=27174
+  PHASE clk(D)(P)(setup_func)* Id 25 Pol 1 AT rise=12711 fall=12797 RT rise=34340 fall=34276
+  EDGE TO g27282/Y (output) Id 44  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2318 (derating=1.000000) FR=3219 (derating=1.000000) FF=<NA>
+
+NODE g27296/A (input) Id 24  :
+  VIEW setup_func :
+    SLACK rise=6167 fall=6467
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 24 Pol 1 AT rise=12711 fall=12797 RT rise=18878 fall=19264
+  PHASE clk(D)(P)(setup_func)* Id 24 Pol 1 AT rise=12711 fall=12797 RT rise=27018 fall=25851
+  EDGE TO g27296/Y (output) Id 43  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1063 (derating=1.000000) RF=<NA> FR=<NA> FF=949 (derating=1.000000)
+
+NODE g27326/Y (output) Id 23  :
+  VIEW setup_func :
+    SLACK rise=-3673 fall=-4106
+    SLEW rise=968 fall=751
+    CAP 79.2185
+  PHASE clk(D)(P)(setup_func)* Id 23 Pol 1 AT rise=12711 fall=12797 RT rise=9038 fall=8691
+  PHASE clk(D)(P)(setup_func)* Id 23 Pol 1 AT rise=12711 fall=12797 RT rise=16140 fall=15793
+  EDGE TO FE_PSC190_n_2779/A (input) Id 20  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO FE_PSC196_n_2779/A (input) Id 21  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO FE_PSC194_n_2779/A (input) Id 22  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27296/A (input) Id 24  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27282/A1 (input) Id 25  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27280/A1 (input) Id 26  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27259/A (input) Id 27  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27245/S0 (input) Id 28  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27244/S0 (input) Id 29  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE FE_PSC194_n_2779/A (input) Id 22  :
+  VIEW setup_func :
+    SLACK rise=-3673 fall=-4106
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 22 Pol 1 AT rise=12711 fall=12797 RT rise=9038 fall=8691
+  PHASE clk(D)(P)(setup_func)* Id 22 Pol 1 AT rise=12711 fall=12797 RT rise=16140 fall=15793
+  EDGE TO FE_PSC194_n_2779/Y (output) Id 42  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1134 (derating=1.000000) RF=<NA> FR=<NA> FF=1152 (derating=1.000000)
+
+NODE FE_PSC196_n_2779/A (input) Id 21  :
+  VIEW setup_func :
+    SLACK rise=1932 fall=3117
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 21 Pol 1 AT rise=12711 fall=12797 RT rise=14643 fall=15914
+  PHASE clk(D)(P)(setup_func)* Id 21 Pol 1 AT rise=12711 fall=12797 RT rise=21745 fall=22140
+  EDGE TO FE_PSC196_n_2779/Y (output) Id 41  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1010 (derating=1.000000) RF=<NA> FR=<NA> FF=1035 (derating=1.000000)
+
+NODE FE_PSC190_n_2779/A (input) Id 20  :
+  VIEW setup_func :
+    SLACK rise=-2905 fall=-3272
+    SLEW rise=967 fall=750
+  PHASE clk(D)(P)(setup_func)* Id 20 Pol 1 AT rise=12711 fall=12797 RT rise=9806 fall=9525
+  PHASE clk(D)(P)(setup_func)* Id 20 Pol 1 AT rise=12711 fall=12797 RT rise=17659 fall=17665
+  EDGE TO FE_PSC190_n_2779/Y (output) Id 6  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1732 (derating=1.000000) RF=<NA> FR=<NA> FF=1753 (derating=1.000000)
+
+NODE regfile_inst/g57098/Y (output) Id 19  :
+  VIEW setup_func :
+    SLACK rise=3930 fall=4086
+    SLEW rise=1775 fall=1687
+    CAP 6.91566
+  PHASE clk(D)(P)(setup_func)* Id 19 Pol 1 AT rise=33554 fall=34988 RT rise=67303 fall=66948
+  PHASE clk(D)(P)(setup_func)* Id 19 Pol 1 AT rise=33554 fall=34988 RT rise=37484 fall=39074
+  EDGE TO regfile_inst/g56973/B (input) Id 18  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE regfile_inst/g56973/B (input) Id 18  :
+  VIEW setup_func :
+    SLACK rise=3930 fall=4086
+    SLEW rise=1774 fall=1686
+  PHASE clk(D)(P)(setup_func)* Id 18 Pol 1 AT rise=33554 fall=34988 RT rise=67303 fall=66948
+  PHASE clk(D)(P)(setup_func)* Id 18 Pol 1 AT rise=33554 fall=34988 RT rise=37484 fall=39074
+  EDGE TO regfile_inst/g56973/Y (output) Id 4  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1557 (derating=1.000000) FR=1454 (derating=1.000000) FF=<NA>
+
+NODE regfile_inst/g57017/Y (output) Id 17  :
+  VIEW setup_func :
+    SLACK rise=2461 fall=4505
+    SLEW rise=729 fall=602
+    CAP 11.0405
+  PHASE clk(D)(P)(setup_func)* Id 17 Pol 1 AT rise=35343 fall=35021 RT rise=67623 fall=67400
+  PHASE clk(D)(P)(setup_func)* Id 17 Pol 1 AT rise=35343 fall=35021 RT rise=37804 fall=39526
+  EDGE TO regfile_inst/g56973/A (input) Id 16  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE regfile_inst/g56973/A (input) Id 16  :
+  VIEW setup_func :
+    SLACK rise=2461 fall=4505
+    SLEW rise=728 fall=601
+  PHASE clk(D)(P)(setup_func)* Id 16 Pol 1 AT rise=35343 fall=35021 RT rise=67623 fall=67400
+  PHASE clk(D)(P)(setup_func)* Id 16 Pol 1 AT rise=35343 fall=35021 RT rise=37804 fall=39526
+  EDGE TO regfile_inst/g56973/Y (output) Id 4  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1237 (derating=1.000000) FR=1002 (derating=1.000000) FF=<NA>
+
+NODE FE_PSC20_n_2779/A (input) Id 15  :
+  VIEW setup_func :
+    SLACK rise=-2905 fall=-2695
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 15 Pol 1 AT rise=14443 fall=14550 RT rise=11538 fall=11855
+  PHASE clk(D)(P)(setup_func)* Id 15 Pol 1 AT rise=14443 fall=14550 RT rise=19391 fall=19594
+  EDGE TO FE_PSC20_n_2779/Y (output) Id 40  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=978 (derating=1.000000) RF=<NA> FR=<NA> FF=1009 (derating=1.000000)
+
+NODE g27258/B0 (input) Id 14  :
+  VIEW setup_func :
+    SLACK rise=-964 fall=-1476
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 14 Pol 1 AT rise=14443 fall=14550 RT rise=13479 fall=13074
+  PHASE clk(D)(P)(setup_func)* Id 14 Pol 1 AT rise=14443 fall=14550 RT rise=21218 fall=20927
+  EDGE TO g27258/Y (output) Id 39  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=685 (derating=1.000000) FR=950 (derating=1.000000) FF=<NA>
+
+NODE g27297/A (input) Id 13  :
+  VIEW setup_func :
+    SLACK rise=3432 fall=2403
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 13 Pol 1 AT rise=14443 fall=14550 RT rise=17875 fall=16953
+  PHASE clk(D)(P)(setup_func)* Id 13 Pol 1 AT rise=14443 fall=14550 RT rise=23539 fall=24055
+  EDGE TO g27297/Y (output) Id 38  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1009 (derating=1.000000) RF=<NA> FR=<NA> FF=918 (derating=1.000000)
+
+NODE g27284/A1 (input) Id 12  :
+  VIEW setup_func :
+    SLACK rise=14729 fall=13147
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 12 Pol 1 AT rise=14443 fall=14550 RT rise=29172 fall=27697
+  PHASE clk(D)(P)(setup_func)* Id 12 Pol 1 AT rise=14443 fall=14550 RT rise=34836 fall=34799
+  EDGE TO g27284/Y (output) Id 37  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2143 (derating=1.000000) FR=2996 (derating=1.000000) FF=<NA>
+
+NODE g27298/B (input) Id 11  :
+  VIEW setup_func :
+    SLACK rise=12329 fall=11246
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 11 Pol 1 AT rise=14443 fall=14550 RT rise=26772 fall=25796
+  PHASE clk(D)(P)(setup_func)* Id 11 Pol 1 AT rise=14443 fall=14550 RT rise=32436 fall=32898
+  EDGE TO g27298/Y (output) Id 36  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=947 (derating=1.000000) FR=827 (derating=1.000000) FF=<NA>
+
+NODE g27253/S0 (input) Id 10  :
+  VIEW setup_func :
+    SLACK rise=12405 fall=12096
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 10 Pol 1 AT rise=14443 fall=14550 RT rise=26848 fall=26646
+  PHASE clk(D)(P)(setup_func)* Id 10 Pol 1 AT rise=14443 fall=14550 RT rise=33543 fall=33516
+  EDGE TO g27253/Y (output) Id 35  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1233 (derating=1.000000) RF=<NA> FR=<NA> FF=1351 (derating=1.000000)
+  EDGE TO g27253/Y (output) Id 35  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1149 (derating=1.000000) FR=1260 (derating=1.000000) FF=<NA>
+
+NODE g27281/A1 (input) Id 9  :
+  VIEW setup_func :
+    SLACK rise=15374 fall=13003
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 9 Pol 1 AT rise=14443 fall=14550 RT rise=29817 fall=27553
+  PHASE clk(D)(P)(setup_func)* Id 9 Pol 1 AT rise=14443 fall=14550 RT rise=35481 fall=34655
+  EDGE TO g27281/Y (output) Id 34  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2168 (derating=1.000000) FR=3034 (derating=1.000000) FF=<NA>
+
+NODE g27283/A1 (input) Id 8  :
+  VIEW setup_func :
+    SLACK rise=15389 fall=13183
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 8 Pol 1 AT rise=14443 fall=14550 RT rise=29832 fall=27733
+  PHASE clk(D)(P)(setup_func)* Id 8 Pol 1 AT rise=14443 fall=14550 RT rise=35496 fall=34835
+  EDGE TO g27283/Y (output) Id 33  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=2145 (derating=1.000000) FR=2999 (derating=1.000000) FF=<NA>
+
+NODE g27285/A1 (input) Id 7  :
+  VIEW setup_func :
+    SLACK rise=15396 fall=13745
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 7 Pol 1 AT rise=14443 fall=14550 RT rise=29839 fall=28295
+  PHASE clk(D)(P)(setup_func)* Id 7 Pol 1 AT rise=14443 fall=14550 RT rise=35503 fall=35397
+  EDGE TO g27285/Y (output) Id 32  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=<NA> RF=1967 (derating=1.000000) FR=2719 (derating=1.000000) FF=<NA>
+
+NODE FE_PSC190_n_2779/Y (output) Id 6  :
+  VIEW setup_func :
+    SLACK rise=-2905 fall=-3272
+    SLEW rise=855 fall=727
+    CAP 77.2963
+  PHASE clk(D)(P)(setup_func)* Id 6 Pol 1 AT rise=14443 fall=14550 RT rise=11538 fall=11278
+  PHASE clk(D)(P)(setup_func)* Id 6 Pol 1 AT rise=14443 fall=14550 RT rise=19391 fall=19418
+  EDGE TO g27300/B (input) Id 5  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27285/A1 (input) Id 7  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27283/A1 (input) Id 8  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27281/A1 (input) Id 9  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27253/S0 (input) Id 10  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27298/B (input) Id 11  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27284/A1 (input) Id 12  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27297/A (input) Id 13  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO g27258/B0 (input) Id 14  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO FE_PSC20_n_2779/A (input) Id 15  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE g27300/B (input) Id 5  :
+  VIEW setup_func :
+    SLACK rise=-2035 fall=-3272
+    SLEW rise=854 fall=726
+  PHASE clk(D)(P)(setup_func)* Id 6 Pol 1 AT rise=14443 fall=14550 RT rise=12408 fall=11278
+  PHASE clk(D)(P)(setup_func)* Id 6 Pol 1 AT rise=14443 fall=14550 RT rise=20548 fall=19418
+  EDGE TO g27300/Y (output) Id 0  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1066 (derating=1.000000) RF=<NA> FR=<NA> FF=981 (derating=1.000000)
+
+NODE regfile_inst/g56973/Y (output) Id 4  :
+  VIEW setup_func :
+    SLACK rise=4086 fall=2461
+    SLEW rise=1166 fall=1268
+    CAP 24.8386
+  PHASE clk(D)(P)(setup_func)* Id 4 Pol 1 AT rise=36442 fall=36580 RT rise=68402 fall=68860
+  PHASE clk(D)(P)(setup_func)* Id 4 Pol 1 AT rise=36442 fall=36580 RT rise=40528 fall=39041
+  EDGE TO g27300/A (input) Id 2  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+  EDGE TO FE_PSC11_dwb_dat_o_0/A (input) Id 3  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+
+NODE FE_PSC11_dwb_dat_o_0/A (input) Id 3  :
+  VIEW setup_func :
+    SLACK rise=31960 fall=32280
+    SLEW rise=1165 fall=1267
+  PHASE clk(D)(P)(setup_func)* Id 3 Pol 1 AT rise=36442 fall=36580 RT rise=68402 fall=68860
+  EDGE TO FE_PSC11_dwb_dat_o_0/Y (output) Id 31  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=6598 (derating=1.000000) RF=<NA> FR=<NA> FF=6140 (derating=1.000000)
+
+NODE g27300/A (input) Id 2  :
+  VIEW setup_func :
+    SLACK rise=4086 fall=2461
+    SLEW rise=1165 fall=1267
+  PHASE clk(D)(P)(setup_func)* Id 2 Pol 1 AT rise=36442 fall=36580 RT rise=40528 fall=39041
+  PHASE @(D)(P)(setup_func)* Id 2 Pol 1 AT rise=0 fall=0 RT rise=18580 fall=17369
+  EDGE TO g27300/Y (output) Id 0  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1112 (derating=1.000000) RF=<NA> FR=<NA> FF=1108 (derating=1.000000)
+
+NODE g27286/B (input) Id 1  :
+  VIEW setup_func :
+    SLACK rise=-2035 fall=-3272
+    SLEW rise=388 fall=313
+  PHASE clk(D)(P)(setup_func)* Id 1 Pol 1 AT rise=15509 fall=15531 RT rise=13474 fall=12259
+  PHASE clk(D)(P)(setup_func)* Id 1 Pol 1 AT rise=15509 fall=15531 RT rise=21614 fall=20399
+  PHASE clk(D)(P)(setup_func)* Id 1 Pol 1 AT rise=37554 fall=37688 RT rise=41640 fall=40149
+  PHASE @(D)(P)(setup_func)* Id 1 Pol 1 AT rise=1112 fall=1108 RT rise=19692 fall=18477
+  EDGE TO g27286/Y (output) Id 30  IsDelay 1 IsNet 0 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=1135 (derating=1.000000) RF=<NA> FR=<NA> FF=1544 (derating=1.000000)
+
+NODE g27300/Y (output) Id 0  :
+  VIEW setup_func :
+    SLACK rise=-2035 fall=-3272
+    SLEW rise=389 fall=314
+    CAP 7.23982
+  PHASE clk(D)(P)(setup_func)* Id 0 Pol 1 AT rise=15509 fall=15531 RT rise=13474 fall=12259
+  PHASE clk(D)(P)(setup_func)* Id 0 Pol 1 AT rise=15509 fall=15531 RT rise=21614 fall=20399
+  PHASE clk(D)(P)(setup_func)* Id 0 Pol 1 AT rise=37554 fall=37688 RT rise=41640 fall=40149
+  PHASE @(D)(P)(setup_func)* Id 0 Pol 1 AT rise=1112 fall=1108 RT rise=19692 fall=18477
+  EDGE TO g27286/B (input) Id 1  IsDelay 1 IsNet 1 Disabled 0 LatchFlush 0
+    DELAYS view=setup_func RR=0 (derating=1.000000) RF=<NA> FR=<NA> FF=0 (derating=1.000000)
+

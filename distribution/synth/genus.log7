@@ -1,0 +1,249 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2023 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[12:01:56.377209] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+Version: 21.18-s082_1, built Tue Jul 18 03:08:41 PDT 2023
+Options: -files genus_script.tcl 
+Date:    Wed Dec 24 12:01:56 2025
+Host:    pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*1physical cpu*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB) (32627832KB)
+PID:     24341
+OS:      CentOS Linux release 7.9.2009 (Core)
+
+
+[12:01:56.449994] Periodic Lic check successful
+[12:01:56.450001] Feature usage summary:
+[12:01:56.450001] Genus_Synthesis
+Checking out license: Genus_Synthesis
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Loading tool scripts...
+Finished loading tool scripts (6 seconds elapsed).
+
+#@ Processing -files option
+@genus 1> source genus_script.tcl
+#@ Begin verbose source ./genus_script.tcl
+@file(genus_script.tcl) 1: set s8lib ../sky130_osu_sc_t18/18T_ms/lib
+@file(genus_script.tcl) 3: set_db init_lib_search_path $s8lib
+  Setting attribute of root '/': 'init_lib_search_path' = ../sky130_osu_sc_t18/18T_ms/lib
+@file(genus_script.tcl) 4: set search_path [list "./" ]
+@file(genus_script.tcl) 5: lappend search_path $s8lib
+@file(genus_script.tcl) 6: lappend search_path "./hdl"
+@file(genus_script.tcl) 10: set_db init_hdl_search_path $search_path
+  Setting attribute of root '/': 'init_hdl_search_path' = ./ ../sky130_osu_sc_t18/18T_ms/lib ./hdl
+@file(genus_script.tcl) 11: read_libs sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib 
+
+Threads Configured:3
+
+  Message Summary for Library sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib:
+  ********************************************************************
+  An unsupported construct was detected in this library. [LBR-40]: 2
+  ********************************************************************
+ 
+Info    : Created nominal operating condition. [LBR-412]
+        : Operating condition '_nominal_' was created for the PVT values (1.000000, 1.800000, 25.000000) in library 'sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib'.
+        : The nominal operating condition is represented, either by the nominal PVT values specified in the library source (via nom_process,nom_voltage and nom_temperature respectively), or by the default PVT values (1.0,1.0,1.0).
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+        : Add the missing output pin(s), then reload the library. Else the library cell will be marked as timing model i.e. unusable. Timing_model means that the cell does not have any defined function. If there is no output pin, Genus will mark library cell as unusable i.e. the attribute 'usable' will be marked to 'false' on the libcell. Therefore, the cell is not used for mapping and it will not be picked up from the library for synthesis. If you query the attribute 'unusable_reason' on the libcell; result will be: 'Library cell has no output pins.'Note: The message LBR-9 is only for the logical pins and not for the power_ground pins. Genus will depend upon the output function defined in the pin group (output pin) of the cell, to use it for mapping. The pg_pin will not have any function defined.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+@file(genus_script.tcl) 13: set my_verilog_files [list memory_macro.v sky130_sram_2kbyte_1rw1r_32x512_8.v]
+@file(genus_script.tcl) 15: set my_toplevel "memory_macro"
+@file(genus_script.tcl) 17: read_hdl -language v2001 $my_verilog_files
+    #(T_HOLD) dout0 = 32'bx;
+            |
+Warning : Ignoring unsynthesizable delay specifier (#<n>) mentioned in verilog file. These delay numbers are for simulation purpose only. [VLOGPT-35]
+        : in file './hdl/sky130_sram_2kbyte_1rw1r_32x512_8.v' on line 57, column 13.
+        : All delay numbers assigned or used in behavioral code are for simulation purposes only and are not synthesizable. These values are ignored during synthesis. This warning is issued only once per module.
+@file(genus_script.tcl) 18: elaborate $my_toplevel
+Warning : Libcell will be treated as a timing model. [LBR-158]
+        : Lib_pin 'sky130_osu_sc_18T_ms__buf_6/Y' has no incoming arcs.
+        : Ensure that the relevant timing arcs are defined in the Liberty model of the libcell.
+  Library has 45 usable logic and 8 usable sequential lib-cells.
+Info    : Elaborating Design. [ELAB-1]
+        : Elaborating top-level block 'memory_macro' from file './hdl/memory_macro.v'.
+Warning : Unreachable statements for case item. [CDFG-472]
+        : Case item 'default' in module 'memory_macro' in file './hdl/memory_macro.v' on line 91.
+Warning : Unreachable statements for case item. [CDFG-472]
+        : Case item 'default' in module 'memory_macro' in file './hdl/memory_macro.v' on line 148.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'wmask0' of instance 'rom_bank[0].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+        : Run check_design to check 'Undriven Port(s)/Pin(s)' section for all unconnected instance input ports. It is better to double confirm with designer these unconnected instance input port are expected. During syn_gen the unconnected instance input ports are controlled by attribute 'hdl_unconnected_value', the default value is 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'clk1' of instance 'rom_bank[0].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'csb1' of instance 'rom_bank[0].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'addr1' of instance 'rom_bank[0].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'wmask0' of instance 'rom_bank[1].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'clk1' of instance 'rom_bank[1].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'csb1' of instance 'rom_bank[1].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'addr1' of instance 'rom_bank[1].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'wmask0' of instance 'rom_bank[2].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'clk1' of instance 'rom_bank[2].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'csb1' of instance 'rom_bank[2].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'addr1' of instance 'rom_bank[2].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'wmask0' of instance 'rom_bank[3].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'clk1' of instance 'rom_bank[3].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'csb1' of instance 'rom_bank[3].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'addr1' of instance 'rom_bank[3].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'wmask0' of instance 'rom_bank[4].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'clk1' of instance 'rom_bank[4].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'csb1' of instance 'rom_bank[4].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Unconnected instance input port detected. [ELABUTL-124]
+        : Unconnected input port 'addr1' of instance 'rom_bank[4].sram_rom' of module 'sky130_sram_2kbyte_1rw1r_32x512_8' in file './hdl/memory_macro.v' on line 78, column 52, hid = 0.
+Warning : Maximum message print count reached. [MESG-11]
+        : Maximum print count of '20' reached for message 'ELABUTL-124'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[0]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+        : This may cause simulation mismatches between the original and synthesized designs.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[1]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[2]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[3]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[4]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[5]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[6]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[7]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[8]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[9]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[10]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[11]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[12]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[13]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[14]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[15]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[16]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[17]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[18]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Signal or variable has multiple drivers. [CDFG2G-622]
+        : 'dout0[19]' in module 'sky130_sram_2kbyte_1rw1r_32x512_8'.
+Warning : Maximum message print count reached. [MESG-11]
+        : Maximum print count of '20' reached for message 'CDFG2G-622'.
+Info    : Done Elaborating Design. [ELAB-3]
+        : Done elaborating 'memory_macro'.
+Checking for analog nets...
+Check completed for analog nets.
+Checking for source RTL...
+Check completed for source RTL.
+Running Unified Mux Engine Tricks...
+Completed Unified Mux Engine Tricks
+
+Stage: post_elab
+--------------------------------------------------------
+| Trick             | Accepts | Rejects | Runtime (ms) | 
+--------------------------------------------------------
+| ume_constant_bmux |       0 |       0 |         1.00 | 
+--------------------------------------------------------
+Starting clip mux common data inputs [v1.0] (stage: post_elab, startdef: memory_macro, recur: true)
+Completed clip mux common data inputs (accepts: 0, rejects: 0, runtime: 0.002s)
+Starting clip the non-user hierarchies [v2.0] (stage: post_elab, startdef: memory_macro, recur: true)
+Completed clip the non-user hierarchies (accepts: 0, rejects: 0, runtime: 0.001s)
+
+Stage: post_elab
+---------------------------------------------------------
+| Transform          | Accepts | Rejects | Runtime (ms) | 
+---------------------------------------------------------
+| hlo_clip_mux_input |       0 |       0 |         2.00 | 
+| hlo_clip           |       0 |       0 |         1.00 | 
+---------------------------------------------------------
+UM:   flow.cputime  flow.realtime  timing.setup.tns  timing.setup.wns  snapshot
+UM:*                                                                   elaborate
+@file(genus_script.tcl) 21: set my_clock_pin "clk"
+@file(genus_script.tcl) 22: set my_clk_freq_MHz 100
+@file(genus_script.tcl) 23: set my_period [expr 1000 / $my_clk_freq_MHz]
+@file(genus_script.tcl) 24: set my_uncertainty [expr .1 * $my_period]
+@file(genus_script.tcl) 27: set find_clock $my_clock_pin
+@file(genus_script.tcl) 28: if {  $find_clock != [list] } {
+    echo "Found clock!"
+    set my_clk $my_clock_pin
+} 
+Found clock!
+@file(genus_script.tcl) 32: set all_in_ex_clk [remove_from_collection [all_inputs] [get_ports "clk"]]
+@file(genus_script.tcl) 33: set all_out [all_outputs]
+@file(genus_script.tcl) 36: read_sdc constraints_top.sdc
+Warning : Unsupported SDC command option. [SDC-201] [set_input_delay]
+        : The set_input_delay command is not supported on ports which have a clock already defined 'port:memory_macro/clk'.
+        : The current version does not support this SDC command option.  However, future versions may be enhanced to support this option.
+Error   : A command argument did not match any of the acceptable command options. [TUI-64] [parse_options]
+        : The argument in question is '#'.
+        : Check the command usage and correct the input to the command.
+Error   : Could not interpret SDC command. [SDC-202] [read_sdc]
+        : The 'read_sdc' command encountered an error while processing this command on line '10' of the SDC file 'constraints_top.sdc': remove_input_delay [get_ports clk]  # Don't constrain clock itself.
+        : The 'read_sdc' command encountered a problem while trying to evaluate an SDC command. This SDC command will be added to the Tcl variable $::dc::sdc_failed_commands.
+Statistics for commands executed by read_sdc:
+ "all_inputs"               - successful      2 , failed      0 (runtime  0.00)
+ "all_outputs"              - successful      2 , failed      0 (runtime  0.00)
+ "create_clock"             - successful      1 , failed      0 (runtime  0.00)
+ "get_clocks"               - successful      1 , failed      0 (runtime  0.00)
+ "get_ports"                - successful      2 , failed      0 (runtime  0.00)
+ "set_clock_uncertainty"    - successful      1 , failed      0 (runtime  0.00)
+ "set_input_delay"          - successful      2 , failed      0 (runtime  0.01)
+ "set_output_delay"         - successful      2 , failed      0 (runtime  0.00)
+Warning : One or more commands failed when these constraints were applied. [SDC-209]
+        : The 'read_sdc' command encountered a problem while processing commands.
+        : You can examine the failed commands or save them to a file by querying the Tcl variable $::dc::sdc_failed_commands.
+read_sdc completed in 00:00:00 (hh:mm:ss)
+@file(genus_script.tcl) 38: set_db syn_generic_effort medium
+  Setting attribute of root '/': 'syn_generic_effort' = medium
+@file(genus_script.tcl) 39: set_db syn_map_effort medium
+  Setting attribute of root '/': 'syn_map_effort' = medium
+@file(genus_script.tcl) 40: set_db syn_opt_effort medium
+  Setting attribute of root '/': 'syn_opt_effort' = medium
+@file(genus_script.tcl) 44: set_db [get_db lib_cells *sky130_sram_2kbyte_1rw1r_32x512_8*] .preserve true
+@file(genus_script.tcl) 45: set_dont_touch [get_db sky130_sram_2kbyte_1rw1r_32x512_8]
+Error   : <Start> word is not recognized. [TUI-182] [get_db]
+        : 'sky130_sram_2kbyte_1rw1r_32x512_8' is not a recognized object/attribute. Type 'help root:' to get a list of all supported objects and attributes.
+        : Check if the given <Start> word is a valid object_type, object or attribute.
+#@ End verbose source ./genus_script.tcl
+1
+Encountered problems processing file: genus_script.tcl
+WARNING: This version of the tool is 889 days old.
+@genus:root: 2> exit
+
+Lic Summary:
+[12:03:07.296713] Cdslmd servers: microwavelicense
+[12:03:07.296721] Feature usage summary:
+[12:03:07.296722] Genus_Synthesis
+
+Normal exit.

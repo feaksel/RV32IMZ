@@ -1,0 +1,113 @@
+DESIGN = rv32im_soc_with_integrated_core
+SCRIPTS_DIR = SCRIPTS
+
+.PHONY: all init place cts route clean
+
+all: init place cts route
+
+# 1. INIT: Now uses the fixed script above
+init:
+	@echo "========================================="
+	@echo "Initializing SOC (Fixed Paths)"
+	@echo "========================================="
+	innovus -init $(SCRIPTS_DIR)/init_soc.tcl -log LOG/soc_init.log
+
+# 2. PLACE: Exact copy of your working rv32im logic
+place:
+	@echo "========================================="
+	@echo "Placing Glue Logic"
+	@echo "========================================="
+	@echo "restoreDesign DBS/soc_integrated/init.enc.dat $(DESIGN)" > .tmp_place.tcl
+	@echo "setPlaceMode -fp false -maxRouteLayer 5" >> .tmp_place.tcl
+	@echo "place_opt_design" >> .tmp_place.tcl
+	@echo "saveDesign DBS/soc_integrated/place.enc" >> .tmp_place.tcl
+	@echo "exit" >> .tmp_place.tcl
+	innovus -init .tmp_place.tcl -log LOG/soc_place.log
+	@rm -f .tmp_place.tcl
+
+# Verified Lib Path
+LIB_FILE = /home/Student3/Documents/Masaustu/FurkanEmir/sky130_cds/sky130_osu_sc_t18/18T_ms/lib/sky130_osu_sc_18T_ms_tt_1P80_25C.ccs.lib
+
+# Verified Lib Path
+LIB_FILE = /home/Student3/Documents/Masaustu/FurkanEmir/sky130_cds/sky130_osu_sc_t18/18T_ms/lib/sky130_osu_sc_18T_ms_tt_1P80_25C.ccs.lib
+
+cts:
+	@echo "========================================="
+	@echo "CTS: BRUTE FORCE (NO VARIABLES)"
+	@echo "========================================="
+	# 1. Create local SDC
+	@echo "create_clock -name clk -period 10.0 [get_ports clk]" > cts_temp.sdc
+	@echo "set_clock_uncertainty 0.1 [get_clocks clk]" >> cts_temp.sdc
+
+	# 2. Restore Design
+	@echo "restoreDesign DBS/soc_integrated/place.enc.dat $(DESIGN)" > .tmp_cts.tcl
+
+	# 3. Create Unique MMMC (Suffix _final to avoid conflicts)
+	@echo "create_library_set -name lib_cts_final -timing {$(LIB_FILE)}" >> .tmp_cts.tcl
+	@echo "create_rc_corner -name rc_cts_final -temperature 25" >> .tmp_cts.tcl
+	@echo "create_delay_corner -name corner_cts_final -library_set lib_cts_final -rc_corner rc_cts_final" >> .tmp_cts.tcl
+	@echo "create_constraint_mode -name mode_cts_final -sdc_files {cts_temp.sdc}" >> .tmp_cts.tcl
+	@echo "create_analysis_view -name view_cts_final -constraint_mode mode_cts_final -delay_corner corner_cts_final" >> .tmp_cts.tcl
+
+	# 4. Activate View
+	@echo "set_analysis_view -setup {view_cts_final} -hold {view_cts_final}" >> .tmp_cts.tcl
+	@echo "set_db design_process_node 130" >> .tmp_cts.tcl
+
+	# 5. DEFINE BUFFERS (Fixes 1146)
+	@echo "set_ccopt_property buffer_cells {sky130_osu_sc_18T_ms__buf_2 sky130_osu_sc_18T_ms__buf_4 sky130_osu_sc_18T_ms__buf_8}" >> .tmp_cts.tcl
+	@echo "set_ccopt_property inverter_cells {sky130_osu_sc_18T_ms__inv_2 sky130_osu_sc_18T_ms__inv_4 sky130_osu_sc_18T_ms__inv_8}" >> .tmp_cts.tcl
+
+	# 6. FORCE MACRO SINKS (Explicit commands, NO VARIABLES)
+	# CPU
+	@echo "set_ccopt_property -pin u_cpu_core/clk sink_type stop" >> .tmp_cts.tcl
+	@echo "set_ccopt_property -pin u_cpu_core/clk capacitance_override 0.1" >> .tmp_cts.tcl
+	# PWM
+	@echo "set_ccopt_property -pin u_pwm/clk sink_type stop" >> .tmp_cts.tcl
+	@echo "set_ccopt_property -pin u_pwm/clk capacitance_override 0.1" >> .tmp_cts.tcl
+	# ADC
+	@echo "set_ccopt_property -pin u_adc/clk sink_type stop" >> .tmp_cts.tcl
+	@echo "set_ccopt_property -pin u_adc/clk capacitance_override 0.1" >> .tmp_cts.tcl
+	# Memory
+	@echo "set_ccopt_property -pin u_memory/clk sink_type stop" >> .tmp_cts.tcl
+	@echo "set_ccopt_property -pin u_memory/clk capacitance_override 0.1" >> .tmp_cts.tcl
+	# Communication
+	@echo "set_ccopt_property -pin u_communication/clk sink_type stop" >> .tmp_cts.tcl
+	@echo "set_ccopt_property -pin u_communication/clk capacitance_override 0.1" >> .tmp_cts.tcl
+	# Protection
+	@echo "set_ccopt_property -pin u_protection/clk sink_type stop" >> .tmp_cts.tcl
+	@echo "set_ccopt_property -pin u_protection/clk capacitance_override 0.1" >> .tmp_cts.tcl
+
+	# 7. RUN CTS
+	@echo "create_ccopt_clock_tree_spec" >> .tmp_cts.tcl
+	@echo "ccopt_design" >> .tmp_cts.tcl
+	@echo "optDesign -postCTS" >> .tmp_cts.tcl
+
+	# 8. SAVE
+	@echo "saveDesign DBS/soc_integrated/cts.enc" >> .tmp_cts.tcl
+	@echo "exit" >> .tmp_cts.tcl
+	innovus -init .tmp_cts.tcl -log LOG/soc_cts.log
+	@rm -f .tmp_cts.tcl cts_temp.sdc
+
+
+# 4. ROUTE: Exact copy of rv32im
+route:
+	@echo "========================================="
+	@echo "Routing"
+	@echo "========================================="
+	@echo "restoreDesign DBS/soc_integrated/cts.enc.dat $(DESIGN)" > .tmp_route.tcl
+	@echo "setMultiCpuUsage -localCpu 8" >> .tmp_route.tcl
+	@echo "routeDesign -globalDetail" >> .tmp_route.tcl
+	@echo "catch {opt_design -post_route}" >> .tmp_route.tcl
+	@echo "saveDesign DBS/soc_integrated/route.enc" >> .tmp_route.tcl
+	@echo "exit" >> .tmp_route.tcl
+	innovus -init .tmp_route.tcl -log LOG/soc_route.log
+	@rm -f .tmp_route.tcl
+
+signoff:
+	@echo "========================================="
+	@echo "SIGNOFF: GENERATING FINAL CHIP GDS"
+	@echo "========================================="
+	innovus -init $(SCRIPTS_DIR)/signoff_soc.tcl -log LOG/soc_signoff.log
+
+clean:
+	rm -rf DBS/soc_integrated LOG/soc_*.log .tmp_*.tcl

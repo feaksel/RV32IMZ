@@ -1,0 +1,44 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2023 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[16:14:14.377225] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+Version: 21.18-s082_1, built Tue Jul 18 03:08:41 PDT 2023
+Options: -batch -files genus_script_rv32im.tcl 
+Date:    Wed Dec 24 16:14:14 2025
+Host:    pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*1physical cpu*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB) (32627832KB)
+PID:     31453
+OS:      CentOS Linux release 7.9.2009 (Core)
+
+
+[16:14:14.507834] Periodic Lic check successful
+[16:14:14.507841] Feature usage summary:
+[16:14:14.507841] Genus_Synthesis
+Checking out license: Genus_Synthesis
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Loading tool scripts...
+Finished loading tool scripts (5 seconds elapsed).
+
+#@ Processing -files option
+@genus 1> source genus_script_rv32im.tcl
+#@ Begin verbose source ./genus_script_rv32im.tcl
+@file(genus_script_rv32im.tcl) 6: set DESIGN "rv32im_integrated_macro"
+@file(genus_script_rv32im.tcl) 9: set LIB_PATH "../sky130_osu_sc_t18"
+@file(genus_script_rv32im.tcl) 10: set LIB_VARIANT "18T_ms"  # Options: 18T_hs, 18T_ls, 18T_ms
+#@ End verbose source ./genus_script_rv32im.tcl
+wrong # args: should be "set varName ?newValue?"
+Encountered problems processing file: genus_script_rv32im.tcl
+
+Lic Summary:
+[16:14:20.011497] Cdslmd servers: microwavelicense
+[16:14:20.011505] Feature usage summary:
+[16:14:20.011506] Genus_Synthesis
+

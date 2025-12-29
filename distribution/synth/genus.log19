@@ -1,0 +1,74 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2023 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[15:51:59.377297] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+Version: 21.18-s082_1, built Tue Jul 18 03:08:41 PDT 2023
+Options: -batch -files genus_script_rv32im.tcl 
+Date:    Wed Dec 24 15:51:59 2025
+Host:    pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*1physical cpu*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB) (32627832KB)
+PID:     26275
+OS:      CentOS Linux release 7.9.2009 (Core)
+
+
+[15:51:59.195730] Periodic Lic check successful
+[15:51:59.195738] Feature usage summary:
+[15:51:59.195738] Genus_Synthesis
+Checking out license: Genus_Synthesis
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Loading tool scripts...
+Finished loading tool scripts (6 seconds elapsed).
+
+#@ Processing -files option
+@genus 1> source genus_script_rv32im.tcl
+#@ Begin verbose source ./genus_script_rv32im.tcl
+@file(genus_script_rv32im.tcl) 6: set DESIGN "rv32im_integrated_macro"
+@file(genus_script_rv32im.tcl) 9: set LIB_PATH "../sky130_osu_sc_t18"
+@file(genus_script_rv32im.tcl) 10: set HDL_PATH "hdl/rv32im_integrated"
+@file(genus_script_rv32im.tcl) 11: set MACRO_DIR "../pnr/outputs" 
+@file(genus_script_rv32im.tcl) 17: set_db init_lib_search_path "$LIB_PATH/18T_ms/lib $LIB_PATH/18T_ms/lef"
+  Setting attribute of root '/': 'init_lib_search_path' = ../sky130_osu_sc_t18/18T_ms/lib ../sky130_osu_sc_t18/18T_ms/lef
+@file(genus_script_rv32im.tcl) 18: set_db init_hdl_search_path $HDL_PATH
+  Setting attribute of root '/': 'init_hdl_search_path' = hdl/rv32im_integrated
+@file(genus_script_rv32im.tcl) 20: puts "==> Loading libraries..."
+==> Loading libraries...
+@file(genus_script_rv32im.tcl) 21: read_libs "$LIB_PATH/18T_ms/lib/sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
+
+Threads Configured:3
+
+  Message Summary for Library sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib:
+  ********************************************************************
+  An unsupported construct was detected in this library. [LBR-40]: 2
+  ********************************************************************
+ 
+Info    : Created nominal operating condition. [LBR-412]
+        : Operating condition '_nominal_' was created for the PVT values (1.000000, 1.800000, 25.000000) in library 'sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib'.
+        : The nominal operating condition is represented, either by the nominal PVT values specified in the library source (via nom_process,nom_voltage and nom_temperature respectively), or by the default PVT values (1.0,1.0,1.0).
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+        : Add the missing output pin(s), then reload the library. Else the library cell will be marked as timing model i.e. unusable. Timing_model means that the cell does not have any defined function. If there is no output pin, Genus will mark library cell as unusable i.e. the attribute 'usable' will be marked to 'false' on the libcell. Therefore, the cell is not used for mapping and it will not be picked up from the library for synthesis. If you query the attribute 'unusable_reason' on the libcell; result will be: 'Library cell has no output pins.'Note: The message LBR-9 is only for the logical pins and not for the power_ground pins. Genus will depend upon the output function defined in the pin group (output pin) of the cell, to use it for mapping. The pg_pin will not have any function defined.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+@file(genus_script_rv32im.tcl) 23: puts "==> Reading LEF files..."
+==> Reading LEF files...
+@file(genus_script_rv32im.tcl) 24: read_physical -lef "$LIB_PATH/18T_ms/lef/sky130_osu_sc_18T_tech.lef"
+Error   : File error. [FILE-100] [read_physical]
+        : Cannot open file '../sky130_osu_sc_t18/18T_ms/lef/sky130_osu_sc_18T_tech.lef'
+        : Make sure that the file is a readable regular file and has the specified name.
+#@ End verbose source ./genus_script_rv32im.tcl
+1
+Encountered problems processing file: genus_script_rv32im.tcl
+
+Lic Summary:
+[15:52:05.354778] Cdslmd servers: microwavelicense
+[15:52:05.354808] Feature usage summary:
+[15:52:05.354810] Genus_Synthesis
+

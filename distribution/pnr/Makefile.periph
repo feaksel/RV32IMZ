@@ -1,0 +1,118 @@
+#===============================================================================
+# Makefile for peripheral_subsystem_macro
+# Integrates communication + protection + adc + pwm macros
+#===============================================================================
+
+DESIGN = peripheral_subsystem_macro
+SCRIPTS_DIR = SCRIPTS
+
+.PHONY: all init place cts route signoff clean help
+
+all: init place cts route signoff
+
+#===============================================================================
+# Integration Flow Stages
+#===============================================================================
+
+init:
+	@echo "========================================="
+	@echo "Initializing Peripheral Subsystem"
+	@echo "========================================="
+	innovus -init $(SCRIPTS_DIR)/init_periph.tcl -log LOG/periph_init.log
+	@echo "Init complete. Check LOG/periph_init.log"
+
+place:
+	@echo "========================================="
+	@echo "Placing Glue Logic"
+	@echo "========================================="
+	@echo "restoreDesign DBS/peripheral_subsystem/init.enc $(DESIGN)" > .tmp_place.tcl
+	@echo "setPlaceMode -fp false -maxRouteLayer 5" >> .tmp_place.tcl
+	@echo "placeDesign -inPlaceOpt -noPrePlaceOpt" >> .tmp_place.tcl
+	@echo "optDesign -preCTS -incr" >> .tmp_place.tcl
+	@echo "saveDesign DBS/peripheral_subsystem/place.enc" >> .tmp_place.tcl
+	@echo "exit" >> .tmp_place.tcl
+	innovus -init .tmp_place.tcl -log LOG/periph_place.log
+	@rm .tmp_place.tcl
+	@echo "Placement complete. Check LOG/periph_place.log"
+
+cts:
+	@echo "========================================="
+	@echo "Clock Tree Synthesis"
+	@echo "========================================="
+	@echo "restoreDesign DBS/peripheral_subsystem/place.enc $(DESIGN)" > .tmp_cts.tcl
+	@echo "create_ccopt_clock_tree_spec" >> .tmp_cts.tcl
+	@echo "set_ccopt_property target_max_trans 0.5" >> .tmp_cts.tcl
+	@echo "set_ccopt_property target_skew 0.1" >> .tmp_cts.tcl
+	@echo "catch {ccopt_design}" >> .tmp_cts.tcl
+	@echo "optDesign -postCTS -incr" >> .tmp_cts.tcl
+	@echo "saveDesign DBS/peripheral_subsystem/cts.enc" >> .tmp_cts.tcl
+	@echo "exit" >> .tmp_cts.tcl
+	innovus -init .tmp_cts.tcl -log LOG/periph_cts.log
+	@rm .tmp_cts.tcl
+	@echo "CTS complete. Check LOG/periph_cts.log"
+
+route:
+	@echo "========================================="
+	@echo "Routing Design"
+	@echo "========================================="
+	@echo "restoreDesign DBS/peripheral_subsystem/cts.enc $(DESIGN)" > .tmp_route.tcl
+	@echo "setNanoRouteMode -routeWithTimingDriven true" >> .tmp_route.tcl
+	@echo "setNanoRouteMode -routeWithSiDriven true" >> .tmp_route.tcl
+	@echo "globalRoute" >> .tmp_route.tcl
+	@echo "detailRoute" >> .tmp_route.tcl
+	@echo "optDesign -postRoute -incr" >> .tmp_route.tcl
+	@echo "saveDesign DBS/peripheral_subsystem/route.enc" >> .tmp_route.tcl
+	@echo "exit" >> .tmp_route.tcl
+	innovus -init .tmp_route.tcl -log LOG/periph_route.log
+	@rm .tmp_route.tcl
+	@echo "Routing complete. Check LOG/periph_route.log"
+
+signoff:
+	@echo "========================================="
+	@echo "Signoff and File Generation"
+	@echo "========================================="
+	innovus -init $(SCRIPTS_DIR)/signoff_periph.tcl -log LOG/periph_signoff.log
+	@echo ""
+	@echo "Signoff complete!"
+	@echo "Generated files in outputs/peripheral_subsystem/:"
+	@echo "  - peripheral_subsystem_macro.lef"
+	@echo "  - peripheral_subsystem_macro_netlist.v"
+	@echo "  - peripheral_subsystem_macro.sdc"
+	@echo "  - peripheral_subsystem_macro.gds (with merged peripheral macros)"
+
+#===============================================================================
+# Utility Targets
+#===============================================================================
+
+clean:
+	@echo "Cleaning peripheral subsystem files..."
+	rm -rf DBS/peripheral_subsystem
+	rm -rf RPT/peripheral_subsystem
+	rm -rf LOG/periph_*.log
+	rm -rf outputs/peripheral_subsystem
+	rm -f .tmp_*.tcl
+	@echo "Clean complete"
+
+help:
+	@echo "========================================="
+	@echo "Peripheral Subsystem Integration Makefile"
+	@echo "========================================="
+	@echo "Targets:"
+	@echo "  make init    - Initialize floorplan and place peripheral macros"
+	@echo "  make place   - Place glue logic"
+	@echo "  make cts     - Clock tree synthesis"
+	@echo "  make route   - Route design"
+	@echo "  make signoff - Generate LEF/netlist/GDS"
+	@echo "  make all     - Run complete flow"
+	@echo "  make clean   - Clean build files"
+	@echo ""
+	@echo "Prerequisites:"
+	@echo "  1. Build all peripheral macros:"
+	@echo "     - communication_macro"
+	@echo "     - protection_macro"
+	@echo "     - adc_subsystem_macro"
+	@echo "     - pwm_accelerator_macro"
+	@echo "  2. Generate integration files (LEF, netlist, GDS) for each"
+	@echo "  3. Run synthesis: cd ../synth && genus -f genus_script_periph.tcl"
+	@echo "  4. Run this makefile: make -f Makefile.periph all"
+	@echo "========================================="

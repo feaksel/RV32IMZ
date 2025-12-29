@@ -1,0 +1,120 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2023 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[16:30:27.377241] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+Version: 21.18-s082_1, built Tue Jul 18 03:08:41 PDT 2023
+Options: -batch -files genus_script_rv32im.tcl 
+Date:    Wed Dec 24 16:30:27 2025
+Host:    pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*1physical cpu*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB) (32627832KB)
+PID:     3583
+OS:      CentOS Linux release 7.9.2009 (Core)
+
+
+[16:30:27.005497] Periodic Lic check successful
+[16:30:27.005506] Feature usage summary:
+[16:30:27.005507] Genus_Synthesis
+Checking out license: Genus_Synthesis
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Loading tool scripts...
+Finished loading tool scripts (5 seconds elapsed).
+
+#@ Processing -files option
+@genus 1> source genus_script_rv32im.tcl
+#@ Begin verbose source ./genus_script_rv32im.tcl
+@file(genus_script_rv32im.tcl) 6: set DESIGN "rv32im_integrated_macro"
+@file(genus_script_rv32im.tcl) 9: set LIB_PATH "../sky130_osu_sc_t18"
+@file(genus_script_rv32im.tcl) 10: set LIB_VARIANT "18T_ms"  
+@file(genus_script_rv32im.tcl) 11: set HDL_PATH "hdl/rv32im_integrated"
+@file(genus_script_rv32im.tcl) 12: set MACRO_DIR "../pnr/outputs"  
+@file(genus_script_rv32im.tcl) 18: set_db init_lib_search_path "$LIB_PATH/${LIB_VARIANT}/lib $LIB_PATH/${LIB_VARIANT}/lef $LIB_PATH"
+  Setting attribute of root '/': 'init_lib_search_path' = ../sky130_osu_sc_t18/18T_ms/lib ../sky130_osu_sc_t18/18T_ms/lef ../sky130_osu_sc_t18
+@file(genus_script_rv32im.tcl) 19: set_db init_hdl_search_path $HDL_PATH
+  Setting attribute of root '/': 'init_hdl_search_path' = hdl/rv32im_integrated
+@file(genus_script_rv32im.tcl) 21: puts "==> Loading libraries..."
+==> Loading libraries...
+@file(genus_script_rv32im.tcl) 22: puts "    Using library variant: $LIB_VARIANT"
+    Using library variant: 18T_ms
+@file(genus_script_rv32im.tcl) 24: read_libs "$LIB_PATH/${LIB_VARIANT}/lib/sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
+
+Threads Configured:3
+
+  Message Summary for Library sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib:
+  ********************************************************************
+  An unsupported construct was detected in this library. [LBR-40]: 2
+  ********************************************************************
+ 
+Info    : Created nominal operating condition. [LBR-412]
+        : Operating condition '_nominal_' was created for the PVT values (1.000000, 1.800000, 25.000000) in library 'sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib'.
+        : The nominal operating condition is represented, either by the nominal PVT values specified in the library source (via nom_process,nom_voltage and nom_temperature respectively), or by the default PVT values (1.0,1.0,1.0).
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+        : Add the missing output pin(s), then reload the library. Else the library cell will be marked as timing model i.e. unusable. Timing_model means that the cell does not have any defined function. If there is no output pin, Genus will mark library cell as unusable i.e. the attribute 'usable' will be marked to 'false' on the libcell. Therefore, the cell is not used for mapping and it will not be picked up from the library for synthesis. If you query the attribute 'unusable_reason' on the libcell; result will be: 'Library cell has no output pins.'Note: The message LBR-9 is only for the logical pins and not for the power_ground pins. Genus will depend upon the output function defined in the pin group (output pin) of the cell, to use it for mapping. The pg_pin will not have any function defined.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+@file(genus_script_rv32im.tcl) 26: puts "==> Reading LEF files..."
+==> Reading LEF files...
+@file(genus_script_rv32im.tcl) 38: puts "==> Reading pre-built macro netlists..."
+==> Reading pre-built macro netlists...
+@file(genus_script_rv32im.tcl) 41: if {[file exists "${MACRO_DIR}/core_macro/core_macro_netlist.v"]} {
+    read_hdl -v2001 "${MACRO_DIR}/core_macro/core_macro_netlist.v"
+    puts "    ✓ core_macro netlist loaded"
+} else {
+    puts "ERROR: core_macro netlist not found!"
+    puts "Build core_macro first using standard sky130_cds flow:"
+    puts "  cd pnr && make all DESIGN=core_macro"
+    puts "  Then generate integration files in Innovus"
+    exit 1
+}
+    ✓ core_macro netlist loaded
+@file(genus_script_rv32im.tcl) 53: if {[file exists "${MACRO_DIR}/mdu_macro/mdu_macro_netlist.v"]} {
+    read_hdl -v2001 "${MACRO_DIR}/mdu_macro/mdu_macro_netlist.v"
+    puts "    ✓ mdu_macro netlist loaded"
+} else {
+    puts "ERROR: mdu_macro netlist not found!"
+    puts "Build mdu_macro first using standard sky130_cds flow:"
+    puts "  cd pnr && make all DESIGN=mdu_macro"
+    puts "  Then generate integration files in Innovus"
+    exit 1
+}
+    ✓ mdu_macro netlist loaded
+@file(genus_script_rv32im.tcl) 68: puts "==> Reading integration RTL..."
+==> Reading integration RTL...
+@file(genus_script_rv32im.tcl) 69: read_hdl -v2001 {
+    rv32im_integrated_macro.v
+}
+@file(genus_script_rv32im.tcl) 77: puts "==> Elaborating design..."
+==> Elaborating design...
+@file(genus_script_rv32im.tcl) 78: elaborate $DESIGN
+Warning : Libcell will be treated as a timing model. [LBR-158]
+        : Lib_pin 'sky130_osu_sc_18T_ms__buf_6/Y' has no incoming arcs.
+        : Ensure that the relevant timing arcs are defined in the Liberty model of the libcell.
+  Library has 45 usable logic and 8 usable sequential lib-cells.
+Info    : Elaborating Design. [ELAB-1]
+        : Elaborating top-level block 'rv32im_integrated_macro' from file 'hdl/rv32im_integrated/rv32im_integrated_macro.v'.
+Warning : Using default parameter value for module elaboration. [CDFG-818]
+        : Elaborating block 'rv32im_integrated_macro' with default parameters value.
+Error   : Unknown parameter. [CDFG-214] [elaborate]
+        : Could not find the parameter 'RESET_VECTOR' in module 'core_macro' in file 'hdl/rv32im_integrated/rv32im_integrated_macro.v' on line 80.
+        : Ensure that the desired parameter is specified correctly in the HDL.
+Info    : Unable to elaborate the design. [ELAB-4]
+        : Module 'rv32im_integrated_macro' contains errors and cannot be elaborated.
+UM:   flow.cputime  flow.realtime  timing.setup.tns  timing.setup.wns  snapshot
+UM:*                                                                   elaborate
+#@ End verbose source ./genus_script_rv32im.tcl
+1
+Encountered problems processing file: genus_script_rv32im.tcl
+
+Lic Summary:
+[16:30:33.497171] Cdslmd servers: microwavelicense
+[16:30:33.497179] Feature usage summary:
+[16:30:33.497179] Genus_Synthesis
+

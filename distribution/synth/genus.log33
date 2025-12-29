@@ -1,0 +1,284 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2023 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[10:52:05.377193] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+Version: 21.18-s082_1, built Tue Jul 18 03:08:41 PDT 2023
+Options: -batch -files genus_script_soc.tcl 
+Date:    Thu Dec 25 10:52:05 2025
+Host:    pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*1physical cpu*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB) (32627832KB)
+PID:     13793
+OS:      CentOS Linux release 7.9.2009 (Core)
+
+
+[10:52:05.046464] Periodic Lic check successful
+[10:52:05.046466] Feature usage summary:
+[10:52:05.046466] Genus_Synthesis
+Checking out license: Genus_Synthesis
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Loading tool scripts...
+Finished loading tool scripts (6 seconds elapsed).
+
+#@ Processing -files option
+@genus 1> source genus_script_soc.tcl
+#@ Begin verbose source ./genus_script_soc.tcl
+@file(genus_script_soc.tcl) 6: set DESIGN "rv32im_soc_with_integrated_core" 
+@file(genus_script_soc.tcl) 9: set LIB_PATH "../sky130_osu_sc_t18"
+@file(genus_script_soc.tcl) 10: set LIB_VARIANT "18T_ms"
+@file(genus_script_soc.tcl) 11: set HDL_PATH "hdl/soc_integrated"
+@file(genus_script_soc.tcl) 12: set MACRO_DIR "../pnr/outputs"
+@file(genus_script_soc.tcl) 18: set_db init_lib_search_path "$LIB_PATH/${LIB_VARIANT}/lib $LIB_PATH/${LIB_VARIANT}/lef $LIB_PATH"
+  Setting attribute of root '/': 'init_lib_search_path' = ../sky130_osu_sc_t18/18T_ms/lib ../sky130_osu_sc_t18/18T_ms/lef ../sky130_osu_sc_t18
+@file(genus_script_soc.tcl) 19: set_db init_hdl_search_path $HDL_PATH
+  Setting attribute of root '/': 'init_hdl_search_path' = hdl/soc_integrated
+@file(genus_script_soc.tcl) 21: puts "==> Loading libraries..."
+==> Loading libraries...
+@file(genus_script_soc.tcl) 22: read_libs "$LIB_PATH/${LIB_VARIANT}/lib/sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
+
+Threads Configured:3
+
+  Message Summary for Library sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib:
+  ********************************************************************
+  An unsupported construct was detected in this library. [LBR-40]: 2
+  ********************************************************************
+ 
+Info    : Created nominal operating condition. [LBR-412]
+        : Operating condition '_nominal_' was created for the PVT values (1.000000, 1.800000, 25.000000) in library 'sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib'.
+        : The nominal operating condition is represented, either by the nominal PVT values specified in the library source (via nom_process,nom_voltage and nom_temperature respectively), or by the default PVT values (1.0,1.0,1.0).
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+        : Add the missing output pin(s), then reload the library. Else the library cell will be marked as timing model i.e. unusable. Timing_model means that the cell does not have any defined function. If there is no output pin, Genus will mark library cell as unusable i.e. the attribute 'usable' will be marked to 'false' on the libcell. Therefore, the cell is not used for mapping and it will not be picked up from the library for synthesis. If you query the attribute 'unusable_reason' on the libcell; result will be: 'Library cell has no output pins.'Note: The message LBR-9 is only for the logical pins and not for the power_ground pins. Genus will depend upon the output function defined in the pin group (output pin) of the cell, to use it for mapping. The pg_pin will not have any function defined.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+@file(genus_script_soc.tcl) 24: puts "==> Reading Technology LEF files..."
+==> Reading Technology LEF files...
+@file(genus_script_soc.tcl) 25: read_physical -lef "$LIB_PATH/sky130_osu_sc_18T.tlef"
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'L1M1_PR' has no resistance value.
+        : If this is the expected behavior, this message can be ignored.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'L1M1_PR_R' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'L1M1_PR_M' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'L1M1_PR_MR' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'L1M1_PR_C' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M1M2_PR' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M1M2_PR_R' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M1M2_PR_M' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M1M2_PR_MR' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M1M2_PR_C' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M2M3_PR' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M2M3_PR_R' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M2M3_PR_M' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M2M3_PR_MR' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M2M3_PR_C' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M3M4_PR' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M3M4_PR_R' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M3M4_PR_M' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M3M4_PR_MR' has no resistance value.
+Info    : Via with no resistance will have a value of '0.0' assigned for resistance value. [PHYS-129]
+        : Via 'M3M4_PR_C' has no resistance value.
+Warning : Maximum message print count reached. [MESG-11]
+        : Maximum print count of '20' reached for message 'PHYS-129'.
+
+  According to lef_library, there are total 5 routing layers [ V(2) / H(3) ]
+
+Warning : The variant range of wire parameters is too large. An example of wire parameters are, a WIDTH for layer, PITCH for layer, MINSPACING for layers, etc. [PHYS-12]
+        : The variant range (0.14, 1.6) of 'WIDTH' for layers 'met1' and 'met5' is too large.
+        : Check the consistency of the parameters, and see if you can ignore this message or you're using different LEF file with wrong parameters.
+Warning : The variant range of wire parameters is too large. An example of wire parameters are, a WIDTH for layer, PITCH for layer, MINSPACING for layers, etc. [PHYS-12]
+        : The variant range (0.14, 1.6) of 'MINSPACING' for layers 'met1' and 'met5' is too large.
+Warning : None of the loaded LEF files have MACRO statements. [PHYS-20]
+        : Make sure the LEF file containing MACRO statement was not missed.
+        : The LEF file containing the cell specific information was not loaded. The LEF MACRO construct is used to set the physical data on cells in the timing library. It is likely that only the technology LEF file was loaded. Load all the associated LEF files.
+@file(genus_script_soc.tcl) 26: read_physical -lef "$LIB_PATH/${LIB_VARIANT}/lef/sky130_osu_sc_18T_ms.lef"
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'A' in macro 'sky130_osu_sc_18T_ms__addf_1' is not found in the database.
+        : A layer must be defined in the LEF technology LAYER section before it can be referenced from a macro section. Review the LEF files specified in the lef_library attribute to see if the layer is not defined or is defined after the macro definition which refers to the layer in its pin section.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'B' in macro 'sky130_osu_sc_18T_ms__addf_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'CI' in macro 'sky130_osu_sc_18T_ms__addf_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'CO' in macro 'sky130_osu_sc_18T_ms__addf_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'CON' in macro 'sky130_osu_sc_18T_ms__addf_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'S' in macro 'sky130_osu_sc_18T_ms__addf_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'gnd' in macro 'sky130_osu_sc_18T_ms__addf_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'vdd' in macro 'sky130_osu_sc_18T_ms__addf_1' is not found in the database.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__addf_1' references a site '18T' that has not been defined.
+        : The sites must be defined before they can be referenced from a macro. Review the LEF files specified in the lef_library attribute to see if the site does not exist or is specified after the one that defines the macro.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'A' in macro 'sky130_osu_sc_18T_ms__addf_l' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'B' in macro 'sky130_osu_sc_18T_ms__addf_l' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'CI' in macro 'sky130_osu_sc_18T_ms__addf_l' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'CO' in macro 'sky130_osu_sc_18T_ms__addf_l' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'CON' in macro 'sky130_osu_sc_18T_ms__addf_l' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'S' in macro 'sky130_osu_sc_18T_ms__addf_l' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'gnd' in macro 'sky130_osu_sc_18T_ms__addf_l' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'vdd' in macro 'sky130_osu_sc_18T_ms__addf_l' is not found in the database.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__addf_l' references a site '18T' that has not been defined.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'A' in macro 'sky130_osu_sc_18T_ms__addh_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'B' in macro 'sky130_osu_sc_18T_ms__addh_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'CO' in macro 'sky130_osu_sc_18T_ms__addh_1' is not found in the database.
+Error   : Undefined pin layer detected. [PHYS-148] [read_physical]
+        : The layer 'met1' referenced in pin 'CON' in macro 'sky130_osu_sc_18T_ms__addh_1' is not found in the database.
+Warning : Maximum message print count reached. [MESG-11]
+        : Maximum print count of '20' reached for message 'PHYS-148'.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__addh_1' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__addh_l' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__and2_1' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__and2_2' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__and2_4' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__and2_6' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__and2_8' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__and2_l' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__ant' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__antfill' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__aoi21_l' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__aoi22_l' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__buf_1' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__buf_2' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__buf_4' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__buf_6' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__buf_8' references a site '18T' that has not been defined.
+Warning : Macro references undefined site. [PHYS-2040]
+        : Macro 'sky130_osu_sc_18T_ms__buf_l' references a site '18T' that has not been defined.
+Warning : Maximum message print count reached. [MESG-11]
+        : Maximum print count of '20' reached for message 'PHYS-2040'.
+Error   : LEF File Interface. [PHYS-100] [read_physical]
+        : File '/home/Student3/Documents/Masaustu/FurkanEmir/sky130_cds/synth/../sky130_osu_sc_t18/18T_ms/lef/sky130_osu_sc_18T_ms.lef' contains an error on or near line '3816'.
+        : Check the LEF file and rerun the command.
+Warning : Libcell will be treated as a timing model. [LBR-158]
+        : Lib_pin 'sky130_osu_sc_18T_ms__buf_6/Y' has no incoming arcs.
+        : Ensure that the relevant timing arcs are defined in the Liberty model of the libcell.
+  Library has 0 usable logic and 0 usable sequential lib-cells.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__addf_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__addf_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__addf_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__addf_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__addf_l' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__addf_l' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__addf_l' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__addf_l' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__addh_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__addh_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__addh_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__addh_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__addh_l' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__addh_l' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__addh_l' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__addh_l' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__and2_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__and2_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'GND' of library cell 'sky130_osu_sc_18T_ms__and2_1' is in logical library but not in physical library.
+Warning : Pin names are not consistent in lib and LEF files. [PHYS-113]
+        : Pin 'VDD' of library cell 'sky130_osu_sc_18T_ms__and2_1' is in logical library but not in physical library.
+Warning : Maximum message print count reached. [MESG-11]
+        : Maximum print count of '20' reached for message 'PHYS-113'.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__antfill cannot be found in library.
+        : Ensure that the proper library files are available and have been imported.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__decap_1 cannot be found in library.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__decap_l cannot be found in library.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__fill_1 cannot be found in library.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__fill_16 cannot be found in library.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__fill_2 cannot be found in library.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__fill_32 cannot be found in library.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__fill_4 cannot be found in library.
+Warning : Physical cell not defined in library. [PHYS-279]
+        : The physical (LEF) cell sky130_osu_sc_18T_ms__fill_8 cannot be found in library.
+Error   : No capacitance or resistance specified. [PHYS-10] [read_physical]
+        : Specify the tech LEF first.
+        : Check the LEF technology files.
+#@ End verbose source ./genus_script_soc.tcl
+1
+Encountered problems processing file: genus_script_soc.tcl
+
+Lic Summary:
+[10:52:11.406547] Cdslmd servers: microwavelicense
+[10:52:11.406555] Feature usage summary:
+[10:52:11.406555] Genus_Synthesis
+

@@ -1,0 +1,81 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2023 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[16:14:43.377241] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+Version: 21.18-s082_1, built Tue Jul 18 03:08:41 PDT 2023
+Options: -batch -files genus_script_rv32im.tcl 
+Date:    Wed Dec 24 16:14:43 2025
+Host:    pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*1physical cpu*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB) (32627832KB)
+PID:     31758
+OS:      CentOS Linux release 7.9.2009 (Core)
+
+
+[16:14:43.125011] Periodic Lic check successful
+[16:14:43.125018] Feature usage summary:
+[16:14:43.125018] Genus_Synthesis
+Checking out license: Genus_Synthesis
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Loading tool scripts...
+Finished loading tool scripts (6 seconds elapsed).
+
+#@ Processing -files option
+@genus 1> source genus_script_rv32im.tcl
+#@ Begin verbose source ./genus_script_rv32im.tcl
+@file(genus_script_rv32im.tcl) 6: set DESIGN "rv32im_integrated_macro"
+@file(genus_script_rv32im.tcl) 9: set LIB_PATH "../sky130_osu_sc_t18"
+@file(genus_script_rv32im.tcl) 10: set LIB_VARIANT "18T_ms"  
+@file(genus_script_rv32im.tcl) 11: set HDL_PATH "hdl/rv32im_integrated"
+@file(genus_script_rv32im.tcl) 12: set MACRO_DIR "../pnr/outputs"  
+@file(genus_script_rv32im.tcl) 18: set_db init_lib_search_path "$LIB_PATH/${LIB_VARIANT}/lib $LIB_PATH/${LIB_VARIANT}/lef $LIB_PATH"
+  Setting attribute of root '/': 'init_lib_search_path' = ../sky130_osu_sc_t18/18T_ms/lib ../sky130_osu_sc_t18/18T_ms/lef ../sky130_osu_sc_t18
+@file(genus_script_rv32im.tcl) 19: set_db init_hdl_search_path $HDL_PATH
+  Setting attribute of root '/': 'init_hdl_search_path' = hdl/rv32im_integrated
+@file(genus_script_rv32im.tcl) 21: puts "==> Loading libraries..."
+==> Loading libraries...
+@file(genus_script_rv32im.tcl) 22: puts "    Using library variant: $LIB_VARIANT"
+    Using library variant: 18T_ms
+@file(genus_script_rv32im.tcl) 25: set lib_loaded 0
+@file(genus_script_rv32im.tcl) 26: foreach lib_variant {
+    "sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.ccs.lib"
+    "sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.lib"
+} {
+    if {[file exists "$LIB_PATH/${LIB_VARIANT}/lib/$lib_variant"]} {
+        read_libs "$LIB_PATH/${LIB_VARIANT}/lib/$lib_variant"
+        puts "    ✓ Loaded library: $lib_variant"
+        set lib_loaded 1
+        break
+    }
+}
+@file(genus_script_rv32im.tcl) 38: if {!$lib_loaded} {
+    puts "ERROR: No timing library found in $LIB_PATH/${LIB_VARIANT}/lib/"
+    puts "Expected one of:"
+    puts "  - sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.ccs.lib"
+    puts "  - sky130_osu_sc_${LIB_VARIANT}_TT_1P8_25C.lib"
+    puts ""
+    puts "Available files:"
+    catch {exec ls -1 $LIB_PATH/${LIB_VARIANT}/lib/*.lib} lib_files
+    puts $lib_files
+    exit 1
+}
+ERROR: No timing library found in ../sky130_osu_sc_t18/18T_ms/lib/
+Expected one of:
+  - sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib
+  - sky130_osu_sc_18T_ms_TT_1P8_25C.lib
+
+Available files:
+ls: cannot access ../sky130_osu_sc_t18/18T_ms/lib/*.lib: No such file or directory
+
+Lic Summary:
+[16:14:49.163426] Cdslmd servers: microwavelicense
+[16:14:49.163434] Feature usage summary:
+[16:14:49.163434] Genus_Synthesis
+

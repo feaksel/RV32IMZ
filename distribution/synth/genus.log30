@@ -1,0 +1,168 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2023 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[18:45:19.377313] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+Version: 21.18-s082_1, built Tue Jul 18 03:08:41 PDT 2023
+Options: -batch -files genus_script_rv32im.tcl 
+Date:    Wed Dec 24 18:45:19 2025
+Host:    pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*1physical cpu*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB) (32627832KB)
+PID:     29458
+OS:      CentOS Linux release 7.9.2009 (Core)
+
+
+[18:45:19.493960] Periodic Lic check successful
+[18:45:19.493962] Feature usage summary:
+[18:45:19.493962] Genus_Synthesis
+Checking out license: Genus_Synthesis
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Loading tool scripts...
+Finished loading tool scripts (5 seconds elapsed).
+
+#@ Processing -files option
+@genus 1> source genus_script_rv32im.tcl
+#@ Begin verbose source ./genus_script_rv32im.tcl
+@file(genus_script_rv32im.tcl) 6: set DESIGN "rv32im_integrated_macro"
+@file(genus_script_rv32im.tcl) 9: set LIB_PATH "../sky130_osu_sc_t18"
+@file(genus_script_rv32im.tcl) 10: set LIB_VARIANT "18T_ms"  
+@file(genus_script_rv32im.tcl) 11: set HDL_PATH "hdl/rv32im_integrated"
+@file(genus_script_rv32im.tcl) 12: set MACRO_DIR "../pnr/outputs"  
+@file(genus_script_rv32im.tcl) 18: set_db init_lib_search_path "$LIB_PATH/${LIB_VARIANT}/lib $LIB_PATH/${LIB_VARIANT}/lef $LIB_PATH"
+  Setting attribute of root '/': 'init_lib_search_path' = ../sky130_osu_sc_t18/18T_ms/lib ../sky130_osu_sc_t18/18T_ms/lef ../sky130_osu_sc_t18
+@file(genus_script_rv32im.tcl) 19: set_db init_hdl_search_path $HDL_PATH
+  Setting attribute of root '/': 'init_hdl_search_path' = hdl/rv32im_integrated
+@file(genus_script_rv32im.tcl) 21: puts "==> Loading libraries..."
+==> Loading libraries...
+@file(genus_script_rv32im.tcl) 22: puts "    Using library variant: $LIB_VARIANT"
+    Using library variant: 18T_ms
+@file(genus_script_rv32im.tcl) 24: read_libs "$LIB_PATH/${LIB_VARIANT}/lib/sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib"
+
+Threads Configured:3
+
+  Message Summary for Library sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib:
+  ********************************************************************
+  An unsupported construct was detected in this library. [LBR-40]: 2
+  ********************************************************************
+ 
+Info    : Created nominal operating condition. [LBR-412]
+        : Operating condition '_nominal_' was created for the PVT values (1.000000, 1.800000, 25.000000) in library 'sky130_osu_sc_18T_ms_TT_1P8_25C.ccs.lib'.
+        : The nominal operating condition is represented, either by the nominal PVT values specified in the library source (via nom_process,nom_voltage and nom_temperature respectively), or by the default PVT values (1.0,1.0,1.0).
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+        : Add the missing output pin(s), then reload the library. Else the library cell will be marked as timing model i.e. unusable. Timing_model means that the cell does not have any defined function. If there is no output pin, Genus will mark library cell as unusable i.e. the attribute 'usable' will be marked to 'false' on the libcell. Therefore, the cell is not used for mapping and it will not be picked up from the library for synthesis. If you query the attribute 'unusable_reason' on the libcell; result will be: 'Library cell has no output pins.'Note: The message LBR-9 is only for the logical pins and not for the power_ground pins. Genus will depend upon the output function defined in the pin group (output pin) of the cell, to use it for mapping. The pg_pin will not have any function defined.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'sky130_osu_sc_18T_ms__ant' must have an output pin.
+@file(genus_script_rv32im.tcl) 26: puts "==> Reading LEF files..."
+==> Reading LEF files...
+@file(genus_script_rv32im.tcl) 38: puts "==> Reading pre-built macro netlists..."
+==> Reading pre-built macro netlists...
+@file(genus_script_rv32im.tcl) 41: if {[file exists "${MACRO_DIR}/core_macro/core_macro_netlist.v"]} {
+    read_hdl -v2001 "${MACRO_DIR}/core_macro/core_macro_stub.v"
+    puts "    ✓ core_macro netlist loaded"
+} else {
+    puts "ERROR: core_macro netlist not found!"
+    puts "Build core_macro first using standard sky130_cds flow:"
+    puts "  cd pnr && make all DESIGN=core_macro"
+    puts "  Then generate integration files in Innovus"
+    exit 1
+}
+	clk, 
+	   |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'clk' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 3, column 5.
+        : A port needs to be declared as input, output, or inout.
+	rst_n, 
+	     |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'rst_n' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 4, column 7.
+	iwb_adr_o, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'iwb_adr_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 5, column 11.
+	iwb_dat_i, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'iwb_dat_i' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 6, column 11.
+	iwb_cyc_o, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'iwb_cyc_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 7, column 11.
+	iwb_stb_o, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'iwb_stb_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 8, column 11.
+	iwb_ack_i, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'iwb_ack_i' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 9, column 11.
+	dwb_adr_o, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_adr_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 10, column 11.
+	dwb_dat_o, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_dat_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 11, column 11.
+	dwb_dat_i, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_dat_i' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 12, column 11.
+	dwb_we_o, 
+	        |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_we_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 13, column 10.
+	dwb_sel_o, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_sel_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 14, column 11.
+	dwb_cyc_o, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_cyc_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 15, column 11.
+	dwb_stb_o, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_stb_o' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 16, column 11.
+	dwb_ack_i, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_ack_i' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 17, column 11.
+	dwb_err_i, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'dwb_err_i' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 18, column 11.
+	mdu_start, 
+	         |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'mdu_start' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 19, column 11.
+	mdu_ack, 
+	       |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'mdu_ack' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 20, column 9.
+	mdu_funct3, 
+	          |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'mdu_funct3' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 21, column 12.
+	mdu_operand_a, 
+	             |
+Error   : Port has no type. [VLOGPT-201] [read_hdl]
+        : Port 'mdu_operand_a' in file './../pnr/outputs/core_macro/core_macro_stub.v' on line 22, column 15.
+Warning : Maximum message print count reached. [MESG-11]
+        : Maximum print count of '20' reached for message 'VLOGPT-201'.
+#@ End verbose source ./genus_script_rv32im.tcl
+1
+Encountered problems processing file: genus_script_rv32im.tcl
+
+Lic Summary:
+[18:45:25.222632] Cdslmd servers: microwavelicense
+[18:45:25.222640] Feature usage summary:
+[18:45:25.222640] Genus_Synthesis
+

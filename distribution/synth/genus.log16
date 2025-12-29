@@ -1,0 +1,45 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2023 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[15:46:21.377241] Configured Lic search path (21.01-s002): 5280@193.140.221.209
+
+Version: 21.18-s082_1, built Tue Jul 18 03:08:41 PDT 2023
+Options: -batch -files genus_script_rv32im.tcl 
+Date:    Wed Dec 24 15:46:21 2025
+Host:    pc231.ee.hacettepe.edu.tr (x86_64 w/Linux 3.10.0-1160.119.1.el7.x86_64) (8cores*8cpus*1physical cpu*Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz 12288KB) (32627832KB)
+PID:     24520
+OS:      CentOS Linux release 7.9.2009 (Core)
+
+
+[15:46:21.478139] Periodic Lic check successful
+[15:46:21.478147] Feature usage summary:
+[15:46:21.478147] Genus_Synthesis
+Checking out license: Genus_Synthesis
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Loading tool scripts...
+Finished loading tool scripts (6 seconds elapsed).
+
+#@ Processing -files option
+@genus 1> source genus_script_rv32im.tcl
+#@ Begin verbose source ./genus_script_rv32im.tcl
+@file(genus_script_rv32im.tcl) 6: set DESIGN "rv32im_integrated_macro"
+@file(genus_script_rv32im.tcl) 9: set LIB_PATH "../sky130_osu_sc_t18"
+@file(genus_script_rv32im.tcl) 10: set HDL_PATH "hdl/rv32im_integrated"
+@file(genus_script_rv32im.tcl) 11: set MACRO_DIR "../pnr/outputs"  # Where pre-built macros are
+#@ End verbose source ./genus_script_rv32im.tcl
+wrong # args: should be "set varName ?newValue?"
+Encountered problems processing file: genus_script_rv32im.tcl
+
+Lic Summary:
+[15:46:27.099251] Cdslmd servers: microwavelicense
+[15:46:27.099259] Feature usage summary:
+[15:46:27.099259] Genus_Synthesis
+
